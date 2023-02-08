@@ -1,0 +1,225 @@
+#fc_table {
+  .ant-table {
+    background: #ffffff;
+    table {
+      tr > th {
+        // background: #ffffff;
+      }
+    }
+  }
+  .ant-table-body {
+    table {
+    }
+  }
+  .ant-pagination-item-active {
+    background: #ffe1db;
+    border-color: #ffe1db;
+  }
+  .ant-pagination-item a {
+    color: #a0a4a8;
+  }
+  .ant-pagination-item-active a {
+    color: #ff6337;
+  }
+  .ant-pagination-item:hover a {
+    color: #ff6337;
+  }
+  .ant-pagination-total-text {
+    position: absolute;
+    left: 30px;
+    color: #a0a4a8;
+    font-size: 12px;
+  }
+  .fc-pagination-btn {
+    color: #a0a4a8;
+    font-size: 12px;
+    display: inline-block;
+    padding: 0 10px;
+    height: 32px;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    outline: 0;
+  }
+  .ant-pagination-disabled a {
+    color: rgba(0, 0, 0, 0.25);
+    border-color: #d9d9d9;
+  }
+  .ant-tag.ant-tag-has-color {
+    border-radius: 5px;
+  }
+  .ant-table-tbody > tr:hover > td {
+    background: #f9f9fa;
+  }
+  .ant-table-tbody > tr:hover > td.action-row {
+    background: transparent;
+  }
+  .ant-table-tbody > tr > td {
+    vertical-align: top;
+  }
+
+  tr.ant-table-row {
+    transform: scale(1);
+    position: relative;
+  }
+  tr > th:first-child {
+    padding-left: 15px;
+  }
+  tr > th:last-child {
+    padding-right: 30px;
+  }
+  tbody > tr > td:first-child {
+    padding-left: 15px;
+  }
+  tbody > tr > td:last-child {
+    padding-right: 30px;
+  }
+  .ant-table-pagination.ant-pagination {
+    margin-right: 30px;
+  }
+  .sub_row {
+    display: grid;
+    span {
+      margin-top: 8px;
+      color: #a0a4a8;
+      font-size: 12px;
+    }
+    p {
+      margin-bottom: 0;
+    }
+  }
+  .single_line_row {
+    display: flex;
+    align-items: center;
+    color: #a0a4a8;
+    margin-top: 8px;
+    .anticon {
+      min-width: 12px;
+      margin-right: 8px;
+      font-size: 12px;
+    }
+  }
+  .inline_row {
+    span:first-child {
+      color: #a0a4a8;
+    }
+  }
+}
+
+#fc-gutter {
+  display: -webkit-flex;
+  display: flex;
+  position: absolute;
+  top: -17px;
+  left: auto;
+  right: 18px;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #dbdde0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 1px;
+  z-index: 1;
+
+  // Apply to 1366x768 screen resolution
+  @media only screen and (max-width: 1366px) {
+    right: auto;
+    left: 10px;
+  }
+
+  &.fc-gutter-hide {
+    border: none;
+  }
+  .ant-btn {
+    color: #52575c;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: none;
+  }
+  .ant-btn:hover {
+    background-color: #f0f0f0;
+    border-color: #f0f0f0;
+  }
+}
+
+#fc-gutter-left {
+  display: -webkit-flex;
+  display: flex;
+  position: fixed;
+  top: -17px;
+  left: 10px;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #dbdde0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 1px;
+  &.fc-gutter-hide {
+    border: none;
+  }
+  .ant-btn {
+    color: #52575c;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: none;
+  }
+  .ant-btn:hover {
+    background-color: #f0f0f0;
+    border-color: #f0f0f0;
+  }
+}
+
+#fc_table.fc-none-mg {
+  .ant-table-body {
+    table {
+      margin: 0;
+    }
+  }
+}
+
+.fc-list-table {
+  display: flex;
+  flex-wrap: wrap;
+  .fc-content {
+    padding: 6px 25px 0 0;
+    white-space: nowrap;
+    display: inline-grid;
+    span:first-child {
+      font-size: 12px;
+      color: #a0a4a8;
+    }
+    .fc-hidden-text {
+      text-overflow: ellipsis;
+      width: 100%;
+      max-width: 250px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+}
+
+.fc-row-common {
+  display: grid;
+  span {
+    color: #a0a4a8;
+    font-size: 12px;
+  }
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.fc-action-row {
+  position: absolute;
+  right: 10px;
+  border-bottom: none !important;
+  background: transparent !important;
+  @media only screen and (max-width: 1366px) {
+    right: auto;
+    left: 10px;
+  }
+}

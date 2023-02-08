@@ -1,0 +1,196 @@
+.ant-drawer-header {
+  height: 64px;
+  .ant-drawer-title{
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+}
+
+button.ant-drawer-close{
+  width: 64px;
+  height: 64px;
+}
+
+.fc-fix-position-drawer{
+  overflow-y: hidden;
+  position: relative;
+  width: calc(100% - 17px);
+}
+
+#fc-global-drawer {
+  .ant-drawer-content-wrapper{
+    transition: width 0.4s ease 0s;
+  }
+  .ant-drawer-body {
+    overflow-y: auto;
+  }
+  .fc-drawer--heading{
+    background: #F2F3F7;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .fc-global-drawer-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .fc-global-drawer-group-icon {
+      display: flex;
+      align-items: center;
+      .ant-btn {
+        padding: 1px 6px;
+        margin-right: 4px;
+      }
+      .ant-btn-primary:hover,
+      .ant-btn-primary:focus {
+        background-color: #ff6337;
+        border-color: #ff6337;
+      }
+    }
+    .btn-fc-global-drawer-close {
+      margin-left: 30px;
+      &:hover {
+        color: #52575c;
+        cursor: pointer;
+      }
+    }
+  }
+  .ant-drawer-body {
+    padding: 0;
+  }
+  .request-drawer__body {
+    padding: 16px 24px;
+  }
+  .ant-drawer-wrapper-body {
+    overflow: hidden;
+  }
+}
+
+.fc-global-drawer__footer {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 100%;
+  z-index: 1;
+  background: #FFFFFF;
+  border-top: 0.8px solid #DBDDE0;
+  padding: 16px 24px;
+  .fc-global-drawer__footer--group-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &.flex-end {
+      justify-content: flex-end;
+    }
+  }
+
+}
+
+#fc-drawer{
+  .ant-drawer-body {
+    padding: 16px 24px;
+    height: calc(100vh + 80.8px + 55px);
+
+  }
+
+  .ant-drawer-title{
+    font-weight: bold;
+    color: black;
+  }
+  .fc-drawer--title{
+    background: #F2F3F7;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+  }
+  &--footer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: 0.8px solid #dbdde0;
+    border-top: 0.8px solid #dbdde0;
+  }
+  .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    padding: 16px 16px 16px 24px;
+  }
+}
+
+.fc-global-drawer__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.fc-global-drawer__header {
+  background: #f2f3f7;
+  padding: 16px 24px;
+  border-bottom: 0.8px solid #dbdde0;
+  .fc-drawer-checlist__header {
+    font-weight: 600;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fc-drawer-checlist__sub-header {
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+.fc-drawer-checlist__header-items {
+  background: #f2f3f7;
+  padding: 16px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  .content {
+    padding: 6px 25px 0 0;
+    white-space: nowrap;
+    display: inline-grid;
+    span:first-child {
+      font-size: 12px;
+      color: #a0a4a8;
+    }
+  }
+}
+
+.fc-checklist-collapse.ant-collapse-borderless {
+  background-color: #ffffff;
+  .ant-collapse-item {
+    padding: 0 8px;
+  }
+}
+.fc-checklist-task-list {
+  .fc-checklist-task-item {
+    border-bottom: 0.8px solid #dbdde0;
+    .fc-checklist-task-item-header {
+      background: #fff4f2;
+      padding: 16px 24px;
+      display: grid;
+      .task-item__main-header {
+        font-size: 18px;
+      }
+    }
+    .fc-checklist-task-item-content {
+      padding: 16px 24px;
+    }
+  }
+}
+
+.fc-global-drawer__footer {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 100%;
+  z-index: 1;
+  background: #ffffff;
+  border-top: 0.8px solid #dbdde0;
+  padding: 16px 24px;
+}

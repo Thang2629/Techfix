@@ -1,0 +1,11 @@
+Account Database Production:
+	host: 103.138.88.47
+	username: laged1e9_thanhquy
+	password: 6R$E[(n'4!nx#b+4
+	dbname: laged1e9_techfix_fix_ver2
+
+Account Database Test:
+	Host:  112.78.2.131
+	Username: tec00427_fix
+	Pass: asd123!@#
+	DBName: tec00427_test
