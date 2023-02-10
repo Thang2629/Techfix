@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AmountCannotBeLessThanZero" xml:space="preserve">
+    <value>Amount cannot be less than 0.</value>
+  </data>
+  <data name="AmountMustBeGreaterThanZero" xml:space="preserve">
+    <value>Amount must be greater than 0.</value>
+  </data>
+  <data name="CannotUpdateInformationBeforeTheSystemIsReviewingKYC" xml:space="preserve">
+    <value>Cannot update information because the system is reviewing KYC.</value>
+  </data>
+  <data name="YouCantDeleteOFSExchangeRateX" xml:space="preserve">
+    <value>You can't delete OFS Exchange Rate {0}.</value>
+  </data>
+  <data name="CartIsEmpty" xml:space="preserve">
+    <value>Cart is empty.</value>
+  </data>
+  <data name="CartNotFound" xml:space="preserve">
+    <value>Cart not found.</value>
+  </data>
+  <data name="CartIsNotValid" xml:space="preserve">
+    <value>Cart is not valid.</value>
+  </data>
+  <data name="CommissionsNotFound" xml:space="preserve">
+    <value>Commissions not found.</value>
+  </data>
+  <data name="ConvertVLGPlusToUsdLimitWarning" xml:space="preserve">
+    <value>Your account has reached its liquidity limit this month.</value>
+  </data>
+  <data name="CustomerNotFound" xml:space="preserve">
+    <value>Customer not found.</value>
+  </data>
+  <data name="EmailVerificationCodeIsNotValid" xml:space="preserve">
+    <value>Email verification code is not valid.</value>
+  </data>
+  <data name="FeatureIsNotSupportYet" xml:space="preserve">
+    <value>This feature is not supported yet.</value>
+  </data>
+  <data name="GoogleVerificationCodeIsNotValid" xml:space="preserve">
+    <value>Google verification code is not valid.</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="InterestRateIsNotFound" xml:space="preserve">
+    <value>Interest Rate is not found</value>
+  </data>
+  <data name="EmailVerificationCodeIsInvalid" xml:space="preserve">
+    <value>Email verification code is invalid.</value>
+  </data>
+  <data name="GoogleVerificationCodeIsInvalid" xml:space="preserve">
+    <value>Google verification code is invalid.</value>
+  </data>
+  <data name="UsernameOrPasswordIsIncorrect" xml:space="preserve">
+    <value>Username or password is incorrect.</value>
+  </data>
+  <data name="KYCNotFound" xml:space="preserve">
+    <value>KYC not found.</value>
+  </data>
+  <data name="KYCStatusIsNotValid" xml:space="preserve">
+    <value>KYC status is not valid.</value>
+  </data>
+  <data name="MissingBankInfoWarning" xml:space="preserve">
+    <value>This account has not updated banking information yet.</value>
+  </data>
+  <data name="NotEnoughVLGPlusToConvert" xml:space="preserve">
+    <value>Your account is not enough VTP to make the conversion.</value>
+  </data>
+  <data name="OFSHasBeenSoldOut" xml:space="preserve">
+    <value>OFS has been sold out.</value>
+  </data>
+  <data name="PackageHasBeenDeleted" xml:space="preserve">
+    <value>Package has been DELETED.</value>
+  </data>
+  <data name="PackageHasExpired" xml:space="preserve">
+    <value>Package has expired.</value>
+  </data>
+  <data name="PackageNotFound" xml:space="preserve">
+    <value>Package not found.</value>
+  </data>
+  <data name="PasswordIsIncorrect" xml:space="preserve">
+    <value>Password is incorrect.</value>
+  </data>
+  <data name="PhoneNumberIsAlreadyTaken" xml:space="preserve">
+    <value>Phone number is already taken.</value>
+  </data>
+  <data name="PleaseEnterTheReasonForReject" xml:space="preserve">
+    <value>Please enter the reason for reject.</value>
+  </data>
+  <data name="PleaseEnterUserName" xml:space="preserve">
+    <value>Please enter userName.</value>
+  </data>
+  <data name="PleaseResetYourPassword" xml:space="preserve">
+    <value>Please reset your password.</value>
+  </data>
+  <data name="PleaseTryAgain" xml:space="preserve">
+    <value>Please try again.</value>
+  </data>
+  <data name="YouCannotUpdateYourInformationBecauseYourKYCIsInReview" xml:space="preserve">
+    <value>You cannot update your information because your KYC is in review.</value>
+  </data>
+  <data name="RedeemCodeCantBeEmpty" xml:space="preserve">
+    <value>Redeem Code can't be empty.</value>
+  </data>
+  <data name="ReferralIsNotfound" xml:space="preserve">
+    <value>Referral is not found.</value>
+  </data>
+  <data name="RegisterSuccessfully" xml:space="preserve">
+    <value>Register Successfully.</value>
+  </data>
+  <data name="YourAccountDoesNotHavePermissionToAccess" xml:space="preserve">
+    <value>Your account does not have permission to access.</value>
+  </data>
+  <data name="SavingAccountIsNotFound" xml:space="preserve">
+    <value>Savings account is not found.</value>
+  </data>
+  <data name="SMSVerificationCodeIsNotValid" xml:space="preserve">
+    <value>SMS verification code is not valid.</value>
+  </data>
+  <data name="SpammingRequestWarning" xml:space="preserve">
+    <value>You have sent too many requests, please try again in a few minutes.</value>
+  </data>
+  <data name="TheAmountMustBeEqualOrGreaterThan250AndEqualOrFewerThan9999" xml:space="preserve">
+    <value>The amount must be equal or greater than $250 and equal or fewer than $9,999.</value>
+  </data>
+  <data name="TheBalanceIsNotEnough" xml:space="preserve">
+    <value>The balance is not enough.</value>
+  </data>
+  <data name="TheCodeIsAlreadyUsed" xml:space="preserve">
+    <value>The code is already used.</value>
+  </data>
+  <data name="TheCodeIsNotCorrect" xml:space="preserve">
+    <value>The code is not correct.</value>
+  </data>
+  <data name="TheLinkHasExpired" xml:space="preserve">
+    <value>The link has expired.</value>
+  </data>
+  <data name="TheLinkIsNotValid" xml:space="preserve">
+    <value>The link is not valid.</value>
+  </data>
+  <data name="ThePINMustHave6Digits" xml:space="preserve">
+    <value>The PIN must have 6 digits.</value>
+  </data>
+  <data name="TheUserDoesNotHaveEmailToRecoverPassword" xml:space="preserve">
+    <value>The user does not have email to recover password.</value>
+  </data>
+  <data name="TheUserIsNotConfirmed" xml:space="preserve">
+    <value>The user is not confirmed.</value>
+  </data>
+  <data name="TheAmountIsNotEnoughToTransferMoney" xml:space="preserve">
+    <value>The balance is not enough to transfer.</value>
+  </data>
+  <data name="TheAmountMustBeGreaterThan0" xml:space="preserve">
+    <value>The amount must be greater than 0.</value>
+  </data>
+  <data name="TheAmountMustBeGreaterThanX" xml:space="preserve">
+    <value>The amount must be greater than {0}.</value>
+  </data>
+  <data name="TheBankIsNotFound" xml:space="preserve">
+    <value>The bank not found.</value>
+  </data>
+  <data name="TheExchangeRateNotFound" xml:space="preserve">
+    <value>The Exchange Rate not found.</value>
+  </data>
+  <data name="ThePackageIsNotFound" xml:space="preserve">
+    <value>The Package is not found.</value>
+  </data>
+  <data name="ThisFeatureIsOnlyForBusinessAccount" xml:space="preserve">
+    <value>This feature is only for Business account.</value>
+  </data>
+  <data name="ThisLinkIsAlreadyInUse" xml:space="preserve">
+    <value>This link is already in use.</value>
+  </data>
+  <data name="ThisPackageIsOnlyForUsersWhoRegisteredSince08152021" xml:space="preserve">
+    <value>This package is only for users who registered since 08/15/2021.</value>
+  </data>
+  <data name="ThisUserHasNotBeenApprovedKYC" xml:space="preserve">
+    <value>This user has not been approved KYC.</value>
+  </data>
+  <data name="ThisFeatureExclusiveToBusinessAccount" xml:space="preserve">
+    <value>This feature exclusive to Business account.</value>
+  </data>
+  <data name="UpgrateAccountToConvertWarning" xml:space="preserve">
+    <value>Redeem at least one Business package before any conversions.</value>
+  </data>
+  <data name="UserDoesNotExist" xml:space="preserve">
+    <value>User does not exist.</value>
+  </data>
+  <data name="EmailDoesNotExist" xml:space="preserve">
+    <value>Email does not exist, Please register.</value>
+  </data>
+  <data name="UserIsNotFound" xml:space="preserve">
+    <value>User is not found.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="WalletNotFound" xml:space="preserve">
+    <value>Wallet address not found.</value>
+  </data>
+  <data name="VLGCashWalletNotFound" xml:space="preserve">
+    <value>VLGCash Wallet not found.</value>
+  </data>
+  <data name="VLGCoinWalletNotFound" xml:space="preserve">
+    <value>VLGCoin Wallet not found.</value>
+  </data>
+  <data name="VLGOFSWalletNotFound" xml:space="preserve">
+    <value>VLGOFS Wallet not found.</value>
+  </data>
+  <data name="VLGPlusWalletNotFound" xml:space="preserve">
+    <value>VTP Wallet not found.</value>
+  </data>
+  <data name="VLGShareWalletNotFound" xml:space="preserve">
+    <value>VLGShare Wallet not found.</value>
+  </data>
+  <data name="YouCanOnlyCheckoutUpTo1000Every24Hours" xml:space="preserve">
+    <value>You can only checkout up to $1000 every 24 hours.</value>
+  </data>
+  <data name="YouCannotWithdrawMoreThan9999PerWeek" xml:space="preserve">
+    <value>You cannot withdraw more than $9,999 per week.</value>
+  </data>
+  <data name="YouDoNotHaveEnoughMoneyToPay" xml:space="preserve">
+    <value>You do not have enough money to pay.</value>
+  </data>
+  <data name="PleaseCreateAPINBeforeTrading" xml:space="preserve">
+    <value>You don't have a PIN, please create a PIN before trading.</value>
+  </data>
+  <data name="YouDontHaveEnoughVLGPlusToConvertOFS" xml:space="preserve">
+    <value>You don't have enough VTP to convert OFS.</value>
+  </data>
+  <data name="YouHaveNotSetThePIN" xml:space="preserve">
+    <value>You have not set the PIN.</value>
+  </data>
+  <data name="YouMustFinishKYCBeforeDoingThisAction" xml:space="preserve">
+    <value>You must finish KYC before doing this action.</value>
+  </data>
+  <data name="YouMustSetPINBeforeCheckout" xml:space="preserve">
+    <value>You must set PIN before checkout.</value>
+  </data>
+  <data name="YouMustSetPINBeforeConvert" xml:space="preserve">
+    <value>You must set PIN before convert.</value>
+  </data>
+  <data name="YouMustSetPINBeforeTransfers" xml:space="preserve">
+    <value>You must set PIN before transfers.</value>
+  </data>
+  <data name="YouCanOnlyConvertLessThanOrEqualToXVLGPlus" xml:space="preserve">
+    <value>You can only convert less than or equal to {0} VTP.</value>
+  </data>
+  <data name="YouCanOnlySaveLessThanOrEqualToX" xml:space="preserve">
+    <value>You can only save less than or equal to {0}.</value>
+  </data>
+  <data name="YouMustSaveGreaterThan0" xml:space="preserve">
+    <value>You must save greater than 0.</value>
+  </data>
+  <data name="YourAccountAlreadyEnabledEmailAuthentication" xml:space="preserve">
+    <value>Your account already enabled Email Authentication.</value>
+  </data>
+  <data name="YourAccountAlreadyEnabledGoogleAuthentication" xml:space="preserve">
+    <value>Your account already enabled Google Authentication.</value>
+  </data>
+  <data name="YourAccountAlreadyEnabledSMSAuthentication" xml:space="preserve">
+    <value>Your account already enabled SMS Authentication.</value>
+  </data>
+  <data name="YourAccountCantConvertVLGPlusToCash" xml:space="preserve">
+    <value>Your account can't convert VLGPlus to VUSD. To make a transaction please redeem at least 1 business package.</value>
+  </data>
+  <data name="YourAccountCantRedeemThisPackage" xml:space="preserve">
+    <value>Your account can't redeem this package.</value>
+  </data>
+  <data name="YourAccountDoesNotHaveEnoughOFSToMakeATransaction" xml:space="preserve">
+    <value>Your account does not have enough OFS to make a transaction.</value>
+  </data>
+  <data name="YourAccountHasBeenLockedBecauseYouEnteredTheWrongCodeManyTimes" xml:space="preserve">
+    <value>Your account has been locked because you entered the wrong code many times.</value>
+  </data>
+  <data name="YourAccountHasBeenSetThePIN" xml:space="preserve">
+    <value>Your account has been set the PIN.</value>
+  </data>
+  <data name="YourAccountIsNotActive" xml:space="preserve">
+    <value>Your account is not ACTIVE.</value>
+  </data>
+  <data name="YourBalanceDoesntHaveEnoughCash" xml:space="preserve">
+    <value>Your balance doesn't have enough cash.</value>
+  </data>
+  <data name="YourEmailDoesNotMatchAnyUserInTheSystem" xml:space="preserve">
+    <value>Your email does not match any user in the system.</value>
+  </data>
+  <data name="YourEmailHasBeenVerifiedAlready" xml:space="preserve">
+    <value>Your email has been verified already.</value>
+  </data>
+  <data name="YourKYCHasBeenSubmitted" xml:space="preserve">
+    <value>Your KYC has been submitted. Please wait for the system to verify.</value>
+  </data>
+  <data name="YourKYCHasBeenVerified" xml:space="preserve">
+    <value>Your KYC has been verified.</value>
+  </data>
+  <data name="YourPasswordMustBeMinimum6Characters" xml:space="preserve">
+    <value>Your password must be minimum 6 characters.</value>
+  </data>
+  <data name="YourProfileWasVerifiedAndDisabledForUpdating" xml:space="preserve">
+    <value>Your profile was verified and disabled for updating, please contact support team via email support@vlinkgroup.net if you want to update it.</value>
+  </data>
+  <data name="YourEmailIsNotConfirmedYet" xml:space="preserve">
+    <value>Your email is not confirmed yet.</value>
+  </data>
+  <data name="YourVerificationCodeIsRequired" xml:space="preserve">
+    <value>Your verification code is required.</value>
+  </data>
+  <data name="YourAccountIsLocked" xml:space="preserve">
+    <value>
+      &lt;p&gt;Your account has been disabled. &lt;br /&gt;You cannot log in to the VLINK META system because your account or activity contains one or more violations &lt;a href='{0}/terms' class='text-info' target='_blank'&gt;Terms of use and data privacy &lt;/a&gt;of VLINK META. &lt;br /&gt; Read more at: &lt;a href='{0}/terms' class='text-info' target='_blank'&gt;{0}/terms&lt;/a&gt; &lt;/p&gt;
+    </value>
+  </data>
+  <data name="InvalidEmailFormat" xml:space="preserve">
+    <value>Invalid email format.</value>
+  </data>
+  <data name="UserTypeIsNotValid" xml:space="preserve">
+    <value>User type is not valid.</value>
+  </data>
+  <data name="YourUsernameMustBeMinimumXCharacters" xml:space="preserve">
+    <value>Your username must be minimum {0} characters.</value>
+  </data>
+  <data name="UserPasswordMustBeMinimumXCharacters" xml:space="preserve">
+    <value>Your password must be minimum {0} characters.</value>
+  </data>
+  <data name="UsernameXIsAlreadyTaken" xml:space="preserve">
+    <value>Username {0} is already taken.</value>
+  </data>
+  <data name="EmailXIsAlreadyTaken" xml:space="preserve">
+    <value>Email {0} is already taken.</value>
+  </data>
+  <data name="PhoneNumberMustBeNumericOnly" xml:space="preserve">
+    <value>Phone number must be numeric only.</value>
+  </data>
+  <data name="PleaseEnterYourEmail" xml:space="preserve">
+    <value>Please enter your email.</value>
+  </data>
+  <data name="PasswordAndPasswordAgainAreNotSame" xml:space="preserve">
+    <value>Password and PasswordAgain are not the same.</value>
+  </data>
+  <data name="PasswordCantBeEmpty" xml:space="preserve">
+    <value>Password can't be empty.</value>
+  </data>
+  <data name="AuthenticationTypeIsNotValid" xml:space="preserve">
+    <value>Authentication type is not valid.</value>
+  </data>
+  <data name="ItemNotFound" xml:space="preserve">
+    <value>Item not found.</value>
+  </data>
+  <data name="ThisFeatureIsOnlyForUsersFromPackage100AndAbove" xml:space="preserve">
+    <value>This feature is only for users from package $100 and above.</value>
+  </data>
+  <data name="PageNumberMustBeGreaterThan0" xml:space="preserve">
+    <value>Page number must be greater than 0.</value>
+  </data>
+  <data name="YourAccountHasBeenLocked" xml:space="preserve">
+    <value>Your account has been locked.</value>
+  </data>
+  <data name="ThePINIsIncorrectAndYourAccountWillBeLockedAfterXWrongEntry" xml:space="preserve">
+    <value>The PIN is incorrect. Your account will be locked after {0} wrong entry.</value>
+  </data>
+  <data name="YouCanOnlyTransferUpTo100VLGPlusPerDay" xml:space="preserve">
+    <value>You can only transfer up to 100 VTP per day.</value>
+  </data>
+  <data name="YouCannotTransferToYourself" xml:space="preserve">
+    <value>You cannot transfer to yourself.</value>
+  </data>
+  <data name="SenderMustBeDifferentFromReceiver" xml:space="preserve">
+    <value>Sender must be different from receiver.</value>
+  </data>
+  <data name="TheAmountIsNotEnoughToTrade" xml:space="preserve">
+    <value>The amount is not enough to trade.</value>
+  </data>
+  <data name="YouCantTransferToRookieBusinessFreeAccount" xml:space="preserve">
+    <value>You can't transfer to "Rookie business free" account.</value>
+  </data>
+  <data name="TheBusinessAccountCanOnlyReceiveXVLGPlusPerUserDay" xml:space="preserve">
+    <value>This Business account can only receive {0} VTP per user/day.</value>
+  </data>
+  <data name="YouCanOnlyTransferLessThanOrEqualToXVLGPlusForThisBusinessToday" xml:space="preserve">
+    <value>You can only transfer less than or equal to {0} VTP for this Business today.</value>
+  </data>
+  <data name="ThisUserHasBeenConfirmed" xml:space="preserve">
+    <value>This user has been confirmed.</value>
+  </data>
+  <data name="YourAccountWillBeLockedAfterXWrongEntry" xml:space="preserve">
+    <value>Your account will be locked after {0} wrong entry.</value>
+  </data>
+  <data name="YouHaveRedeemedVlinkGratefulPackageBefore" xml:space="preserve">
+    <value>You have redeemed "Vlink Grateful" package before. Notice that you can only redeem "Vlink Grateful" package ONCE.</value>
+  </data>
+  <data name="VlinkGratefulPackageHasBeenSoldOut" xml:space="preserve">
+    <value>"Vlink Grateful" package has been sold out.</value>
+  </data>
+  <data name="TheSystemOnlyHasXPackagesLeft" xml:space="preserve">
+    <value>The system only has {0} {1} packages left.</value>
+  </data>
+  <data name="YouCannotRedeemPackageSmallerThanX" xml:space="preserve">
+    <value>You cannot redeem package smaller than {0}.</value>
+  </data>
+  <data name="YouMustEnterANumberGreaterThanOrEqualToXOFSY" xml:space="preserve">
+    <value>You must enter a number greater than or equal to {0} OFS ({1}).</value>
+  </data>
+  <data name="YouCanOnlyBuyUpToXOFSYVLGPlus" xml:space="preserve">
+    <value>You can only buy up to {0} OFS ({1} VTP).</value>
+  </data>
+  <data name="YouCanOnlyBuyUpToX" xml:space="preserve">
+    <value>You can only buy up to {0}.</value>
+  </data>
+  <data name="YouCanOnlyConvertUpToXOFSYToken" xml:space="preserve">
+    <value>You can only convert up to {0} OFS ({1} Token).</value>
+  </data>
+  <data name="InterestRateNotFound" xml:space="preserve">
+    <value>InterestRate not found.</value>
+  </data>
+  <data name="WalletTypeIsRequired" xml:space="preserve">
+    <value>Wallet type is required.</value>
+  </data>
+  <data name="WalletTypeIsNotValid" xml:space="preserve">
+    <value>Wallet type is not valid.</value>
+  </data>
+  <data name="VLGTokenWalletNotFound" xml:space="preserve">
+    <value>VLG Token Wallet not found.</value>
+  </data>
+  <data name="NotExistAnyOFSExchangeRate" xml:space="preserve">
+    <value>Not exist any OFS Exchange Rate.</value>
+  </data>
+  <data name="TheSystemHasNotFoundThisUser" xml:space="preserve">
+    <value>The system has not found this user.</value>
+  </data>
+  <data name="ThankYouForYourInterestInOurService" xml:space="preserve">
+    <value>Thank you for your interest in our services.</value>
+  </data>
+  <data name="NewPINHasBeenSentToYourEmailX" xml:space="preserve">
+    <value>New PIN has been sent to your email ({0}).</value>
+  </data>
+  <data name="YouCantDeleteShareExchangeRateX" xml:space="preserve">
+    <value>You can't delete Share Exchange Rate {0}.</value>
+  </data>
+  <data name="IPAccessDenied" xml:space="preserve">
+    <value>IP access denied.</value>
+  </data>
+  <data name="YourEmailAddressHasNotBeenConfirmed" xml:space="preserve">
+    <value>Your email address has not been confirmed.</value>
+  </data>
+  <data name="CryptocurrencyExchangeError" xml:space="preserve">
+    <value>Cryptocurrency exchange is having an error, please try again later</value>
+  </data>
+  <data name="Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions." xml:space="preserve">
+    <value>An error occurred while saving data. Please try again.</value>
+  </data>
+  <data name="PackageHasStock" xml:space="preserve">
+    <value>{0} has only {1} in stock.</value>
+  </data>
+  <data name="PackageIsOutOfStock" xml:space="preserve">
+    <value>{0} is out of stock.</value>
+  </data>
+  <data name="HasVmmPackage" xml:space="preserve">
+    <value>You have redeemed "Vlink Meta Package" package before. Notice that you can only redeem "Vlink Meta Package" package ONCE.</value>
+  </data>
+  <data name="ImageNotFound" xml:space="preserve">
+    <value>Image does not found.</value>
+  </data>
+  <data name="InvalidImageType" xml:space="preserve">
+    <value>Image type is invalid.</value>
+  </data>
+  <data name="ChildUserNotFound" xml:space="preserve">
+    <value>Child user does not found</value>
+  </data>
+  <data name="ThisUserHasBeenAddCoDirectBonus" xml:space="preserve">
+    <value>This user has been added co-direct sponsor</value>
+  </data>
+  <data name="TotalPercentNotEqual100" xml:space="preserve">
+    <value>Total Percent Not Equal 100.</value>
+  </data>
+  <data name="YouAreNotReferralThisUser" xml:space="preserve">
+    <value>You Are Not Referral This User</value>
+  </data>
+  <data name="TheUserIsDuplicate" xml:space="preserve">
+    <value>The user is duplicate</value>
+  </data>
+  <data name="MonthlyInterestIsPaid" xml:space="preserve">
+    <value>Monthly interest is paid.</value>
+  </data>
+  <data name="MonthlyInterestNotFound" xml:space="preserve">
+    <value>Monthly interest does not found.</value>
+  </data>
+  <data name="RequestAmountReachMaxAmountCreditLending" xml:space="preserve">
+    <value>You can only borrow up to {0} VTP.</value>
+  </data>
+  <data name="UserHasBadDebt" xml:space="preserve">
+    <value>You have bad debt.</value>
+  </data>
+  <data name="UserNotAllowCreditLending" xml:space="preserve">
+    <value>The program only applies to users who have activated the package &gt;= 10k and own VLG Token Staking.</value>
+  </data>
+  <data name="UserReachMaxAmountCreditLending" xml:space="preserve">
+    <value>Your loan reach the maximum credit lending policy.</value>
+  </data>
+  <data name="PaymentCodeNotFound" xml:space="preserve">
+    <value>Payment code does not found.</value>
+  </data>
+  <data name="Ranking2ChildrenTitleCondition" xml:space="preserve">
+    <value>2 {0} from 2 Legs from any levels.</value>
+  </data>
+  <data name="RankingDirectAgentCondition" xml:space="preserve">
+    <value>5 AGENTs directly.</value>
+  </data>
+  <data name="RankingMinChildrenTitleCondition" xml:space="preserve">
+    <value>{0} {1} in {0} Legs from any levels</value>
+  </data>
+  <data name="RankingMinTotalAp" xml:space="preserve">
+    <value>AP in your direct and indirect leg team sale {0} AP.</value>
+  </data>
+  <data name="RankingPersonalSaleCondition" xml:space="preserve">
+    <value>F1 direct sales: {0} AP Calculated in 1 quarter.</value>
+  </data>
+  <data name="RedeemPackage500" xml:space="preserve">
+    <value>Redeem package &gt;= $500</value>
+  </data>
+  <data name="RankingDirectAgentConditionBeforeX" xml:space="preserve">
+    <value>5 AGENTs directly before {0}.</value>
+  </data>
+  <data name="PackageHasBeenDiscontinued" xml:space="preserve">
+    <value>The package {0} has been discontinued. Please clear your cart and checkout again.</value>
+  </data>
+  <data name="InvalidPackageAllowCreditLending" xml:space="preserve">
+    <value>The account has not been supported loan yet.</value>
+  </data>
+  <data name="ReceiverIsInvalid" xml:space="preserve">
+    <value>Your account can only transfer VLG to users who have activated the Business package. In order to be able to deliver VLG to all users, please activate any package.</value>
+  </data>
+  <data name="MaxPreOrderItem" xml:space="preserve">
+    <value>Each account can only deposit {0} product.</value>
+  </data>
+  <data name="DirectApMonthly" xml:space="preserve">
+    <value>{0} Direct sales every month .</value>
+  </data>
+  <data name="CanNotPayPreOrderProduct" xml:space="preserve">
+    <value>You can't pay for this product.</value>
+  </data>
+  <data name="PreOrderPaymentExpired" xml:space="preserve">
+    <value>Your payment has expired.</value>
+  </data>
+  <data name="YouMustSetPINBeforePreOrder" xml:space="preserve">
+    <value>You must set PIN before order.</value>
+  </data>
+  <data name="YouMustSetPINBeforeBorrow" xml:space="preserve">
+    <value>You must set PIN before borrow.</value>
+  </data>
+  <data name="PendingCheckoutByVlg" xml:space="preserve">
+    <value>This payment method is temporarily closed for maintenance. Please choose another payment method.</value>
+  </data>
+  <data name="PleaseSetupPINBeforeDoingThisAction" xml:space="preserve">
+    <value>Please setup PIN before doing this action.</value>
+  </data>
+  <data name="PackageHasBeenSoldOut" xml:space="preserve">
+    <value>"{0}" package has been sold out.</value>
+  </data>
+  <data name="EventTicketCodeNotValid" xml:space="preserve">
+    <value>The code is not valid.</value>
+  </data>
+  <data name="EventTicketIsNotValid" xml:space="preserve">
+    <value>This ticket is not valid</value>
+  </data>
+  <data name="EventTicketIsUsed" xml:space="preserve">
+    <value>This ticket is already used</value>
+  </data>
+  <data name="UpdateTicketInfoSuccess" xml:space="preserve">
+    <value>Update ticket information successfully.</value>
+  </data>
+  <data name="AssignTicketSuccess" xml:space="preserve">
+    <value>Give ticket successfully.</value>
+  </data>
+  <data name="ShoppingCartPaymentMethodIsInvalid" xml:space="preserve">
+    <value>Shopping cart does not support this payment method.</value>
+  </data>
+  <data name="CreditCardInvalid" xml:space="preserve">
+    <value>Credit Card is invalid.</value>
+  </data>
+  <data name="PackageQuantityMustLagerThan0" xml:space="preserve">
+    <value>The package quantity must larger than 0.</value>
+  </data>
+  <data name="PreOrderProductNotFound" xml:space="preserve">
+    <value>Pre-order does not found.</value>
+  </data>
+  <data name="PostIsNotFound" xml:space="preserve">
+    <value>Post is not found.</value>
+  </data>
+  <data name="ReceiverNotFound" xml:space="preserve">
+    <value>Receiver not found</value>
+  </data>
+  <data name="usernameMustBeLessThanXCharacters" xml:space="preserve">
+    <value>Username must be less than {0} characters</value>
+  </data>
+  <data name="OnlyForUserNotActiveYet" xml:space="preserve">
+    <value>This package is only for those who have not activated any package yet</value>
+  </data>
+  <data name="CantRedeemForMmfUser" xml:space="preserve">
+    <value>You can't redeem this package because you already active a Vlinkmeta Mall Founders package</value>
+  </data>
+  <data name="FromWalletMatchToWallet" xml:space="preserve">
+    <value>From wallet must not be To wallet.</value>
+  </data>
+  <data name="ConvertVlgToVtpInvalidPackage" xml:space="preserve">
+    <value>Please redeem at least on package of VMM, VMF, Business Pro, Platinum, Bronze to unlock this feature.</value>
+  </data>
+  <data name="ReachWeeklyMaximumSwap" xml:space="preserve">
+    <value>Your swap amount reachs maximum limitation.</value>
+  </data>
+  <data name="MinSwapAmountIsOne" xml:space="preserve">
+    <value>The minimum swap amount is 1.</value>
+  </data>
+  <data name="CantRedeemBecauseYouAreVmf" xml:space="preserve">
+    <value>You can't redeem this package because you have activated the Vlinkmeta Mall Founders package</value>
+  </data>
+  <data name="TransferToVioNotAllowCustomerType" xml:space="preserve">
+    <value>Can not make transfer.</value>
+  </data>
+  <data name="RequiredKYCWhenUserSwap" xml:space="preserve">
+    <value>You must complete KYC to use this feature</value>
+  </data>
+  <data name="UserTypeApproveLinkKYCInvalid" xml:space="preserve">
+    <value>Your account type must be Merchant or Affiliate to do this action.</value>
+  </data>
+  <data name="OutOfLinkKYCQuantity" xml:space="preserve">
+    <value>You are out of link KYC quantity.</value>
+  </data>
+  <data name="LinkingKycCannotDoThisAction" xml:space="preserve">
+    <value>The user has the linking kyc can not do this action.</value>
+  </data>
+  <data name="SponsorNotHasKycPackage" xml:space="preserve">
+    <value>Sponsor does not redeem KYC package.</value>
+  </data>
+  <data name="LinkKycHasBeenSubmitted" xml:space="preserve">
+    <value>Your KYC Link request has been sent and is pending approval, please wait for the process to complete.</value>
+  </data>
+  <data name="LinkingUserCanNotRedeemKycPackage" xml:space="preserve">
+    <value>You cannot redeem this package because you have Link KYC.</value>
+  </data>
+  <data name="CustomerUserCanNotRedeemKycPackage" xml:space="preserve">
+    <value>Customer account cannot activate this package.</value>
+  </data>
+  <data name="InvalidSponsor" xml:space="preserve">
+    <value>Sponsor is invalid.</value>
+  </data>
+  <data name="SponsorKycIsNotApproved" xml:space="preserve">
+    <value>Sponsor KYC is not approved.</value>
+  </data>
+  <data name="OverFreeTransactionLimit" xml:space="preserve">
+    <value>Your transaction amount is over the limit.</value>
+  </data>
+  <data name="FeatureTemporarilyClosedUntilX" xml:space="preserve">
+    <value>This feature is temporarily closed until {0}</value>
+  </data>
+</root>
