@@ -1,24 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using TechFix.Common.AppSetting;
+using TechFix.Common.Constants.User;
 using TechFix.EntityModels;
 using TechFix.Services.Common;
 
 namespace TechFix.API.Controllers
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	[Route("api/[controller]")]
     [ApiController]
-	public class VlinkController : ControllerBase
+	[Authorize(Roles = UserRole.AllRole)]
+    public class CustomController : ControllerBase
 	{
 		protected readonly DataContext _context;
-		protected IMapper _mapper;
+		protected readonly IMapper _mapper;
 		protected readonly AppSettings _appSettings;
-		protected IWebHostEnvironment _env;
-		protected CommonService _commonService;
+		protected readonly IWebHostEnvironment _env;
+		protected readonly CommonService _commonService;
 
-		public VlinkController(
+		public CustomController(
 			IMapper mapper,
 			IOptions<AppSettings> appSettings,
 			DataContext context,

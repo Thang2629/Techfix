@@ -1,8 +1,7 @@
-﻿
-using System;
+﻿using System;
 using TechFix.Common.Constants;
 
-namespace TechFix.Services.Helpers.Paging
+namespace TechFix.Common.Paging
 {
     public class PagingParams
     {

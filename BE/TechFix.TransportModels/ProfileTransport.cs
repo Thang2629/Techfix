@@ -2,13 +2,14 @@
 using Newtonsoft.Json.Converters;
 using System;
 using TechFix.Common.Enums;
+using TechFix.Common.Interfaces;
 using TechFix.EntityModels;
 
 namespace TechFix.TransportModels
 {
-	public class ProfileTransport
+	public class ProfileTransport : IMapFrom<User>
 	{
-		public string FirstName { get; set; }
+		public string FullName { get; set; }
 		public string LastName { get; set; }
 		public string Username { get; set; }
 		public DateTime? BirthDay { get; set; }

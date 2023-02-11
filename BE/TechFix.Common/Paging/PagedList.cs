@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TechFix.Services.Helpers.Paging
+namespace TechFix.Common.Paging
 {
     public class PagedList<T> : List<T>
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -9,15 +8,22 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
-using TechFix.EntityModels.Configs;
 using TechFix.EntityModels.Handle;
 
 namespace TechFix.EntityModels
 {
+    public class UserInfo
+    {
+        public Guid? CurrentUserId { get; set; }
+        public string IpAddress { get; set; }
+        public string Username { get; set; }
+        public Guid? StoreId { get; set; }
+    }
+
     public class DataContext : DbContext
     {
         protected readonly IConfiguration Configuration;
-        public Guid? AuthenticatedUserId { get; set; }
+        public UserInfo UserInfo { get; set; } = new();
 
 		public DataContext()
 		{
@@ -68,21 +74,21 @@ namespace TechFix.EntityModels
 
 				var baseModel = (BaseModel) entityEntry.Entity;
 				var classCustomAttribute = GetCustomAttribute(entityEntry.Entity.GetType(), typeof(EntityClassAttribute));
-				if (classCustomAttribute == null || ((EntityClassAttribute) classCustomAttribute).IgnoreSearchData == false)
+				if (classCustomAttribute != null && ((EntityClassAttribute) classCustomAttribute).FullTextSearch)
 				{
 					baseModel.SearchData = GetSearchDataValue(entityEntry, baseModel);
 				}
-				else
-				{
-					baseModel.SearchData = "";
-				}
+                else
+                {
+                    baseModel.SearchData = "";
+                }
 
-				baseModel.ModifiedDate = DateTime.Now;
-				baseModel.ModifiedUser = AuthenticatedUserId ?? Guid.Empty;
+                baseModel.ModifiedDate = DateTime.Now;
+				baseModel.ModifiedUser = UserInfo.CurrentUserId ?? Guid.Empty;
 				if (entityEntry.State == EntityState.Added)
 				{
 					baseModel.CreatedDate = DateTime.Now;
-					baseModel.CreatedUser = AuthenticatedUserId ?? Guid.Empty;
+					baseModel.CreatedUser = UserInfo.CurrentUserId ?? Guid.Empty;
 				}
 			}
 		}
@@ -119,14 +125,14 @@ namespace TechFix.EntityModels
 
 			//Ignore fields setup ignore by custom attribute
 			var customAttribute = propertyInfo.GetCustomAttributes(typeof(DataColumnAttribute), false).FirstOrDefault();
-			if (customAttribute != null)
-			{
-				var dataColumnInfo = (DataColumnAttribute) customAttribute;
-				if (dataColumnInfo.IgnoreSearch)
-					return true;
-			}
+            if (customAttribute != null)
+            {
+                var dataColumnInfo = (DataColumnAttribute) customAttribute;
+                if (dataColumnInfo.IgnoreSearch)
+                    return true;
+            }
 
-			return false;
+            return false;
 		}
 
 		private static object GetCustomAttribute(Type entityType, Type attributeType, bool inherit = false)
@@ -153,6 +159,13 @@ namespace TechFix.EntityModels
             return base.SaveChangesAsync(cancellationToken);
         }
 
+        protected override void ConfigureConventions(
+            ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.Properties<decimal>()
+                .HavePrecision(38, 16);
+        }
+
         public int? GetNextSequenceValue(string sequenceName)
         {
             try
@@ -170,8 +183,8 @@ namespace TechFix.EntityModels
 
 
         public DbSet<User> Users { get; set; }
-        public DbSet<UserToken> UserToken { get; set; }
+        public DbSet<UserToken> UserTokens { get; set; }
         public DbSet<VlinkSequence> VlinkSequence { get; set; }
-      
+
     }
 }

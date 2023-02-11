@@ -5,6 +5,7 @@ namespace TechFix.EntityModels
 {
     public class BaseModel
     {
+        public Guid? Id { get; set; }
         public Guid? CreatedUser { get; set; }
         public DateTime? CreatedDate { get; set; }
         public Guid? ModifiedUser { get; set; }

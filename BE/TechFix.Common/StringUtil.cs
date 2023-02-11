@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.Text;
 using TechFix.Common.Constants;
+using System.Net.Mail;
 
 namespace TechFix.Common
 {
@@ -33,41 +34,17 @@ namespace TechFix.Common
             return sb.ToString();
         }
 
-        public static string GenerateWalletAddress(string walletType, int length = NumberConfig.WalletAddressMaxLength)
+        public static bool IsValidEmail(string emailAddress)
         {
-            var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
-            var random = new Random();
-            var result = new string(
-                Enumerable.Repeat(chars, length - 1)
-                    .Select(s => s[random.Next(s.Length)])
-                    .ToArray());
-            return walletType switch
+            try
             {
-                WalletType.VLGTokenAvailable => $"v{result}",
-                WalletType.VLGCash => $"c{result}",
-                WalletType.VLGPlus => $"p{result}",
-                WalletType.Usdt => $"u{result}",
-                WalletType.VmmToken => $"m{result}",
-                _ => result
-            };
-        }
-
-        public static string GetRootEmail(string email)
-        {
-            if (email == null)
-                return null;
-            if(email.Contains("+"))
-            {
-                var start = email.LastIndexOf("+", StringComparison.Ordinal);
-                var end = email.IndexOf("@", start, StringComparison.Ordinal);
-                if(start < end)
-                {
-                    var result = email.Remove(start, end - start);
-                    return result;
-                }
+                var m = new MailAddress(emailAddress);
+                return true;
             }
-
-            return email;
+            catch (FormatException)
+            {
+                return false;
+            }
         }
     }
 }

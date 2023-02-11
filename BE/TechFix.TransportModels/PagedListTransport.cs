@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TechFix.Services.Helpers.Paging;
+using TechFix.Common.Paging;
 
 namespace TechFix.TransportModels
 {

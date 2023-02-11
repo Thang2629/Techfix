@@ -19,7 +19,7 @@ namespace TechFix.API.Controllers.Admin
     [Authorize(Roles = "ADMIN")]
 
     [ApiController]
-    public class SeedController : VlinkController
+    public class SeedController : CustomController
     {
         private readonly IAuthService _authService;
         private static Random random = new Random();
@@ -39,7 +39,7 @@ namespace TechFix.API.Controllers.Admin
         {
             try
             {
-                var referralUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == "vlinkgroup");
+                var referralUser = await _context.Users.FirstOrDefaultAsync(u => u.StaffCode == "vlinkgroup");
                 if (referralUser == null)
                     return BadRequest("referralUser is not exist");
 

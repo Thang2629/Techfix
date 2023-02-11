@@ -8,6 +8,6 @@ namespace TechFix.EntityModels.Handle
 {
 	public class EntityClassAttribute : Attribute
 	{
-		public bool IgnoreSearchData { get; set; }
+		public bool FullTextSearch { get; set; }
 	}
 }

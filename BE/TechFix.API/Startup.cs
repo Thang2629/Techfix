@@ -36,6 +36,7 @@ using TechFix.Services.ScheduleServices;
 using TechFix.TransportModels.Cache;
 using VlinkSequence = TechFix.Services.Common.VlinkSequence;
 using TechFix.Services.EmailServices;
+using AutoMapper;
 
 namespace TechFix.API
 {
@@ -53,6 +54,13 @@ namespace TechFix.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperProfile());
+            });
+            var mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.AddDbContext<DataContext>();
             services.AddHangfire(config => config.UseMemoryStorage());
             services.AddRazorPages();
@@ -67,7 +75,8 @@ namespace TechFix.API
 
             //services.AddControllers().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.AddControllers().AddNewtonsoftJson(opts => opts.SerializerSettings.ContractResolver = new DefaultContractResolver());
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddStackExchangeRedisCache(options =>
             {
@@ -161,7 +170,7 @@ namespace TechFix.API
         private static void AddToScoped(IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IMemberServices, MemberServices>();
             services.AddScoped<IAutomationServices, AutomationServices>();
             services.AddScoped<IEmailService, SendGridService>();
             services.AddScoped<VlinkSequence>();
@@ -177,27 +186,27 @@ namespace TechFix.API
 	        var distributedCache = provider.GetService<IDistributedCache>();
 	        byte[] dataCache = null;
 
-            if (!_env.IsDevelopment())
-	        {
-		        dataCache = distributedCache?.Get(userId.ToString());
-            }
+         //   if (!_env.IsDevelopment())
+	        //{
+		       // dataCache = distributedCache?.Get(userId.ToString());
+         //   }
 
 	        User user;
 	        UserToken validateToken;
 	        if (dataCache == null)
 	        {
-		        user = authenticateService.GetUser(userId);
-		        if (user == null || !string.Equals(user.Status, UserStatus.Active, StringComparison.InvariantCultureIgnoreCase))
+		        user = authenticateService.FindUser(userId);
+		        if (user == null || user.Status != UserStatus.Active)
 		        {
 			        context.Fail("Unauthorized");
 			        return Task.CompletedTask;
 		        }
 
-		        validateToken = authenticateService.GetValidateToken(userId);
-		        if (!_env.IsDevelopment() && validateToken != null && user.Id.HasValue)
-		        {
-			        CacheUser(user, validateToken, distributedCache);
-		        }
+		        validateToken = authenticateService.GetValidToken(userId);
+		        //if (!_env.IsDevelopment() && validateToken != null && user.Id.HasValue)
+		        //{
+			       // CacheUser(user, validateToken, distributedCache);
+		        //}
 	        }
 	        else
 	        {
@@ -221,8 +230,9 @@ namespace TechFix.API
 	        }
 	        else
 	        {
-		        authenticateService.SetAuthenticatedUser(userId);
-	        }
+                var ipAddress = context.HttpContext.Connection.RemoteIpAddress?.ToString().Trim();
+		        authenticateService.SetUserInfo(user, ipAddress);
+            }
 
 	        return Task.CompletedTask;
         }

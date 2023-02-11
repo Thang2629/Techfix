@@ -38,7 +38,7 @@ namespace TechFix.Services.ScheduleServices
             _emailService = emailService;
             _appSettings = appSettings.Value;
 
-            _context.AuthenticatedUserId = Guid.Parse("FFFFFFFF-DDDD-EEEE-CCCC-AAAAAAAAAAAA");
+            _context.UserInfo.CurrentUserId = Guid.Parse("FFFFFFFF-DDDD-EEEE-CCCC-AAAAAAAAAAAA");
         }
         
 
