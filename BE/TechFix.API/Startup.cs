@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -32,6 +33,7 @@ using TechFix.TransportModels.Cache;
 using VlinkSequence = TechFix.Services.Common.VlinkSequence;
 using TechFix.Services.EmailServices;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace TechFix.API
 {
@@ -49,6 +51,11 @@ namespace TechFix.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //configure strongly typed settings objects
+            var appSettingsSection = _configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+            var appSettings = appSettingsSection.Get<AppSettings>();
+
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AutoMapperProfile());
@@ -56,15 +63,15 @@ namespace TechFix.API
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddDbContext<DataContext>();
+            services.AddDbContext<DataContext>(options =>
+            {
+                var connectionString = _configuration.GetConnectionString("WebApiDatabase");
+                options.UseSqlServer(connectionString);
+            });
+            //services.AddDbContext<DataContext>();
             services.AddHangfire(config => config.UseMemoryStorage());
             services.AddRazorPages();
             services.AddCors();
-
-            //configure strongly typed settings objects
-            var appSettingsSection = _configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-            var appSettings = appSettingsSection.Get<AppSettings>();
 
             services.Configure<SendGridConfig>(_configuration.GetSection("SendGridConfig"));
 
@@ -254,7 +261,7 @@ namespace TechFix.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext dataContext, IOptions<AppSettings> appSettings)
         {
-	        //dataContext.Database.Migrate();
+	        dataContext.Database.Migrate();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

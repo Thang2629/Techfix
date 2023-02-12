@@ -16,7 +16,6 @@ namespace TechFix.EntityModels
         public string Description { get; set; }
         public bool IsInventoryTracking { get; set; }
         public bool AllowNegativeSell { get; set; }
-        public bool IsDeleted { get; set; }
         public Manufacturer Manufacturer { get; set; }
         public Guid? ManufacturerId { get; set; }
 
