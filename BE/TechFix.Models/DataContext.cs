@@ -181,10 +181,14 @@ namespace TechFix.EntityModels
             }
         }
 
-
         public DbSet<User> Users { get; set; }
         public DbSet<UserToken> UserTokens { get; set; }
         public DbSet<VlinkSequence> VlinkSequence { get; set; }
-
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCondition> ProductConditions { get; set; }
+        public DbSet<ProductUnit> ProductUnits { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
     }
 }

@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using TechFix.Common.Enums;
+﻿using System;
 using TechFix.Common.Interfaces;
 using TechFix.EntityModels;
 

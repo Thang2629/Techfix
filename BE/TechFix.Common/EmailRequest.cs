@@ -1,11 +1,4 @@
-﻿using RestSharp;
-using RestSharp.Authenticators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using TechFix.Common.AppSetting;
+﻿using System.Collections.Generic;
 
 namespace TechFix.Common
 {

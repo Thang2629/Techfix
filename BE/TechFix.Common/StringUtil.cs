@@ -1,8 +1,5 @@
-﻿
-using System.Linq;
-using System;
+﻿using System;
 using System.Text;
-using TechFix.Common.Constants;
 using System.Net.Mail;
 
 namespace TechFix.Common

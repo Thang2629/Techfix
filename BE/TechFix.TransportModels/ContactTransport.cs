@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TechFix.TransportModels
+﻿namespace TechFix.TransportModels
 {
     public class ContactTransport
     {

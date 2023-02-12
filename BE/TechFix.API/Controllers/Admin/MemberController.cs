@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using TechFix.EntityModels;
 using TechFix.Services;
 using TechFix.Services.Common;
 using TechFix.Common.AppSetting;
-using TechFix.Common.Constants.User;
 using TechFix.TransportModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace TechFix.API.Controllers.Admin
 {

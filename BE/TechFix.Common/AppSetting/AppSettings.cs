@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TechFix.Common.AppSetting
+﻿namespace TechFix.Common.AppSetting
 {
     public class AppSettings
     {

@@ -4,8 +4,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using TechFix.Common.AppSetting;
 using TechFix.EntityModels;

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TechFix.Common.AppSetting;
-using TechFix.Common.Constants.Packages;
-using TechFix.Common.Constants.User;
 using TechFix.EntityModels;
-using TechFix.EntityModels.Configs;
 using TechFix.Services.ScheduleServices;
 
 namespace TechFix.Services.Common

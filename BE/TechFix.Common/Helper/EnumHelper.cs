@@ -1,8 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection;
-using TechFix.Common.Enums;
 
 namespace TechFix.Common.Helper
 {
