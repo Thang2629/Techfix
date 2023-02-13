@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Bogus.DataSets;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TechFix.Common.AppSetting;
+using TechFix.Common.Helper;
+using TechFix.Common.Paging;
 using TechFix.EntityModels;
 using TechFix.Services.Common;
 using TechFix.TransportModels;
@@ -26,23 +30,26 @@ namespace TechFix.API.Controllers
         }
 
         // GET: api/<ProductsController>
-        [HttpGet]
-        public IEnumerable<Product> Get()
+        [HttpPost]
+        [Route("get-all")]
+        public IActionResult GetAllProducts(PagingParams param)
         {
-            var result = _context.Products
-                .Where(m => !m.IsDeleted)
-                .ToList();
-            return result;
+            var queryable = _context.Products
+                .Where(m => !m.IsDeleted);
+            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+            var projectTo = queryable.ProjectTo<ProductDto>(_mapper.ConfigurationProvider);
+            var result = PagedList<ProductDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
+            return Ok(result);
         }
 
         // POST api/<ProductsController>
         [HttpPost]
-        public void Post([FromBody] ProductTransport product)
+        public async Task Post([FromBody] ProductTransport product)
         {
             _context.Products.Add(new Product()
             {
                 Name = product.Name,
-                Code= product.Code,
+                Code = product.Code,
                 MinimumNorm = product.MinimumNorm,
                 MaximumNorm = product.MaximumNorm,
                 Quantity = product.Quantity,
@@ -60,8 +67,8 @@ namespace TechFix.API.Controllers
                 SupplierId = product.SupplierId,
                 IsInventoryTracking = product.IsInventoryTracking,
                 StoreId = product.StoreId,
-        });
-            _context.SaveChangesAsync();
+            });
+            await _context.SaveChangesAsync();
         }
 
         // PUT api/<ProductsController>/5
@@ -107,4 +114,5 @@ namespace TechFix.API.Controllers
             }
         }
     }
+    
 }

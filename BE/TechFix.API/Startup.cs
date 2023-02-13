@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -63,12 +62,7 @@ namespace TechFix.API
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddDbContext<DataContext>(options =>
-            {
-                var connectionString = _configuration.GetConnectionString("WebApiDatabase");
-                options.UseSqlServer(connectionString);
-            });
-            //services.AddDbContext<DataContext>();
+            services.AddDbContext<DataContext>();
             services.AddHangfire(config => config.UseMemoryStorage());
             services.AddRazorPages();
             services.AddCors();

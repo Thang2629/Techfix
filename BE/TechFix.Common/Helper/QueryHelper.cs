@@ -1,23 +1,63 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
 using TechFix.Common.Constants;
+using TechFix.Common.Paging;
 
 namespace TechFix.Common.Helper
 {
     public  class QueryHelper
     {
+        public static IQueryable<T> ApplyFilter<T>(IQueryable<T> query, List<FilterParam> filterParams)
+        {
+            if (filterParams != null)
+            {
+                foreach (var filterParam in filterParams)
+                {
+                    if (filterParam.Value == null)
+                    {
+                        continue;
+                    }
+
+                    query = query.Where(BuildPredicate<T>(filterParam.PropertyName, filterParam.Comparison, filterParam.Value));
+                }
+            }
+
+            return query;
+        }
+
         public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, object value)
         {
             var parameter = Expression.Parameter(typeof(T));
             var left = propertyName.Split('.').Aggregate((Expression)parameter, Expression.PropertyOrField);
             var body = MakeComparison(left, comparison, value);
-            return Expression.Lambda<Func<T, bool>>(body, parameter);
+            var buildPredicate = Expression.Lambda<Func<T, bool>>(body, parameter);
+            return buildPredicate;
         }
 
         private static Expression MakeComparison(Expression left, string comparison, object value)
         {
-            var constant = Expression.Constant(value, left.Type);
+            ConstantExpression constant;
+            if (left.Type == typeof(Guid) || left.Type == typeof(Guid?))
+            {
+                var guidValue = Guid.Parse(value.ToString());
+                constant = Expression.Constant(guidValue, left.Type);
+            }
+            else
+            {
+                if (left.Type == typeof(DateTime) || left.Type == typeof(DateTime?))
+                {
+                    var dateTime = DateTime.Parse(value.ToString());
+                    constant = Expression.Constant(dateTime, left.Type);
+                }
+                else
+                {
+                    constant = Expression.Constant(value, left.Type); ;
+                }
+            }
+
             switch (comparison)
             {
                 case QueryComparison.Equal:
