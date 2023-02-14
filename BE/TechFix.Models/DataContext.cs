@@ -382,5 +382,6 @@ namespace TechFix.EntityModels
         public DbSet<Store> Stores { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Fund> Funds { get; set; }
     }
 }
