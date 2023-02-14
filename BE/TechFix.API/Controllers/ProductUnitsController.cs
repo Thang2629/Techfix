@@ -4,13 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Bogus.DataSets;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TechFix.Common.AppSetting;
+using TechFix.Common.Helper;
+using TechFix.Common.Paging;
 using TechFix.EntityModels;
 using TechFix.Services.Common;
+using TechFix.TransportModels.Dtos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,6 +36,19 @@ namespace TechFix.API.Controllers
                 .Where(m => !m.IsDeleted)
                 .ToList();
             return result;
+        }
+
+        // GET: api/<ProductUnitsController>
+        [HttpPost]
+        [Route("get-all")]
+        public IActionResult GetAllProductUnits(PagingParams param)
+        {
+            var queryable = _context.ProductUnits
+                .Where(m => !m.IsDeleted);
+            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+            var projectTo = queryable.ProjectTo<ProductUnitDto>(_mapper.ConfigurationProvider);
+            var result = PagedList<ProductUnitDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
+            return Ok(result);
         }
 
         // POST api/<ProductUnitsController>

@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using AutoMapper;
-using Bogus.DataSets;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TechFix.Common.AppSetting;
+using TechFix.Common.Helper;
+using TechFix.Common.Paging;
 using TechFix.EntityModels;
 using TechFix.Services.Common;
 using TechFix.TransportModels;
+using TechFix.TransportModels.Dtos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,13 +27,26 @@ namespace TechFix.API.Controllers
         }
 
         // GET: api/<SuppliersController>
-        [HttpGet]
-        public IEnumerable<Supplier> Get()
+        //[HttpGet]
+        //public IEnumerable<Supplier> Get()
+        //{
+        //    var result = _context.Suppliers
+        //        .Where(m => !m.IsDeleted)
+        //        .ToList();
+        //    return result;
+        //}
+
+        // GET: api/<SuppliersController>
+        [HttpPost]
+        [Route("get-all")]
+        public IActionResult GetAllSuppliers(PagingParams param)
         {
-            var result = _context.Suppliers
-                .Where(m => !m.IsDeleted)
-                .ToList();
-            return result;
+            var queryable = _context.Suppliers
+                .Where(m => !m.IsDeleted);
+            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+            var projectTo = queryable.ProjectTo<SupplierDto>(_mapper.ConfigurationProvider);
+            var result = PagedList<SupplierDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
+            return Ok(result);
         }
 
         // POST api/<SuppliersController>
