@@ -19,6 +19,8 @@ using TechFix.Services.Common;
 using TechFix.TransportModels;
 using TechFix.TransportModels.Dtos;
 using TechFix.Common;
+using Microsoft.AspNetCore.Http;
+using System.Threading;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,6 +47,7 @@ namespace TechFix.API.Controllers
             return Ok(result);
         }
 
+        //Helpers
         private List<Product> GetAllProductByFilter(PagingParams param)
         {
             var queryable = _context.Products
@@ -65,6 +68,16 @@ namespace TechFix.API.Controllers
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "export-" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".xlsx");
             }
             return BadRequest();
+        }
+
+        // POST api/<ProductsController>
+        [HttpPost]
+        [Route("import")]
+        public async Task<IActionResult> ImportData(IFormFile formFile, CancellationToken cancellationToken)
+        {
+            var importResult = await ImportExcel(formFile, cancellationToken);
+            if (importResult) return Ok(importResult);
+            return BadRequest(importResult);
         }
 
         // POST api/<ProductsController>
@@ -206,6 +219,71 @@ namespace TechFix.API.Controllers
             }
             stream.Position = 0;
             return stream;
+        }
+        private async Task<bool> ImportExcel(IFormFile formFile, CancellationToken cToken)
+        {
+            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            var list = new List<Product>();
+
+            using (var stream = new MemoryStream())
+            {
+                await formFile.CopyToAsync(stream, cToken);
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    var rowCount = worksheet.Dimension.Rows;
+
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        //check if exists will not import the data
+                        var code = worksheet.Cells[row, 2].Value.ToString().Trim();
+                        bool isExists = _context.Products.FirstOrDefault(x => x.Code.Equals(code)) != null ? true : false;
+                        if (isExists) continue;
+
+                        var item = new Product
+                        {
+                            Name = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                            Code = worksheet.Cells[row, 2].Value.ToString().Trim(),
+                            Quantity = int.Parse(worksheet.Cells[row, 3].Value.ToString().Trim()),
+                            Description = worksheet.Cells[row,5].Value.ToString().Trim(),
+                            AllowNegativeSell = worksheet.Cells[row, 6].Value.ToString().Trim() == "Có" ? true : false,
+                            IsInventoryTracking = worksheet.Cells[row, 7].Value.ToString().Trim() == "Có" ? true : false,
+                            OriginalCost = int.Parse(worksheet.Cells[row, 8].Value.ToString().Trim()),
+                            SellIn = int.Parse(worksheet.Cells[row, 9].Value.ToString().Trim()),
+                            SellOut = int.Parse(worksheet.Cells[row, 10].Value.ToString().Trim())
+                        };
+
+                        //add productUnit
+                        string productUnitName = worksheet.Cells[row, 4].Value.ToString().Trim();
+                        var productUnit = _context.ProductUnits.FirstOrDefault(x => x.Name.Equals(productUnitName));
+                        if(productUnit != null) item.ProductUnitId = productUnit.Id;
+
+                        //add category
+                        string categoryName = worksheet.Cells[row, 11].Value.ToString().Trim();
+                        var category = _context.Categories.FirstOrDefault(x => x.Name.Equals(categoryName));
+                        if (category != null) item.CategoryId = category.Id;
+
+                        //add manufacturer
+                        string manufacturerName = worksheet.Cells[row, 12].Value.ToString().Trim();
+                        var manufacturer = _context.Manufacturers.FirstOrDefault(x => x.Name.Equals(manufacturerName));
+                        if (manufacturer != null) item.ManufacturerId = manufacturer.Id;
+
+                        list.Add(item);
+                    }
+                }
+                if(list.Count > 0)
+                {
+                    _context.Products.AddRange(list);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
         }
     }
     
