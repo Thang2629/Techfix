@@ -61,6 +61,11 @@ namespace TechFix.API.Controllers
         [Route("export")]
         public IActionResult ExportData(PagingParams param)
         {
+            if(param != null)
+            {
+                param.PageNumber = 1;
+                param.PageSize = int.MaxValue;
+            }
             var data = GetAllProductByFilter(param);
             if (data.Count > 0)
             {

@@ -48,6 +48,15 @@ namespace TechFix.EntityModels
             HandleList(modelBuilder);
             HandleRowVersion(modelBuilder);
 
+            //Apply auto increment sequence AS ProductCodeIncrement for Products.Code
+            modelBuilder.HasSequence<int>("ProductCodeIncrement")
+                .StartsAt(1000001)
+                .IncrementsBy(1);
+
+            modelBuilder.Entity<Product>()
+                .Property(o => o.Code)
+                .HasDefaultValueSql("'SP' + CAST( NEXT VALUE FOR ProductCodeIncrement AS nvarchar(50) ) ");
+
             //Apply seed data
             modelBuilder.Entity<Manufacturer>().HasData(
                 new Manufacturer { Id = new Guid("e32e08d8-32d0-49a4-af6d-e9a8b02fa7ae"), Name = "Pioneer" },
@@ -141,7 +150,7 @@ namespace TechFix.EntityModels
                     ManufacturerId = new Guid("3af759e8-b2e0-4b02-96b6-76c5609615f6"),
                     SupplierId = new Guid("196d3520-8ffd-49e5-b0f1-f88d4b5f1b59"),
                     ProductConditionId = new Guid("cb98afde-54ed-416c-a73c-18eef6f0983b"),
-                    Code = "SP000003",
+                    Code = "SP0000003",
                     Name = "Cáp Pisen USB Type-C 3A 1m",
                     Description = "",
                     OriginalCost = 90000,
@@ -382,5 +391,6 @@ namespace TechFix.EntityModels
         public DbSet<Store> Stores { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
     }
 }
