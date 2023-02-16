@@ -53,13 +53,13 @@ namespace TechFix.API.Controllers
 
         // POST api/<ProductUnitsController>
         [HttpPost]
-        public void Post([FromBody] string name)
+        public async Task Post([FromBody] string name)
         {
             _context.ProductUnits.Add(new ProductUnit()
             {
                 Name = name
             });
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         // PUT api/<ProductUnitsController>/5

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
@@ -56,6 +58,11 @@ namespace TechFix.EntityModels
             modelBuilder.Entity<Product>()
                 .Property(o => o.Code)
                 .HasDefaultValueSql("'SP' + CAST( NEXT VALUE FOR ProductCodeIncrement AS nvarchar(50) ) ");
+
+            //Apply auto increment sequence AS FundCodeIncrement for Funds.Code
+            modelBuilder.HasSequence<int>("FundCodeIncrement")
+                .StartsAt(1000001)
+                .IncrementsBy(1);
 
             //Apply seed data
             modelBuilder.Entity<Manufacturer>().HasData(
@@ -366,19 +373,19 @@ namespace TechFix.EntityModels
                 .HavePrecision(38, 16);
         }
 
-        public int? GetNextSequenceValue(string sequenceName)
+        public async Task<int> GetNextSequenceValue(string sequenceName)
         {
-            try
-            {
-                //todo
-                return 1;
+            await using SqlConnection connection = new(Database.GetConnectionString());
+            connection.Open();
+            await using var cmd = new SqlCommand();
+            cmd.Connection = connection;
+            cmd.CommandText = $"SELECT NEXT VALUE FOR {sequenceName}";
+            cmd.CommandType = CommandType.Text;
+            var value = cmd.ExecuteScalar();
+            connection.Close();
+            int.TryParse(value.ToString(), out var result);
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            return result;
         }
 
         public DbSet<User> Users { get; set; }

@@ -52,13 +52,13 @@ namespace TechFix.API.Controllers
 
         // POST api/<PaymentMethodsController>
         [HttpPost]
-        public void Post([FromBody] string name)
+        public async Task Post([FromBody] string name)
         {
             _context.PaymentMethods.Add(new PaymentMethod()
             {
                 Name = name
             });
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         // PUT api/<PaymentMethodsController>/5

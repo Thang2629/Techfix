@@ -59,7 +59,7 @@ namespace TechFix.API.Controllers
         // POST api/<ProductsController>
         [HttpPost]
         [Route("export")]
-        public IActionResult ExportData(PagingParams param)
+        public async Task<IActionResult> ExportData(PagingParams param)
         {
             if(param != null)
             {

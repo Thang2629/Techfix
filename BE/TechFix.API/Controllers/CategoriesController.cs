@@ -54,14 +54,14 @@ namespace TechFix.API.Controllers
 
         // POST api/<CategoriesController>
         [HttpPost]
-        public void Post([FromBody] CategoryTransport category)
+        public async Task Post([FromBody] CategoryTransport category)
         {
             _context.Categories.Add(new Category()
             {
                 Name = category.Name,
                 Path = category.Path
             });
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         // PUT api/<CategoriesController>/5

@@ -51,7 +51,7 @@ namespace TechFix.API.Controllers
 
         // POST api/<SuppliersController>
         [HttpPost]
-        public void Post([FromBody] SupplierTransport supplier)
+        public async Task Post([FromBody] SupplierTransport supplier)
         {
             _context.Suppliers.Add(new Supplier()
             {
@@ -63,7 +63,7 @@ namespace TechFix.API.Controllers
                 Note= supplier.Note,
                 //UrlImage = supplier.UrlImage
         });
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         // PUT api/<SuppliersController>/5

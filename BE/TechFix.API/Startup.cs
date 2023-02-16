@@ -170,6 +170,7 @@ namespace TechFix.API
             services.AddScoped<IMemberServices, MemberServices>();
             services.AddScoped<IAutomationServices, AutomationServices>();
             services.AddScoped<IEmailService, SendGridService>();
+            services.AddScoped<IHelperService, HelperService>();
             services.AddScoped<VlinkSequence>();
             services.AddScoped<CommonService>();
         }

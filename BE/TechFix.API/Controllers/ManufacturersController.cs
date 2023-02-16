@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using AutoMapper;
@@ -53,13 +54,13 @@ namespace TechFix.API.Controllers
 
         // POST api/<ManufacturerController>
         [HttpPost]
-        public void Post([FromBody] string name)
+        public async Task Post([FromBody] string name)
         {
             _context.Manufacturers.Add(new Manufacturer()
             {
                 Name = name
             });
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         // PUT api/<ManufacturerController>/5

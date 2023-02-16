@@ -23,63 +23,63 @@ namespace TechFix.Services.Common
 			_logger = logger;
 		}
 
-        private int GetSequence(string sequenceName, int defaultNumber)
-        {
-            var result = _context.GetNextSequenceValue(sequenceName);
+    //    private int GetSequence(string sequenceName, int defaultNumber)
+    //    {
+    //        var result = _context.GetNextSequenceValue(sequenceName);
 
-            if (result == null || result == 0)
-            {
-                result = defaultNumber;
-				var sequence = new EntityModels.VlinkSequence
-                {
-                    Value = defaultNumber,
-                    SequenceName = sequenceName
-                };
-                _context.VlinkSequence.Add(sequence);
-                _context.SaveChanges();
-            }
+    //        if (result == null || result == 0)
+    //        {
+    //            result = defaultNumber;
+				//var sequence = new EntityModels.VlinkSequence
+    //            {
+    //                Value = defaultNumber,
+    //                SequenceName = sequenceName
+    //            };
+    //            _context.VlinkSequence.Add(sequence);
+    //            _context.SaveChanges();
+    //        }
 
-            return (int) result;
-        }
+    //        return (int) result;
+    //    }
 
-        public string GetNextVlinkId()
-		{
-			var codeDate = GetCodeDate();
-			var nextVlinkId = GetSequence(SequenceName.VlinkId, 10000);
-			return $"V{codeDate}{nextVlinkId}";
-		}
+  //      public string GetNextVlinkId()
+		//{
+		//	var codeDate = GetCodeDate();
+		//	var nextVlinkId = GetSequence(SequenceName.VlinkId, 10000);
+		//	return $"V{codeDate}{nextVlinkId}";
+		//}
 
-		public int GetNextCartId()
-		{
-			return GetSequence(SequenceName.CartId, 54321);
-		}
+		//public int GetNextCartId()
+		//{
+		//	return GetSequence(SequenceName.CartId, 54321);
+		//}
 
-		public string GetNextSavingsAccountNumber()
-		{
-			var number = GetSequence(SequenceName.SavingsAccountNumber, 1000000);
-			var codeDate = GetCodeDate();
-			return $"SV_00{codeDate}{number}";
-		}
+		//public string GetNextSavingsAccountNumber()
+		//{
+		//	var number = GetSequence(SequenceName.SavingsAccountNumber, 1000000);
+		//	var codeDate = GetCodeDate();
+		//	return $"SV_00{codeDate}{number}";
+		//}
 
-		public string GetNextTransactionId()
-		{
-			var number = GetSequence($@"{SequenceName.TransactionId}", 500000);
-			var codeDate = GetCodeDate();
-			return $"{codeDate}{number}";
-		}
+		//public string GetNextTransactionId()
+		//{
+		//	var number = GetSequence($@"{SequenceName.TransactionId}", 500000);
+		//	var codeDate = GetCodeDate();
+		//	return $"{codeDate}{number}";
+		//}
 
-        public string GetCreditLendingCode()
-        {
-            var number = GetSequence($@"{SequenceName.CreditLending}", 500);
-            var codeDate = GetCodeDate();
-            return $"CL_{codeDate}{number}";
-        }
+  //      public string GetCreditLendingCode()
+  //      {
+  //          var number = GetSequence($@"{SequenceName.CreditLending}", 500);
+  //          var codeDate = GetCodeDate();
+  //          return $"CL_{codeDate}{number}";
+  //      }
 
-        public string GetEventTicketCode()
-        {
-            var number = GetSequence($@"{SequenceName.EventTicket}", 500001);
-            return $"{number}";
-        }
+  //      public string GetEventTicketCode()
+  //      {
+  //          var number = GetSequence($@"{SequenceName.EventTicket}", 500001);
+  //          return $"{number}";
+  //      }
 
         private string GetCodeDate()
 		{
