@@ -9,6 +9,7 @@
       </div>
       <div class="fc-group__right">
         <customer-create v-on:fetchData="fetch" />
+        <reuse-common-dialog></reuse-common-dialog>
       </div>
     </div>
     <div class="fc-group-on-top-v2">
@@ -58,6 +59,7 @@ import CustomerCreate from "../Actions/CustomerCreate.vue";
 import CustomerDelete from "../Actions/CustomerDelete.vue";
 import CustomerEdit from "../Actions/CustomerEdit.vue";
 import moment from "moment";
+import ReuseCommonDialog from '../Actions/ReuseCommonDialog.vue';
 
 export default {
   components: {
@@ -69,6 +71,7 @@ export default {
     SSingleSelect,
     SDateRangePicker,
     CustomerEdit,
+    ReuseCommonDialog,
   },
   props: {
     dataSource: {

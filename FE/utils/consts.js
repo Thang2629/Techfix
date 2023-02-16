@@ -1,4 +1,8 @@
 export const STATUS_DATA = {
+  test: {
+    color: "#FEB700",
+    label: "Pending",
+  },
   pending: {
     color: "#FEB700",
     label: "Pending",
