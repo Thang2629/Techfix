@@ -45,23 +45,27 @@ namespace TechFix.API.Controllers
         }
 
         // GET: api/<FundsController>
+        [HttpGet]
+        [Route("info")]
+        public async Task<CalculateTotalFundDto> GetTotalFundInfo()
+        {
+            var result = _context.Funds
+                .Where(m => !m.IsDeleted);
+            var total = await _helperService.CalculateFund(result);
+            return total;
+        }
+
+        // GET: api/<FundsController>
         [HttpPost]
         [Route("get-all")]
         public IActionResult GetAllFunds(PagingParams param)
         {
             var queryable = _context.Funds
                 .Where(m => !m.IsDeleted);
-            var total = CalculateFund(queryable);
             queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
             var projectTo = queryable.ProjectTo<FundDto>(_mapper.ConfigurationProvider);
             var result = PagedList<FundDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
-            return Ok(new
-            {
-                Data = result,
-                total.PositiveFund,
-                total.NegativeFund,
-                total.TotalFund
-            });
+            return Ok(result);
         }
 
         // POST api/<FundsController>
@@ -117,28 +121,6 @@ namespace TechFix.API.Controllers
                 fund.IsDeleted = true;
                 await _context.SaveChangesAsync();
             }
-        }
-
-        //helpers
-        private CalculateTotalFundDto CalculateFund(IQueryable<Fund> queryable)
-        {
-            CalculateTotalFundDto result = new CalculateTotalFundDto();
-            if (queryable != null)
-            {
-                foreach (var item in queryable)
-                {
-                    if (item.IsAdd)
-                    {
-                        result.PositiveFund += item.Amount;
-                    }
-                    else
-                    {
-                        result.NegativeFund += item.Amount;
-                    }
-                }
-            }
-
-            return result;
         }
     }
 }
