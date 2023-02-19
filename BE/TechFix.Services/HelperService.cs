@@ -34,6 +34,9 @@ namespace TechFix.Services
         MemoryStream GenerateExcel(List<Product> data);
         Task<bool> ImportExcel(IFormFile formFile, CancellationToken cToken);
         /** End Product **/
+        /** Income Ticket **/
+        Task<object> CalculateTotalIncome(IQueryable<IncomeTicket> queryable);
+        /** End Income Ticket **/
     }
     public class HelperService : IHelperService
     {
@@ -234,5 +237,30 @@ namespace TechFix.Services
             }
         }
         /** END PRODUCT **/
+
+        /** START INCOMETICKET **/
+        public async Task<object> CalculateTotalIncome(IQueryable<IncomeTicket> queryable)
+        {
+            decimal customerTotal = 0, otherTotal = 0, total = 0;
+            if(queryable.Count() > 0)
+            {
+                foreach(var item in queryable)
+                {
+                    var amount = item.Debt > 0 ? item.Amount - item.Debt : item.Amount;
+                    //if(item.ExportId != null)
+                    //{
+                    //    customerTotal += amount;
+                    //}
+                    //else
+                    //{
+                    //    otherTotal += amount;
+                    //}
+                }
+
+                total = customerTotal + otherTotal;
+            }
+            return new { Total = total, CustomerTotal = customerTotal, OtherTotal = otherTotal };
+        }
+        /** END INCOMETICKET **/
     }
 }

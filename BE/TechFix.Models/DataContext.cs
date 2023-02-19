@@ -400,5 +400,6 @@ namespace TechFix.EntityModels
         public DbSet<Category> Categories { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Fund> Funds { get; set; }
+        public DbSet<IncomeTicket> IncomeTickets { get; set; }
     }
 }
