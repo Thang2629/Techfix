@@ -65,70 +65,287 @@ namespace TechFix.EntityModels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("79e4da8c-0381-4a27-a046-5ed6311ea3be"),
+                            Id = new Guid("819b5ad3-cc1c-441d-8a51-b391b546df6f"),
                             IsDeleted = false,
                             Name = "LCD - Màn hình Laptop"
                         },
                         new
                         {
-                            Id = new Guid("7c8ee1a0-b305-4334-8dd5-0d5625e5ed07"),
+                            Id = new Guid("f9e007a1-d798-4b90-9f65-a82a98efdfc9"),
                             IsDeleted = false,
                             Name = "Màn hình AOC"
                         },
                         new
                         {
-                            Id = new Guid("ae8b1fd1-ff68-4bfb-b281-1b07969c0f56"),
+                            Id = new Guid("c2a19aa7-8b91-4f5b-b4c2-42f4d0db4f0a"),
                             IsDeleted = false,
                             Name = "Phần mềm diệt virus - win"
                         },
                         new
                         {
-                            Id = new Guid("fd61a005-c601-4185-8ce7-eafd72f641ec"),
+                            Id = new Guid("6237ac81-76f3-4dec-a039-febd35c6164f"),
                             IsDeleted = false,
                             Name = "VGA Laptop"
                         },
                         new
                         {
-                            Id = new Guid("f39d9ccf-d1de-4e7e-8d8b-05b0965970e2"),
+                            Id = new Guid("299efb5f-3831-4c43-850f-45a78d95041a"),
                             IsDeleted = false,
                             Name = "CPU - Vi xử lý"
                         },
                         new
                         {
-                            Id = new Guid("9b5754d1-2ff5-4ada-8958-03b7bccc0892"),
+                            Id = new Guid("55257e22-2885-450f-a340-70fea2059fdf"),
                             IsDeleted = false,
                             Name = "ASUS"
                         },
                         new
                         {
-                            Id = new Guid("25d6464e-e58a-426a-984b-ec80e488e4d2"),
+                            Id = new Guid("2ee38f31-e912-400c-865d-b25983258941"),
                             IsDeleted = false,
                             Name = "ACER"
                         },
                         new
                         {
-                            Id = new Guid("75473e28-b7b6-4cff-b5d1-f28022482821"),
+                            Id = new Guid("89d0fa4a-a2c1-43bb-bbf3-9d36929bbead"),
                             IsDeleted = false,
                             Name = "TOSHIBA"
                         },
                         new
                         {
-                            Id = new Guid("c836b825-4d03-47f0-94f1-0d364617afb3"),
+                            Id = new Guid("a018b618-a03c-4f17-bed4-ec167b077f92"),
                             IsDeleted = false,
                             Name = "SONY"
                         },
                         new
                         {
-                            Id = new Guid("2570127d-f5d3-46b4-9992-3c6e9d556ae5"),
+                            Id = new Guid("7a120e18-59c7-4d0a-8554-71019f9697cb"),
                             IsDeleted = false,
                             Name = "Macbook"
                         },
                         new
                         {
-                            Id = new Guid("d0e9142e-261a-4548-ba3b-10eb0f7c7758"),
+                            Id = new Guid("b30b2908-4cf7-4f2f-93a4-8b7df7ebe9c6"),
                             IsDeleted = false,
                             Name = "Keo tản nhiệt"
                         });
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.Customer", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Birthday")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Fullname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sex")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Team")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.ExportHistory", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ExportHistories");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.FixProduct", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Adapter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Condition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cpu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ErrorDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EstimatedReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FinishDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("FixStaffId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Hdd")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Keyboard")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lcd")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfTimes")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OrderItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Other")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Process")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Psu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Ram")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReceiptDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalMoney")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("WarrantyOrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Wifi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FixStaffId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("OrderItemId");
+
+                    b.ToTable("FixProducts");
                 });
 
             modelBuilder.Entity("TechFix.EntityModels.Fund", b =>
@@ -188,6 +405,233 @@ namespace TechFix.EntityModels.Migrations
                     b.HasIndex("StoreId");
 
                     b.ToTable("Funds");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.ImportHistory", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ImportHistories");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.IncomeTicket", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<Guid?>("CashierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Debt")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("PaymentTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SupplierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CashierId");
+
+                    b.HasIndex("StoreId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("IncomeTickets");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.InputProduct", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("AmountOwed")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<decimal>("AmountPaid")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Discount")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<DateTime>("InputDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PaymentMethodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SupplierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<decimal>("TotalGoodsMoney")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("InputProducts");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.InputProductItem", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("InputProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("OriginalPrice")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InputProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("InputProductItems");
                 });
 
             modelBuilder.Entity("TechFix.EntityModels.Manufacturer", b =>
@@ -320,6 +764,136 @@ namespace TechFix.EntityModels.Migrations
                         });
                 });
 
+            modelBuilder.Entity("TechFix.EntityModels.Order", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("AmountOwed")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<decimal>("AmountPaid")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Discount")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<decimal>("DiscountPerItem")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("PaymentMethodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SellerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<decimal>("TotalGoodsMoney")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<int>("TotalQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Vat")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("SellerId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.OrderItem", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductSerial")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("WarrantyPeriod")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("TechFix.EntityModels.PaymentMethod", b =>
                 {
                     b.Property<Guid?>("Id")
@@ -378,6 +952,16 @@ namespace TechFix.EntityModels.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Discontinue")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("FakePrice")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -402,7 +986,7 @@ namespace TechFix.EntityModels.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("OriginalCost")
+                    b.Property<decimal>("OriginalPrice")
                         .HasPrecision(38, 16)
                         .HasColumnType("decimal(38,16)");
 
@@ -418,22 +1002,15 @@ namespace TechFix.EntityModels.Migrations
                     b.Property<string>("SearchData")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("SellIn")
-                        .HasPrecision(38, 16)
-                        .HasColumnType("decimal(38,16)");
-
-                    b.Property<decimal>("SellOut")
-                        .HasPrecision(38, 16)
-                        .HasColumnType("decimal(38,16)");
-
-                    b.Property<Guid?>("StoreId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("SupplierId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Warranty")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("WebPrice")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
 
                     b.HasKey("Id");
 
@@ -445,8 +1022,6 @@ namespace TechFix.EntityModels.Migrations
 
                     b.HasIndex("ProductUnitId");
 
-                    b.HasIndex("StoreId");
-
                     b.HasIndex("SupplierId");
 
                     b.ToTable("Products");
@@ -454,123 +1029,129 @@ namespace TechFix.EntityModels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("df5a5822-8633-4ead-ab1e-3d533ce55912"),
+                            Id = new Guid("ac291998-9ae4-4c0f-9bf1-097fb86d44b4"),
                             AllowNegativeSell = true,
                             Code = "SP0000010",
                             Description = "",
+                            Discontinue = false,
+                            FakePrice = 70000m,
                             IsDeleted = false,
                             IsInventoryTracking = false,
                             ManufacturerId = new Guid("e32e08d8-32d0-49a4-af6d-e9a8b02fa7ae"),
                             MaximumNorm = 10,
                             MinimumNorm = 5,
                             Name = "Áo thun hai lỗ",
-                            OriginalCost = 50000m,
+                            OriginalPrice = 50000m,
                             ProductConditionId = new Guid("9420681a-6d03-45bb-ab59-bd1af9e3054a"),
                             Quantity = 5,
-                            SellIn = 50000m,
-                            SellOut = 70000m,
                             SupplierId = new Guid("196d3520-8ffd-49e5-b0f1-f88d4b5f1b59"),
-                            Warranty = "Bảo hành 6Th"
+                            Warranty = "Bảo hành 6Th",
+                            WebPrice = 50000m
                         },
                         new
                         {
-                            Id = new Guid("71706114-796a-4ba7-b140-9700ed5f7ac6"),
+                            Id = new Guid("99ca74bf-f5f3-4f13-8a0e-db5c0a6cf560"),
                             AllowNegativeSell = false,
                             Code = "SP0000003",
                             Description = "",
+                            Discontinue = false,
+                            FakePrice = 130000m,
                             IsDeleted = false,
                             IsInventoryTracking = true,
                             ManufacturerId = new Guid("3af759e8-b2e0-4b02-96b6-76c5609615f6"),
                             MaximumNorm = 0,
                             MinimumNorm = 0,
                             Name = "Cáp Pisen USB Type-C 3A 1m",
-                            OriginalCost = 90000m,
+                            OriginalPrice = 90000m,
                             ProductConditionId = new Guid("cb98afde-54ed-416c-a73c-18eef6f0983b"),
                             Quantity = 8,
-                            SellIn = 90000m,
-                            SellOut = 130000m,
                             SupplierId = new Guid("196d3520-8ffd-49e5-b0f1-f88d4b5f1b59"),
-                            Warranty = "06TH"
+                            Warranty = "06TH",
+                            WebPrice = 90000m
                         },
                         new
                         {
-                            Id = new Guid("63c2c008-c88b-4309-a1a0-9ac9c0991a0d"),
+                            Id = new Guid("fb0ed40f-1133-4999-9721-83351d0194bc"),
                             AllowNegativeSell = true,
                             Code = "SP0000011",
                             Description = "",
+                            Discontinue = false,
+                            FakePrice = 650000m,
                             IsDeleted = false,
                             IsInventoryTracking = false,
                             ManufacturerId = new Guid("e32e08d8-32d0-49a4-af6d-e9a8b02fa7ae"),
                             MaximumNorm = 0,
                             MinimumNorm = 0,
                             Name = "Sạc dự phòng Pisen Color Power Pro 10000mAh đỏ-đen (Dual USB 1A/2.4A Smart)",
-                            OriginalCost = 550000m,
+                            OriginalPrice = 550000m,
                             ProductConditionId = new Guid("fcdf46b9-c1d6-4664-8ea4-7a1b25ab1875"),
                             Quantity = 0,
-                            SellIn = 550000m,
-                            SellOut = 650000m,
                             SupplierId = new Guid("196d3520-8ffd-49e5-b0f1-f88d4b5f1b59"),
-                            Warranty = "12TH"
+                            Warranty = "12TH",
+                            WebPrice = 550000m
                         },
                         new
                         {
-                            Id = new Guid("4354d24c-e373-44cf-abae-21e1e7d0065f"),
+                            Id = new Guid("15684798-d38e-4fdb-994b-72cf233f3bd1"),
                             AllowNegativeSell = true,
                             Code = "SP0000022",
                             Description = "",
+                            Discontinue = false,
+                            FakePrice = 270000m,
                             IsDeleted = false,
                             IsInventoryTracking = false,
                             ManufacturerId = new Guid("70f6af9a-9725-47c5-b9e3-66aecd85e47b"),
                             MaximumNorm = 5,
                             MinimumNorm = 3,
                             Name = "Chuột Newmen F300 không dây",
-                            OriginalCost = 215000m,
+                            OriginalPrice = 215000m,
                             ProductConditionId = new Guid("fcdf46b9-c1d6-4664-8ea4-7a1b25ab1875"),
                             Quantity = 3,
-                            SellIn = 215000m,
-                            SellOut = 270000m,
                             SupplierId = new Guid("196d3520-8ffd-49e5-b0f1-f88d4b5f1b59"),
-                            Warranty = "12TH"
+                            Warranty = "12TH",
+                            WebPrice = 215000m
                         },
                         new
                         {
-                            Id = new Guid("d3180ddb-b2d4-40ef-8e33-8880c66730cf"),
+                            Id = new Guid("4aa20fe5-44fa-4139-b4c9-cf7afcfddd36"),
                             AllowNegativeSell = true,
                             Code = "SP0000032",
                             Description = "",
+                            Discontinue = false,
+                            FakePrice = 100000m,
                             IsDeleted = false,
                             IsInventoryTracking = true,
                             ManufacturerId = new Guid("e32e08d8-32d0-49a4-af6d-e9a8b02fa7ae"),
                             MaximumNorm = 5,
                             MinimumNorm = 1,
                             Name = "Caddybay mỏng 9.5mm Laptop",
-                            OriginalCost = 35000m,
+                            OriginalPrice = 35000m,
                             ProductConditionId = new Guid("fcdf46b9-c1d6-4664-8ea4-7a1b25ab1875"),
                             Quantity = 99,
-                            SellIn = 35000m,
-                            SellOut = 100000m,
                             SupplierId = new Guid("196d3520-8ffd-49e5-b0f1-f88d4b5f1b59"),
-                            Warranty = "3TH"
+                            Warranty = "3TH",
+                            WebPrice = 35000m
                         },
                         new
                         {
-                            Id = new Guid("c7191de0-805c-43c6-9d75-490e0eb11c07"),
+                            Id = new Guid("a10c7723-c74a-4517-9dda-6dd764269465"),
                             AllowNegativeSell = false,
                             Code = "SP0000041",
                             Description = "",
+                            Discontinue = false,
+                            FakePrice = 550000m,
                             IsDeleted = true,
                             IsInventoryTracking = false,
                             ManufacturerId = new Guid("e32e08d8-32d0-49a4-af6d-e9a8b02fa7ae"),
                             MaximumNorm = 0,
                             MinimumNorm = 0,
                             Name = "SSD Pioneer APS-SL3N 120GB 2.5in ( Read 520MB/s - Write 400MB/s )",
-                            OriginalCost = 440000m,
+                            OriginalPrice = 440000m,
                             ProductConditionId = new Guid("fcdf46b9-c1d6-4664-8ea4-7a1b25ab1875"),
                             Quantity = 0,
-                            SellIn = 440000m,
-                            SellOut = 550000m,
                             SupplierId = new Guid("196d3520-8ffd-49e5-b0f1-f88d4b5f1b59"),
-                            Warranty = "12TH"
+                            Warranty = "12TH",
+                            WebPrice = 440000m
                         });
                 });
 
@@ -644,6 +1225,58 @@ namespace TechFix.EntityModels.Migrations
                         });
                 });
 
+            modelBuilder.Entity("TechFix.EntityModels.ProductHistory", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActionName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SearchData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Warranty")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("ProductHistories");
+                });
+
             modelBuilder.Entity("TechFix.EntityModels.ProductUnit", b =>
                 {
                     b.Property<Guid?>("Id")
@@ -678,25 +1311,25 @@ namespace TechFix.EntityModels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9c3ff1a8-b0e3-4a86-91ed-1039a1ecaa1e"),
+                            Id = new Guid("62196677-d19f-4626-869b-59afd4ce33be"),
                             IsDeleted = false,
                             Name = "Cái"
                         },
                         new
                         {
-                            Id = new Guid("85e919af-c4e9-468a-bba6-5fc700140bf9"),
+                            Id = new Guid("f576cb6f-c553-4cc8-91b5-17d036a6431c"),
                             IsDeleted = false,
                             Name = "Bộ"
                         },
                         new
                         {
-                            Id = new Guid("99937c86-cdc2-45cb-9467-67a438ef78da"),
+                            Id = new Guid("296e3602-3d0b-4506-84d8-e6618a55f8e1"),
                             IsDeleted = false,
                             Name = "Con"
                         },
                         new
                         {
-                            Id = new Guid("fa6e9900-d978-4f19-9a78-d509e0781b2c"),
+                            Id = new Guid("7f50d72d-cf1b-4874-8c37-6387c66a6523"),
                             IsDeleted = false,
                             Name = "Cm"
                         });
@@ -742,7 +1375,7 @@ namespace TechFix.EntityModels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fbf7d35a-3df1-43ea-a781-e8e327d8cafa"),
+                            Id = new Guid("bbe4548a-ac32-4f02-bf89-3ae8d411282f"),
                             Address = "",
                             IsDeleted = false,
                             Name = "TechFix",
@@ -759,6 +1392,9 @@ namespace TechFix.EntityModels.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -766,6 +1402,9 @@ namespace TechFix.EntityModels.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("InDebt")
@@ -788,6 +1427,9 @@ namespace TechFix.EntityModels.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SearchData")
@@ -833,7 +1475,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3a740ebc-e78c-4a99-88b6-77e11dcfd6b7"),
+                            Id = new Guid("248d6baf-bf23-4f19-9f58-7cb82f650f92"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -844,7 +1486,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("617fc52b-6b55-4ff7-84e4-002634392f08"),
+                            Id = new Guid("51f4d540-fbd1-43e1-a261-add27f746319"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -855,7 +1497,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("90f63998-d125-432c-9c2c-dbbfe9f1d486"),
+                            Id = new Guid("dd2e9146-ded2-4faa-a7ac-60c3191020b6"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -866,7 +1508,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8a72d084-b426-4f64-a653-1705fd2337c4"),
+                            Id = new Guid("377e531c-cbe8-42ec-a6ee-00adf0849224"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -877,7 +1519,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1eb887c6-aac9-4ff5-92a2-209432a5423f"),
+                            Id = new Guid("695f0fca-eb4f-415e-90f8-ef1bce52d642"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -888,7 +1530,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b6a6b405-9fd6-4dd3-b1ca-abcbd9e0460b"),
+                            Id = new Guid("7e777353-5941-47a2-b25f-3be4c167ec55"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -899,7 +1541,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f1ac5570-29d0-40bc-ac24-82264e0356fb"),
+                            Id = new Guid("f11dca19-5d8f-49e8-83e6-6b0aae1cf459"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -910,7 +1552,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4d0cb837-4c9b-4441-8f49-9de41bc3780a"),
+                            Id = new Guid("c3b7a321-e2c6-4876-8ae5-64bb4d66af11"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -921,7 +1563,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7947281e-4011-415f-9342-464caa1808f2"),
+                            Id = new Guid("169960de-7eec-4915-bf68-d4c4920de1df"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1055,6 +1697,34 @@ namespace TechFix.EntityModels.Migrations
                     b.ToTable("VlinkSequence");
                 });
 
+            modelBuilder.Entity("TechFix.EntityModels.ExportHistory", b =>
+                {
+                    b.HasOne("TechFix.EntityModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.FixProduct", b =>
+                {
+                    b.HasOne("TechFix.EntityModels.User", "FixStaff")
+                        .WithMany()
+                        .HasForeignKey("FixStaffId");
+
+                    b.HasOne("TechFix.EntityModels.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("TechFix.EntityModels.OrderItem", null)
+                        .WithMany("RepairProducts")
+                        .HasForeignKey("OrderItemId");
+
+                    b.Navigation("FixStaff");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("TechFix.EntityModels.Fund", b =>
                 {
                     b.HasOne("TechFix.EntityModels.Store", "Store")
@@ -1062,6 +1732,108 @@ namespace TechFix.EntityModels.Migrations
                         .HasForeignKey("StoreId");
 
                     b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.ImportHistory", b =>
+                {
+                    b.HasOne("TechFix.EntityModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.IncomeTicket", b =>
+                {
+                    b.HasOne("TechFix.EntityModels.User", "Cashier")
+                        .WithMany()
+                        .HasForeignKey("CashierId");
+
+                    b.HasOne("TechFix.EntityModels.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId");
+
+                    b.HasOne("TechFix.EntityModels.Supplier", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId");
+
+                    b.Navigation("Cashier");
+
+                    b.Navigation("Store");
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.InputProduct", b =>
+                {
+                    b.HasOne("TechFix.EntityModels.PaymentMethod", "PaymentMethod")
+                        .WithMany()
+                        .HasForeignKey("PaymentMethodId");
+
+                    b.HasOne("TechFix.EntityModels.Supplier", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId");
+
+                    b.HasOne("TechFix.EntityModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("PaymentMethod");
+
+                    b.Navigation("Supplier");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.InputProductItem", b =>
+                {
+                    b.HasOne("TechFix.EntityModels.InputProduct", "InputProduct")
+                        .WithMany("InputProductItems")
+                        .HasForeignKey("InputProductId");
+
+                    b.HasOne("TechFix.EntityModels.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("InputProduct");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.Order", b =>
+                {
+                    b.HasOne("TechFix.EntityModels.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("TechFix.EntityModels.PaymentMethod", "PaymentMethod")
+                        .WithMany()
+                        .HasForeignKey("PaymentMethodId");
+
+                    b.HasOne("TechFix.EntityModels.User", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("PaymentMethod");
+
+                    b.Navigation("Seller");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.OrderItem", b =>
+                {
+                    b.HasOne("TechFix.EntityModels.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("TechFix.EntityModels.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("TechFix.EntityModels.Product", b =>
@@ -1082,10 +1854,6 @@ namespace TechFix.EntityModels.Migrations
                         .WithMany()
                         .HasForeignKey("ProductUnitId");
 
-                    b.HasOne("TechFix.EntityModels.Store", "Store")
-                        .WithMany()
-                        .HasForeignKey("StoreId");
-
                     b.HasOne("TechFix.EntityModels.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId");
@@ -1098,9 +1866,28 @@ namespace TechFix.EntityModels.Migrations
 
                     b.Navigation("ProductUnit");
 
-                    b.Navigation("Store");
-
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.ProductHistory", b =>
+                {
+                    b.HasOne("TechFix.EntityModels.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.InputProduct", b =>
+                {
+                    b.Navigation("InputProductItems");
+                });
+
+            modelBuilder.Entity("TechFix.EntityModels.OrderItem", b =>
+                {
+                    b.Navigation("RepairProducts");
                 });
 #pragma warning restore 612, 618
         }

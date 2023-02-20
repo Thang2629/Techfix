@@ -4,18 +4,8 @@ namespace TechFix.EntityModels
 {
     public class Product : BaseModel
     {
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public int Quantity { get; set; }
-        public int MinimumNorm { get; set; }
-        public int MaximumNorm { get; set; }
-        public decimal OriginalCost { get; set; }
-        public decimal SellIn { get; set; }
-        public decimal SellOut { get; set; }
-        public string Warranty { get; set; }
-        public string Description { get; set; }
-        public bool IsInventoryTracking { get; set; }
-        public bool AllowNegativeSell { get; set; }
+        #region FK
+
         public Manufacturer Manufacturer { get; set; }
         public Guid? ManufacturerId { get; set; }
 
@@ -31,7 +21,29 @@ namespace TechFix.EntityModels
         public ProductUnit ProductUnit { get; set; }
         public Guid? ProductUnitId { get; set; }
 
-        public Store Store { get; set; }
-        public Guid? StoreId { get; set; }
+        #endregion
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public int Quantity { get; set; }
+        public int MinimumNorm { get; set; }
+        public int MaximumNorm { get; set; }
+        /// <summary>
+        /// Giá Nhập : Giá nhập hàng vào
+        /// </summary>
+        public decimal OriginalPrice { get; set; }
+        /// <summary>
+        /// Giá Web  : Giá bán ra
+        /// </summary>
+        public decimal WebPrice { get; set; }
+        /// <summary>
+        /// Giá Vốn  : Giá hàng Fake chỉ show chụp hình cho user xem chơi
+        /// </summary>
+        public decimal FakePrice { get; set; }
+        public string Warranty { get; set; }
+        public string Description { get; set; }
+        public bool IsInventoryTracking { get; set; }
+        public bool AllowNegativeSell { get; set; }
+        public bool Discontinue { get; set; }
+        public string ImagePath { get; set; }
     }
 }

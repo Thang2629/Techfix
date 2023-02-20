@@ -152,9 +152,9 @@ namespace TechFix.Services
                     worksheet.Cells[row, 5].Value = product.Description;
                     worksheet.Cells[row, 6].Value = product.AllowNegativeSell ? "Có" : "Không";
                     worksheet.Cells[row, 7].Value = product.IsInventoryTracking ? "Có" : "Không";
-                    worksheet.Cells[row, 8].Value = product.OriginalCost.Round(0);
-                    worksheet.Cells[row, 9].Value = product.SellIn.Round(0);
-                    worksheet.Cells[row, 10].Value = product.SellOut.Round(0);
+                    worksheet.Cells[row, 8].Value = product.OriginalPrice.Round(0);
+                    worksheet.Cells[row, 9].Value = product.WebPrice.Round(0);
+                    worksheet.Cells[row, 10].Value = product.FakePrice.Round(0);
                     worksheet.Cells[row, 11].Value = _context.Categories.FirstOrDefault(x => x.Id == product.CategoryId)?.Name;
                     worksheet.Cells[row, 12].Value = _context.Manufacturers.FirstOrDefault(x => x.Id == product.ManufacturerId)?.Name;
                     row++;
@@ -204,9 +204,9 @@ namespace TechFix.Services
                             Description = worksheet.Cells[row, 5].Value.ToString().Trim(),
                             AllowNegativeSell = worksheet.Cells[row, 6].Value.ToString().Trim() == "Có" ? true : false,
                             IsInventoryTracking = worksheet.Cells[row, 7].Value.ToString().Trim() == "Có" ? true : false,
-                            OriginalCost = int.Parse(worksheet.Cells[row, 8].Value.ToString().Trim()),
-                            SellIn = int.Parse(worksheet.Cells[row, 9].Value.ToString().Trim()),
-                            SellOut = int.Parse(worksheet.Cells[row, 10].Value.ToString().Trim())
+                            OriginalPrice = int.Parse(worksheet.Cells[row, 8].Value.ToString().Trim()),
+                            WebPrice = int.Parse(worksheet.Cells[row, 9].Value.ToString().Trim()),
+                            FakePrice = int.Parse(worksheet.Cells[row, 10].Value.ToString().Trim())
                         };
 
                         //add productUnit

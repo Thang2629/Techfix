@@ -140,13 +140,13 @@ namespace TechFix.EntityModels
                     Code = "SP0000010",
                     Name = "Áo thun hai lỗ",
                     Description = "",
-                    OriginalCost = 50000,
+                    OriginalPrice = 50000,
                     Quantity = 5,
                     Warranty = "Bảo hành 6Th",
                     MinimumNorm = 5,
                     MaximumNorm = 10,
-                    SellIn = 50000,
-                    SellOut = 70000,
+                    WebPrice = 50000,
+                    FakePrice = 70000,
                     AllowNegativeSell = true,
                     IsInventoryTracking = false,
                     IsDeleted = false 
@@ -160,9 +160,9 @@ namespace TechFix.EntityModels
                     Code = "SP0000003",
                     Name = "Cáp Pisen USB Type-C 3A 1m",
                     Description = "",
-                    OriginalCost = 90000,
-                    SellIn = 90000,
-                    SellOut = 130000,
+                    OriginalPrice = 90000,
+                    WebPrice = 90000,
+                    FakePrice = 130000,
                     Quantity = 8,
                     Warranty = "06TH",
                     MinimumNorm = 0,
@@ -180,9 +180,9 @@ namespace TechFix.EntityModels
                     Code = "SP0000011",
                     Name = "Sạc dự phòng Pisen Color Power Pro 10000mAh đỏ-đen (Dual USB 1A/2.4A Smart)",
                     Description = "",
-                    OriginalCost = 550000,
-                    SellIn = 550000,
-                    SellOut = 650000,
+                    OriginalPrice = 550000,
+                    WebPrice = 550000,
+                    FakePrice = 650000,
                     Quantity = 0,
                     Warranty = "12TH",
                     MinimumNorm = 0,
@@ -200,9 +200,9 @@ namespace TechFix.EntityModels
                     Code = "SP0000022",
                     Name = "Chuột Newmen F300 không dây",
                     Description = "",
-                    OriginalCost = 215000,
-                    SellIn = 215000,
-                    SellOut = 270000,
+                    OriginalPrice = 215000,
+                    WebPrice = 215000,
+                    FakePrice = 270000,
                     Quantity = 3,
                     Warranty = "12TH",
                     MinimumNorm = 3,
@@ -220,9 +220,9 @@ namespace TechFix.EntityModels
                     Code = "SP0000032",
                     Name = "Caddybay mỏng 9.5mm Laptop",
                     Description = "",
-                    OriginalCost = 35000,
-                    SellIn = 35000,
-                    SellOut = 100000,
+                    OriginalPrice = 35000,
+                    WebPrice = 35000,
+                    FakePrice = 100000,
                     Quantity = 99,
                     Warranty = "3TH",
                     MinimumNorm = 1,
@@ -240,9 +240,9 @@ namespace TechFix.EntityModels
                     Code = "SP0000041",
                     Name = "SSD Pioneer APS-SL3N 120GB 2.5in ( Read 520MB/s - Write 400MB/s )",
                     Description = "",
-                    OriginalCost = 440000,
-                    SellIn = 440000,
-                    SellOut = 550000,
+                    OriginalPrice = 440000,
+                    WebPrice = 440000,
+                    FakePrice = 550000,
                     Quantity = 0,
                     Warranty = "12TH",
                     MinimumNorm = 0,
@@ -401,5 +401,15 @@ namespace TechFix.EntityModels
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Fund> Funds { get; set; }
         public DbSet<IncomeTicket> IncomeTickets { get; set; }
+        public DbSet<InputProduct> InputProducts { get; set; }
+        public DbSet<InputProductItem> InputProductItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<FixProduct> FixProducts { get; set; }
+        public DbSet<ExportHistory> ExportHistories { get; set; }
+        public DbSet<ImportHistory> ImportHistories { get; set; }
+        public DbSet<ProductHistory> ProductHistories { get; set; }
+
     }
 }

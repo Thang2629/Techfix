@@ -17,7 +17,7 @@ namespace TechFix.API.Controllers
 	[Route("/api/auth")]
     public class AuthController : CustomController
 	{
-		private IAuthService _authService;
+        private IAuthService _authService;
 
         public AuthController(
 			IAuthService services, 
@@ -28,6 +28,7 @@ namespace TechFix.API.Controllers
 			CommonService commonService) : base(mapper, appSettings, context, env, commonService)
 		{
 			_authService = services;
+            var fixProduct = new FixProduct();
         }
 
 

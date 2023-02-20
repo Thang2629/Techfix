@@ -9,5 +9,8 @@ namespace TechFix.EntityModels
         public string Email { get; set; }
         public decimal InDebt { get; set; }
         public string Note { get; set; }
+        public string Code { get; set; }
+        public string PhoneNumber { get; set; }
+        public string ImagePath { get; set; }
     }
 }
