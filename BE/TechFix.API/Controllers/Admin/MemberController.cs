@@ -21,7 +21,7 @@ namespace TechFix.API.Controllers.Admin
 {
 	[Route("members")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize(Roles = UserRole.Admin)]
 	public class MemberController : CustomController
 	{
 		private readonly IAuthService _authService;
