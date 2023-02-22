@@ -1,0 +1,33 @@
+@import "~antd/lib/style/themes/default.less";
+
+.tabs-section {
+
+  .ant-tabs-nav-list {
+    .anticon {
+      margin-right: 4px;
+    }
+    .ant-tabs-tab {
+      background: rgba(140, 140, 140, 0.8);
+      font-weight: bold;
+      &.ant-tabs-tab-active {
+        background: #008bb0;
+      }
+      &:last-child {
+        border-radius: 8px 0px 0px 0px;
+      }
+      &:first-child {
+        border-radius: 8px 0px 0px 0px;
+      }
+    }
+    .ant-tabs-tab-btn {
+      color: #fff;
+    }
+  }
+  .ant-tabs-content-holder {
+    padding: 8px;
+    border: 1px solid #dedede;
+  }
+  .ant-tabs-nav {
+    margin-bottom: 12px;
+  }
+}
