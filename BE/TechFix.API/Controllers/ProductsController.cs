@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -9,8 +7,6 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using OfficeOpenXml.Style;
-using OfficeOpenXml;
 using TechFix.Common.AppSetting;
 using TechFix.Common.Helper;
 using TechFix.Common.Paging;
@@ -18,9 +14,9 @@ using TechFix.EntityModels;
 using TechFix.Services.Common;
 using TechFix.TransportModels;
 using TechFix.TransportModels.Dtos;
-using TechFix.Common;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 using TechFix.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -43,9 +39,18 @@ namespace TechFix.API.Controllers
         public IActionResult GetAllProducts(PagingParams param)
         {
             var queryable = _context.Products
+                .Include(p => p.Manufacturer)
+                .Include(p => p.Supplier)
+                .Include(p => p.Category)
                 .Where(m => !m.IsDeleted);
             queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
-            var projectTo = queryable.ProjectTo<ProductDto>(_mapper.ConfigurationProvider);
+            var mapConfig = new MapperConfiguration(
+                cfg => cfg.CreateMap<Product, ProductDto>()
+                    .ForMember(dest => dest.ManufacturerName, opt => opt.MapFrom(src => src.Manufacturer.Name))
+                    .ForMember(dest => dest.SupplierName, opt => opt.MapFrom(src => src.Supplier.Name))
+                    .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+            );
+            var projectTo = queryable.ProjectTo<ProductDto>(mapConfig);
             var result = PagedList<ProductDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
             return Ok(result);
         }
@@ -118,31 +123,42 @@ namespace TechFix.API.Controllers
 
         // POST api/<ProductsController>
         [HttpPost]
-        public async Task Post([FromBody] ProductTransport product)
+        public async Task Post([FromBody] ProductTransport transport)
         {
-            _context.Products.Add(new Product()
+            try
             {
-                Name = product.Name,
-                Code = product.Code,
-                MinimumNorm = product.MinimumNorm,
-                MaximumNorm = product.MaximumNorm,
-                Quantity = product.Quantity,
-                OriginalPrice = product.OriginalCost,
-                WebPrice = product.SellIn,
-                FakePrice = product.SellOut,
-                Description = product.Description,
-                AllowNegativeSell = product.AllowNegativeSell,
-                Warranty = product.Warranty,
-                IsDeleted = product.IsDeleted,
-                CategoryId = product.CategoryId,
-                ProductUnitId = product.ProductUnitId,
-                ProductConditionId = product.ProductConditionId,
-                ManufacturerId = product.ManufacturerId,
-                SupplierId = product.SupplierId,
-                IsInventoryTracking = product.IsInventoryTracking
-            });
-            await _context.SaveChangesAsync();
+                _context.Products.Add(new Product()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = transport.Name,
+                    Code = transport.Code,
+                    MinimumNorm = transport.MinimumNorm,
+                    MaximumNorm = transport.MaximumNorm,
+                    Quantity = transport.Quantity,
+                    OriginalPrice = transport.OriginalPrice,
+                    WebPrice = transport.WebPrice,
+                    FakePrice = transport.FakePrice,
+                    Description = transport.Description,
+                    AllowNegativeSell = transport.AllowNegativeSell,
+                    Warranty = transport.Warranty,
+                    CategoryId = transport.CategoryId,
+                    ProductUnitId = transport.ProductUnitId,
+                    ProductConditionId = transport.ProductConditionId,
+                    ManufacturerId = transport.ManufacturerId,
+                    SupplierId = transport.SupplierId,
+                    IsInventoryTracking = transport.IsInventoryTracking,
+                    Discontinue = transport.Discontinue,
+                    ImagePath = transport.ImagePath,
+                });
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
         }
+
 
         // PUT api/<ProductsController>/5
         [HttpPut("{id}")]
@@ -156,9 +172,9 @@ namespace TechFix.API.Controllers
                 model.MinimumNorm = product.MinimumNorm;
                 model.MaximumNorm = product.MaximumNorm;
                 model.Quantity = product.Quantity;
-                model.OriginalPrice = product.OriginalCost;
-                model.WebPrice = product.SellIn;
-                model.FakePrice = product.SellOut;
+                model.OriginalPrice = product.OriginalPrice;
+                model.WebPrice = product.WebPrice;
+                model.FakePrice = product.FakePrice;
                 model.Description = product.Description;
                 model.AllowNegativeSell = product.AllowNegativeSell;
                 model.Warranty = product.Warranty;
@@ -169,6 +185,8 @@ namespace TechFix.API.Controllers
                 model.ManufacturerId = product.ManufacturerId;
                 model.SupplierId = product.SupplierId;
                 model.IsInventoryTracking = product.IsInventoryTracking;
+                model.Discontinue = product.Discontinue;
+                model.ImagePath = product.ImagePath;
 
                 await _context.SaveChangesAsync();
             }

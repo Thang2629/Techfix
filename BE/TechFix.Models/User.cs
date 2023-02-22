@@ -19,10 +19,8 @@ namespace TechFix.EntityModels
         public Guid StoreId { get; set; }
         public UserStatus Status { get; set; }
 
-        [DataColumn(IgnoreSearch = true)]
         public string PasswordHash { get; set; }
 
-        [DataColumn(IgnoreSearch = true)]
         public string PasswordSalt { get; set; }
     }
 }

@@ -32,7 +32,9 @@ using TechFix.TransportModels.Cache;
 using VlinkSequence = TechFix.Services.Common.VlinkSequence;
 using TechFix.Services.EmailServices;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 namespace TechFix.API
 {
@@ -260,12 +262,12 @@ namespace TechFix.API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //Directory.CreateDirectory(appSettings.Value.ImagePath);
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(appSettings.Value.ImagePath),
-            //    RequestPath = new PathString("/Resources")
-            //});
+            Directory.CreateDirectory(appSettings.Value.ImagePath);
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(appSettings.Value.ImagePath),
+                RequestPath = new PathString("/Resources")
+            });
             app.UseSerilogRequestLogging();
 
             app.UseRouting();

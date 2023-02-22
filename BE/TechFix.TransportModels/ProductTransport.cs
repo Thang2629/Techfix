@@ -20,11 +20,11 @@ namespace TechFix.TransportModels
 
         public int MaximumNorm { get; set; }
 
-        public decimal OriginalCost { get; set; }  
+        public decimal OriginalPrice { get; set; }  
 
-        public decimal SellIn { get; set; }
+        public decimal WebPrice { get; set; }
 
-        public decimal SellOut { get; set;}
+        public decimal FakePrice { get; set;}
 
         [MaxLength(100)]
         public string Warranty { get; set; }
@@ -47,5 +47,7 @@ namespace TechFix.TransportModels
         public Guid? ProductConditionId { get; set; }
 
         public Guid? ProductUnitId { get; set; }
+        public bool Discontinue { get; set; }
+        public string ImagePath { get; set; }
     }
 }

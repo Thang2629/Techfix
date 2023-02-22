@@ -335,11 +335,10 @@ namespace TechFix.EntityModels
             if (customAttribute != null)
             {
                 var dataColumnInfo = (DataColumnAttribute) customAttribute;
-                if (dataColumnInfo.IgnoreSearch)
-                    return true;
+                return !dataColumnInfo.AllowSearch;
             }
 
-            return false;
+            return true;
 		}
 
 		private static object GetCustomAttribute(Type entityType, Type attributeType, bool inherit = false)

@@ -1,7 +1,9 @@
 ﻿using System;
+using TechFix.EntityModels.Handle;
 
 namespace TechFix.EntityModels
 {
+    [EntityClass(FullTextSearch = true)]
     public class Product : BaseModel
     {
         #region FK
@@ -22,8 +24,12 @@ namespace TechFix.EntityModels
         public Guid? ProductUnitId { get; set; }
 
         #endregion
+        [DataColumn(AllowSearch = true)]
         public string Code { get; set; }
+
+        [DataColumn(AllowSearch = true)]
         public string Name { get; set; }
+
         public int Quantity { get; set; }
         public int MinimumNorm { get; set; }
         public int MaximumNorm { get; set; }

@@ -20,5 +20,8 @@ namespace TechFix.TransportModels.Dtos
         public string Description { get; set; }
         public bool IsInventoryTracking { get; set; }
         public bool AllowNegativeSell { get; set; }
+        public string ManufacturerName { get; set; }
+        public string SupplierName { get; set; }
+        public string CategoryName { get; set; }
     }
 }
