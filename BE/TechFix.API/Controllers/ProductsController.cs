@@ -42,7 +42,7 @@ namespace TechFix.API.Controllers
                 .Include(p => p.Manufacturer)
                 .Include(p => p.Supplier)
                 .Include(p => p.Category)
-                .Where(m => !m.IsDeleted);
+                .AsNoTracking();
             queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
             var mapConfig = new MapperConfiguration(
                 cfg => cfg.CreateMap<Product, ProductDto>()
