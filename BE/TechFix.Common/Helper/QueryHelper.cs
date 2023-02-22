@@ -54,7 +54,15 @@ namespace TechFix.Common.Helper
                 }
                 else
                 {
-                    constant = Expression.Constant(value, left.Type); ;
+                    if (left.Type == typeof(bool) || left.Type == typeof(bool?))
+                    {
+                        var boolValue = bool.Parse(value.ToString());
+                        constant = Expression.Constant(boolValue, left.Type);
+                    }
+                    else
+                    {
+                        constant = Expression.Constant(value, left.Type); ;
+                    }
                 }
             }
 
