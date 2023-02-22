@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechFix.EntityModels;
 
@@ -11,9 +12,10 @@ using TechFix.EntityModels;
 namespace TechFix.EntityModels.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230222023631_AddTemplateTable")]
+    partial class AddTemplateTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,67 +67,67 @@ namespace TechFix.EntityModels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9c8fc9f7-25a6-44b2-82fc-e303184449ec"),
+                            Id = new Guid("6050e331-c664-4945-8d16-99b82fdef9f5"),
                             IsDeleted = false,
                             Name = "LCD - Màn hình Laptop"
                         },
                         new
                         {
-                            Id = new Guid("743f02c1-eb00-4f9f-aaa3-b10385c8ae58"),
+                            Id = new Guid("4b59ec63-82a0-4390-94c5-25479b440b3f"),
                             IsDeleted = false,
                             Name = "Màn hình AOC"
                         },
                         new
                         {
-                            Id = new Guid("ce403e65-ef53-4a2e-8515-06de75436b9e"),
+                            Id = new Guid("ac8061fd-c242-451c-811d-fb206afb491d"),
                             IsDeleted = false,
                             Name = "Phần mềm diệt virus - win"
                         },
                         new
                         {
-                            Id = new Guid("7aff1aba-1ca0-42ff-8627-0aa7c2d039af"),
+                            Id = new Guid("d10d0578-b70e-41ae-b86d-74b1e8d2ceec"),
                             IsDeleted = false,
                             Name = "VGA Laptop"
                         },
                         new
                         {
-                            Id = new Guid("74d78077-f391-4762-95eb-b29699db7af9"),
+                            Id = new Guid("3b369e55-89cf-41aa-9a94-a4acacc76412"),
                             IsDeleted = false,
                             Name = "CPU - Vi xử lý"
                         },
                         new
                         {
-                            Id = new Guid("04e05d4d-a304-4106-91a4-dededd677cd9"),
+                            Id = new Guid("29ca7ada-4598-440a-866a-d6553fa518de"),
                             IsDeleted = false,
                             Name = "ASUS"
                         },
                         new
                         {
-                            Id = new Guid("4865a6c6-a56d-4f8e-9961-b062af262426"),
+                            Id = new Guid("525af889-ec09-4bad-8bd7-caf38c62066a"),
                             IsDeleted = false,
                             Name = "ACER"
                         },
                         new
                         {
-                            Id = new Guid("e9cf44cb-0410-4470-8f5f-62d0265a4b91"),
+                            Id = new Guid("213f9620-0eb8-4079-ad68-50a0c3d8e0c3"),
                             IsDeleted = false,
                             Name = "TOSHIBA"
                         },
                         new
                         {
-                            Id = new Guid("586a934a-a843-4730-aa38-7ad8486959ea"),
+                            Id = new Guid("cd4d2514-e62b-4ac6-a23c-8c831abf1ab6"),
                             IsDeleted = false,
                             Name = "SONY"
                         },
                         new
                         {
-                            Id = new Guid("7a62c105-e475-4113-a176-b0e283581e12"),
+                            Id = new Guid("739d4145-2161-401e-9b5a-4b2f5692dec5"),
                             IsDeleted = false,
                             Name = "Macbook"
                         },
                         new
                         {
-                            Id = new Guid("f7b5685e-acca-435f-9681-2175c0054d77"),
+                            Id = new Guid("d8e36610-5b67-44f4-8dbb-3a141bc60c63"),
                             IsDeleted = false,
                             Name = "Keo tản nhiệt"
                         });
@@ -1029,7 +1031,7 @@ namespace TechFix.EntityModels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("342798ba-e601-498b-ac36-963df8173c3e"),
+                            Id = new Guid("6200100e-a62b-43b0-b264-9d034a0e5f3e"),
                             AllowNegativeSell = true,
                             Code = "SP0000010",
                             Description = "",
@@ -1050,7 +1052,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b328ddfd-516d-49a3-9fd4-8e0d6354d069"),
+                            Id = new Guid("32446e56-85d1-4295-b291-7ee2d5d39250"),
                             AllowNegativeSell = false,
                             Code = "SP0000003",
                             Description = "",
@@ -1071,7 +1073,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("29f334ee-2f62-483c-b882-804b5a356dc6"),
+                            Id = new Guid("1b5f593e-77c1-4951-bfcb-74ce7479b9ea"),
                             AllowNegativeSell = true,
                             Code = "SP0000011",
                             Description = "",
@@ -1092,7 +1094,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e4f6c2a6-1510-49c6-834d-22b8f518a41e"),
+                            Id = new Guid("9fddec5a-0cfb-4230-8735-8092815f8a4a"),
                             AllowNegativeSell = true,
                             Code = "SP0000022",
                             Description = "",
@@ -1113,7 +1115,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e64c481d-a4fa-45ca-902c-f18fb6f37681"),
+                            Id = new Guid("130ed7f2-66d4-4989-a168-116245f42de4"),
                             AllowNegativeSell = true,
                             Code = "SP0000032",
                             Description = "",
@@ -1134,7 +1136,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5624153b-9302-4246-b42f-29bd6a06ec46"),
+                            Id = new Guid("43b5ee3e-302a-429a-bea9-8ddc8fe2846f"),
                             AllowNegativeSell = false,
                             Code = "SP0000041",
                             Description = "",
@@ -1311,25 +1313,25 @@ namespace TechFix.EntityModels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7035167e-2ec1-46cb-a346-9f6a20eac535"),
+                            Id = new Guid("2d100dea-4cae-446c-ba26-ad9561ce3927"),
                             IsDeleted = false,
                             Name = "Cái"
                         },
                         new
                         {
-                            Id = new Guid("eb4a1712-88ac-4694-8941-5e7305bbc4b1"),
+                            Id = new Guid("9ac147ed-0045-4cc3-83e6-5a9fd400fa7c"),
                             IsDeleted = false,
                             Name = "Bộ"
                         },
                         new
                         {
-                            Id = new Guid("0a30fca8-bc21-407e-9264-8ea2e5f41575"),
+                            Id = new Guid("ed8b2466-f4b2-4fb0-8073-352cba25c8db"),
                             IsDeleted = false,
                             Name = "Con"
                         },
                         new
                         {
-                            Id = new Guid("92c5a297-4635-46ad-8c9e-b5f28fd44e75"),
+                            Id = new Guid("b8b5843c-90d7-4f6f-a233-7d1774fe354a"),
                             IsDeleted = false,
                             Name = "Cm"
                         });
@@ -1375,7 +1377,7 @@ namespace TechFix.EntityModels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ea9f5a2d-4d11-45bc-8ec4-ea7b7cd9334b"),
+                            Id = new Guid("c8f0adef-ece9-40a9-91e6-4dd1d7fce993"),
                             Address = "",
                             IsDeleted = false,
                             Name = "TechFix",
@@ -1475,7 +1477,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e358f54b-bbba-473b-93f4-8308331a3c7d"),
+                            Id = new Guid("b52378ba-1c1d-4091-b273-18f94f09b0e6"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1486,7 +1488,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("673aad6d-4b27-4760-95b5-7b1c6cf553bd"),
+                            Id = new Guid("20af17bc-11ef-4ac4-8b5c-52e9dce47029"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1497,7 +1499,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("02f2f867-eab4-4711-8190-ed5e5f0601cf"),
+                            Id = new Guid("9dc6398b-9e0e-4ee2-abde-4d6c9a0e051b"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1508,7 +1510,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fe0ac497-c6b3-41a4-9242-acb95d075a17"),
+                            Id = new Guid("deae1070-6356-40c0-a8f1-02548905d317"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1519,7 +1521,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f6c5bbd4-701c-43f9-a4fb-df6c887ad0b9"),
+                            Id = new Guid("16d237c8-51e0-48d7-94c7-2bbca61cab7d"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1530,7 +1532,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a9324c9b-545c-4de3-b4c6-990721e2a130"),
+                            Id = new Guid("27e99853-12be-448a-b633-bc5df6eb6d44"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1541,7 +1543,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("51e57f1b-ed47-4fe9-9cdb-3866b0ca4fbb"),
+                            Id = new Guid("6b3a3388-5906-45b7-8cea-88079cdaad8f"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1552,7 +1554,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("36dcab9b-b6ac-45e3-bd70-0d4dd5cc0973"),
+                            Id = new Guid("66eec384-a26b-4fd0-9e40-88ab98cb953c"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1563,7 +1565,7 @@ namespace TechFix.EntityModels.Migrations
                         },
                         new
                         {
-                            Id = new Guid("03acff81-9ddd-4cb7-8d7b-de0fc9e51c9e"),
+                            Id = new Guid("225605ca-8ca5-4be5-9ba2-4c50f69b435a"),
                             Address = "",
                             Email = "",
                             InDebt = 0m,
@@ -1605,9 +1607,6 @@ namespace TechFix.EntityModels.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Path")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SearchData")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

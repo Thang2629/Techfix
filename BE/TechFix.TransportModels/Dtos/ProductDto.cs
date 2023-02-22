@@ -1,10 +1,13 @@
-﻿using TechFix.Common.Interfaces;
+﻿using Newtonsoft.Json;
+using System;
+using TechFix.Common.Interfaces;
 using TechFix.EntityModels;
 
 namespace TechFix.TransportModels.Dtos
 {
     public class ProductDto : IMapFrom<Product>
     {
+        public Guid Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }

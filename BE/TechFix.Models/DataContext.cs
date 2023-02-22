@@ -410,6 +410,7 @@ namespace TechFix.EntityModels
         public DbSet<ExportHistory> ExportHistories { get; set; }
         public DbSet<ImportHistory> ImportHistories { get; set; }
         public DbSet<ProductHistory> ProductHistories { get; set; }
+        public DbSet<Template> Templates { get; set; }
 
     }
 }

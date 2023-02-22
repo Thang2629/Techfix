@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using OfficeOpenXml;
@@ -25,6 +26,8 @@ namespace TechFix.Services
 {
     public interface IHelperService
     {
+        Task<bool> Upload(IFormFile file, string path, string oldFileName = "");
+        string GetExcelValueByColumnName(ExcelWorksheet ws, string columnName, int rowNumber);
         /** Fund **/
         Task<string> GetFundCode(bool isAdd);
         Task<CalculateTotalFundDto> CalculateFund(IQueryable<Fund> queryable);
@@ -65,6 +68,41 @@ namespace TechFix.Services
             _distributedCache = distributedCache;
             _env = env;
         }
+        /** COMMON **/
+        public string GetExcelValueByColumnName(ExcelWorksheet ws, string columnName, int rowNumber)
+        {
+            if (ws == null) throw new ArgumentNullException(nameof(ws));
+            var column = ws.Cells["1:1"].FirstOrDefault(c => c.Value.ToString() == columnName);
+            if (column == null) throw new ArgumentNullException(nameof(column));
+            int columnNo = column.Start.Column;
+            var dataString = ws.Cells[rowNumber, columnNo].Value != null ? ws.Cells[rowNumber, columnNo].Value.ToString().Trim() : string.Empty;
+            return dataString;
+        }
+
+        public async Task<bool> Upload(IFormFile file, string path, string oldFileName = "")
+        {
+            if (file.Length > 0)
+            {
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                if (Path.GetExtension(file.FileName) == ".xlsx")
+                {
+                    string oldFilePath = Path.Combine(path, oldFileName);
+                    string filePath = Path.Combine(path, file.FileName);
+                    using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+
+                        //remove old file
+                        FileInfo fileInfo = new FileInfo(oldFilePath);
+                        if (fileInfo.Exists) fileInfo.Delete();
+
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        /** END COMMON **/
 
         /** FUND **/
         public async Task<string> GetFundCode(bool isAdd)
@@ -133,9 +171,9 @@ namespace TechFix.Services
                 worksheet.Cells["E1"].Value = "Thong_Tin_Them";
                 worksheet.Cells["F1"].Value = "Cho_Phep_Ban_Am";
                 worksheet.Cells["G1"].Value = "Cho_Phep_Sua_Gia";
-                worksheet.Cells["H1"].Value = "Gia_Von";
-                worksheet.Cells["I1"].Value = "Gia_Ban_Le";
-                worksheet.Cells["J1"].Value = "Gia_Ban_Si";
+                worksheet.Cells["H1"].Value = "Gia_Nhap";
+                worksheet.Cells["I1"].Value = "Gia_Von";
+                worksheet.Cells["J1"].Value = "Gia_Web";
                 worksheet.Cells["K1"].Value = "Danh_Muc";
                 worksheet.Cells["L1"].Value = "Nha_San_Xuat";
                 //worksheet.Cells["A4:C4"].Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -145,13 +183,13 @@ namespace TechFix.Services
                 row = 2;
                 foreach (var product in data)
                 {
-                    worksheet.Cells[row, 1].Value = product.Name;
-                    worksheet.Cells[row, 2].Value = product.Code;
+                    worksheet.Cells[row, 1].Value = !string.IsNullOrEmpty(product.Name) ? product.Name : string.Empty;
+                    worksheet.Cells[row, 2].Value = !string.IsNullOrEmpty(product.Code) ? product.Code : string.Empty;
                     worksheet.Cells[row, 3].Value = product.Quantity;
                     worksheet.Cells[row, 4].Value = _context.ProductUnits.FirstOrDefault(x => x.Id == product.ProductUnitId)?.Name;
-                    worksheet.Cells[row, 5].Value = product.Description;
-                    worksheet.Cells[row, 6].Value = product.AllowNegativeSell ? "Có" : "Không";
-                    worksheet.Cells[row, 7].Value = product.IsInventoryTracking ? "Có" : "Không";
+                    worksheet.Cells[row, 5].Value = !string.IsNullOrEmpty(product.Description) ? product.Description : string.Empty;
+                    worksheet.Cells[row, 6].Value = product.AllowNegativeSell ? 1 : 0;
+                    worksheet.Cells[row, 7].Value = product.IsInventoryTracking ? 1 : 0;
                     worksheet.Cells[row, 8].Value = product.OriginalPrice.Round(0);
                     worksheet.Cells[row, 9].Value = product.WebPrice.Round(0);
                     worksheet.Cells[row, 10].Value = product.FakePrice.Round(0);
@@ -191,49 +229,69 @@ namespace TechFix.Services
 
                     for (int row = 2; row <= rowCount; row++)
                     {
-                        //check if exists will not import the data
-                        var code = worksheet.Cells[row, 2].Value.ToString().Trim();
-                        bool isExists = _context.Products.FirstOrDefault(x => x.Code.Equals(code)) != null ? true : false;
-                        if (isExists) continue;
+                        //build up data
+                        var productName = GetExcelValueByColumnName(worksheet, "Ten_San_Pham", row);
+                        var productCode = GetExcelValueByColumnName(worksheet, "Ma_San_Pham", row);
+                        var quantity = GetExcelValueByColumnName(worksheet, "So_Luong", row);
+                        var productUnitName = GetExcelValueByColumnName(worksheet, "Don_Vi_Tinh", row);
+                        var description = GetExcelValueByColumnName(worksheet, "Thong_Tin_Them", row);
+                        var allowNegativeSell = GetExcelValueByColumnName(worksheet, "Cho_Phep_Ban_Am", row);
+                        var allowChangePrice = GetExcelValueByColumnName(worksheet, "Cho_Phep_Sua_Gia", row);
+                        var originalPrice = GetExcelValueByColumnName(worksheet, "Gia_Nhap", row);
+                        var fakePrice = GetExcelValueByColumnName(worksheet, "Gia_Von", row);
+                        var webPrice = GetExcelValueByColumnName(worksheet, "Gia_Web", row);
+                        var categoryName = GetExcelValueByColumnName(worksheet, "Danh_Muc", row);
+                        var manufacturerName = GetExcelValueByColumnName(worksheet, "Nha_San_Xuat", row);
 
-                        var item = new Product
-                        {
-                            Name = worksheet.Cells[row, 1].Value.ToString().Trim(),
-                            Code = worksheet.Cells[row, 2].Value.ToString().Trim(),
-                            Quantity = int.Parse(worksheet.Cells[row, 3].Value.ToString().Trim()),
-                            Description = worksheet.Cells[row, 5].Value.ToString().Trim(),
-                            AllowNegativeSell = worksheet.Cells[row, 6].Value.ToString().Trim() == "Có" ? true : false,
-                            IsInventoryTracking = worksheet.Cells[row, 7].Value.ToString().Trim() == "Có" ? true : false,
-                            OriginalPrice = int.Parse(worksheet.Cells[row, 8].Value.ToString().Trim()),
-                            WebPrice = int.Parse(worksheet.Cells[row, 9].Value.ToString().Trim()),
-                            FakePrice = int.Parse(worksheet.Cells[row, 10].Value.ToString().Trim())
-                        };
-
-                        //add productUnit
-                        string productUnitName = worksheet.Cells[row, 4].Value.ToString().Trim();
+                        //model
+                        var existItem = _context.Products.FirstOrDefault(x => x.Code.Equals(productCode));
                         var productUnit = _context.ProductUnits.FirstOrDefault(x => x.Name.Equals(productUnitName));
-                        if (productUnit != null) item.ProductUnitId = productUnit.Id;
-
-                        //add category
-                        string categoryName = worksheet.Cells[row, 11].Value.ToString().Trim();
                         var category = _context.Categories.FirstOrDefault(x => x.Name.Equals(categoryName));
-                        if (category != null) item.CategoryId = category.Id;
-
-                        //add manufacturer
-                        string manufacturerName = worksheet.Cells[row, 12].Value.ToString().Trim();
                         var manufacturer = _context.Manufacturers.FirstOrDefault(x => x.Name.Equals(manufacturerName));
-                        if (manufacturer != null) item.ManufacturerId = manufacturer.Id;
 
-                        list.Add(item);
+                        if (existItem != null)
+                        {
+                            existItem.Name = productName;
+                            existItem.Quantity = int.Parse(quantity);
+                            existItem.ProductUnitId = productUnit?.Id;
+                            existItem.Description = description;
+                            existItem.AllowNegativeSell = allowNegativeSell == "1" ? true : false;
+                            existItem.IsInventoryTracking = allowChangePrice == "1" ? true : false;
+                            existItem.OriginalPrice = decimal.Parse(originalPrice);
+                            existItem.FakePrice = decimal.Parse(fakePrice);
+                            existItem.WebPrice = decimal.Parse(webPrice);
+                            existItem.CategoryId = category?.Id;
+                            existItem.ManufacturerId = manufacturer?.Id;
+
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            var item = new Product
+                            {
+                                Name = productName,
+                                Code = productCode,
+                                Quantity = int.Parse(quantity),
+                                Description = description,
+                                AllowNegativeSell = allowNegativeSell == "1" ? true : false,
+                                IsInventoryTracking = allowChangePrice == "1" ? true : false,
+                                OriginalPrice = decimal.Parse(originalPrice),
+                                WebPrice = decimal.Parse(webPrice),
+                                FakePrice = decimal.Parse(fakePrice),
+                                ProductUnitId = productUnit?.Id,
+                                CategoryId = category?.Id,
+                                ManufacturerId = manufacturer?.Id
+                            };
+                            list.Add(item);
+                        }
                     }
                 }
-                if (list.Count > 0)
+                if(list.Count == 0 )
                 {
                     _context.Products.AddRange(list);
                     await _context.SaveChangesAsync();
-                    return true;
                 }
-                return false;
+                return true;
             }
         }
         /** END PRODUCT **/
