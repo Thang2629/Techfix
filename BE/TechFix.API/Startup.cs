@@ -262,12 +262,12 @@ namespace TechFix.API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //Directory.CreateDirectory(appSettings.Value.ImagePath);
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(appSettings.Value.ImagePath),
-            //    RequestPath = new PathString("/Resources")
-            //});
+            Directory.CreateDirectory(appSettings.Value.ImagePath);
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(appSettings.Value.ImagePath),
+                RequestPath = new PathString("/Resources")
+            });
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
