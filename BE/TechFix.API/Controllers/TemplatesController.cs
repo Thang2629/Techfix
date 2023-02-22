@@ -47,8 +47,8 @@ namespace TechFix.API.Controllers
             var queryable = _context.Templates
                 .Where(m => !m.IsDeleted);
             queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
-            var projectTo = queryable.ProjectTo<CategoryDto>(_mapper.ConfigurationProvider);
-            var result = PagedList<CategoryDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
+            var projectTo = queryable.ProjectTo<TemplateDto>(_mapper.ConfigurationProvider);
+            var result = PagedList<TemplateDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
             return Ok(result);
         }
 
