@@ -1,0 +1,35 @@
+@import "~antd/lib/style/themes/default.less";
+
+.main {
+	&__navigation {
+		overflow: auto;
+		overflow-y: hidden !important;
+		left: 0;
+		height: 100vh;
+		background: white;
+
+		&.ant-layout-sider-collapsed {
+			min-width: 80px;
+		}
+	}
+	.main__content {
+		position: relative;
+		height: 100%;
+	}
+
+	&__application {
+		padding: 12px;
+		margin: 0px auto;
+		height: 100%;
+		width: 100%;
+	}
+}
+.ant-layout-footer {
+	padding: 15px 40px;
+	// color: rgba(0, 0, 0, 0.85);
+	color: #869099;
+	font-size: 14px;
+	background: #fff;
+	display: flex;
+	justify-content: space-between;
+}

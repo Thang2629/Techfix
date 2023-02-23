@@ -1,0 +1,19 @@
+@import "~antd/lib/style/themes/default.less";
+.open-items {
+    .open-items__list {
+        background-color: @layout-body-background;
+        .ant-list-header, 
+        .ant-list-footer {
+            text-align: center;
+            background-color: #ffffff;
+        }
+        &.ant-list-bordered.ant-list-sm .ant-list-header, 
+        &.ant-list-bordered.ant-list-sm .ant-list-footer {
+            padding: 0px;
+        }
+        .open-items__list-item {
+            padding: 2px 16px;
+            font-size: 12px;
+        }
+    }
+}
