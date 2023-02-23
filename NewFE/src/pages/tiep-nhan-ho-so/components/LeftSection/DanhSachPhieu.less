@@ -1,0 +1,59 @@
+@import "~antd/lib/style/themes/default.less";
+
+.card-items {
+	margin: 8px 0;
+	height: calc(100% - 84px);
+	overflow: auto;
+
+	.item {
+		padding: 4px;
+		border: 1px solid #f0f0f0;
+		margin: 1px 0px;
+		border-radius: 4px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: #f0f0f0;
+		}
+		&.item-active {
+			background-color: #cccccc;
+		}
+
+		.image {
+			margin: auto;
+		}
+		.phieu {
+			width: 100%;
+			border: unset;
+			background-color: inherit;
+			.ant-card-body {
+				padding: 0.5rem;
+			}
+			.title {
+				font-weight: bold;
+			}
+			.name {
+				text-align: right;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			.avatar-group {
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			.created-date {
+				text-align: right;
+			}
+			.description-container {
+				p {
+					margin: unset;
+				}
+			}
+			.progress {
+				border-radius: 0.5rem;
+			}
+		}
+	}
+}

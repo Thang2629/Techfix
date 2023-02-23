@@ -1,0 +1,53 @@
+.mau-items {
+  margin: 1rem 0;
+  height: calc(100% - 84px);
+  overflow: auto;
+  .item {
+    border: 1px solid #d9d9d9;
+    cursor: pointer;
+    padding: 4px;
+    margin: 1px 0px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+    &.item-active {
+      background-color: #cccccc;
+    }
+
+    .image {
+      margin: auto;
+      padding: 1rem;
+    }
+    .phieu {
+      width: 100%;
+      border: unset;
+      background-color: inherit;
+      .ant-card-body {
+        padding: 0px;
+        
+      }
+      .title {
+        font-weight: bold;
+      }
+      .name {
+        text-align: right;
+      }
+      .avatar-group {
+        text-align: right;
+      }
+      .created-date {
+        text-align: right;
+      }
+      .description-container {
+        p {
+          margin: unset;
+        }
+      }
+      .progress {
+        border-radius: 0.5rem;
+      }
+    }
+  }
+}
