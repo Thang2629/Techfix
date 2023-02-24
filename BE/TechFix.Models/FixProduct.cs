@@ -9,6 +9,13 @@ namespace TechFix.EntityModels
     [Index(nameof(FixStaffId))]
     public class FixProduct : BaseModel
     {
+        #region FK
+
+        public Bill Bill { get; set; }
+        public Guid? BillId { get; set; }
+
+
+        #endregion
         public string Code { get; set; }
         public string Name { get; set; }
         public string ErrorDescription { get; set; }
@@ -23,7 +30,6 @@ namespace TechFix.EntityModels
         /// </summary>
         public string Process { get; set; }
 
-        public int Quantity { get; set; }
         public int NumberOfTimes { get; set; }
 
         /// <summary>
@@ -47,9 +53,11 @@ namespace TechFix.EntityModels
         public Guid? FixStaffId { get; set; }
         public User FixStaff { get; set; }
         public Guid? WarrantyOrderId { get; set; }
-        public Order Order { get; set; }
         public DateTime ReceiptDate { get; set; }
         public DateTime ReturnDate { get; set; }
         public decimal TotalMoney { get; set; }
+        public string ProductSerial { get; set; }
+        public DateTime? WarrantyPeriod { get; set; }
+        public bool IsCreatedBill { get; set; }
     }
 }

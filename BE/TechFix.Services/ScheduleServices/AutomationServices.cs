@@ -7,7 +7,6 @@ using TechFix.EntityModels;
 using TechFix.Services.Common;
 using TechFix.Services.EmailServices;
 using Guid = System.Guid;
-using VlinkSequence = TechFix.Services.Common.VlinkSequence;
 
 namespace TechFix.Services.ScheduleServices
 {
@@ -23,17 +22,17 @@ namespace TechFix.Services.ScheduleServices
         private readonly AppSettings _appSettings;
         private readonly ILogger<AutomationServices> _logger;
         private readonly CommonService _commonService;
-        private readonly VlinkSequence _vlinkSequence;
+        private readonly SequenceService _sequenceService;
         private readonly IWebHostEnvironment _environment;
         private readonly IEmailService _emailService;
 
-        public AutomationServices(DataContext context, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<AutomationServices> logger, CommonService commonService, VlinkSequence vlinkSequence, IWebHostEnvironment environment, IEmailService emailService)
+        public AutomationServices(DataContext context, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<AutomationServices> logger, CommonService commonService, SequenceService sequenceService, IWebHostEnvironment environment, IEmailService emailService)
         {
             _context = context;
             _mapper = mapper;
             _logger = logger;
             _commonService = commonService;
-            _vlinkSequence = vlinkSequence;
+            _sequenceService = sequenceService;
             _environment = environment;
             _emailService = emailService;
             _appSettings = appSettings.Value;

@@ -29,12 +29,13 @@ using TechFix.Services;
 using TechFix.Services.Common;
 using TechFix.Services.ScheduleServices;
 using TechFix.TransportModels.Cache;
-using VlinkSequence = TechFix.Services.Common.VlinkSequence;
 using TechFix.Services.EmailServices;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using TechFix.EntityModels.Persistence;
 
 namespace TechFix.API
 {
@@ -173,8 +174,9 @@ namespace TechFix.API
             services.AddScoped<IAutomationServices, AutomationServices>();
             services.AddScoped<IEmailService, SendGridService>();
             services.AddScoped<IHelperService, HelperService>();
-            services.AddScoped<VlinkSequence>();
+            services.AddScoped<SequenceService>();
             services.AddScoped<CommonService>();
+            services.AddScoped<DataContextInitialize>();
         }
 
         private Task HandleIdentity(IServiceCollection services, TokenValidatedContext context)
@@ -256,9 +258,13 @@ namespace TechFix.API
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext dataContext, IOptions<AppSettings> appSettings)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext dataContext, IOptions<AppSettings> appSettings, DataContextInitialize dataContextInitialize)
         {
 	        dataContext.Database.Migrate();
+            if (env.IsDevelopment())
+            {
+                dataContextInitialize.SeedData();
+            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -329,15 +335,14 @@ namespace TechFix.API
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
-            var timeZone = TimeZoneInfo.Local;// TimeZoneInfo.FindSystemTimeZoneById("GMT0");
 
             //Daily
-            //RecurringJob.AddOrUpdate<IAutomationServices>(s => s.CheckBusinessAccountExpired(), Cron.Daily(0, 5), timeZone);
-       
+            //RecurringJob.AddOrUpdate<IAutomationServices>(s => s.CheckBusinessAccountExpired(), Cron.Daily(0, 5), TimeZoneInfo.Local);
+
             //Monthly
-          
+
             //Optional
-            
+
         }
     }
 }

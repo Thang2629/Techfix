@@ -6,12 +6,12 @@ namespace TechFix.EntityModels
     /// <summary>
     /// Mua Product hoặc sửa chữa 
     /// </summary>
-    public class OrderItem : BaseModel
+    public class BillItem : BaseModel
     {
         #region FK
 
-        public Order Order { get; set; }
-        public Guid? OrderId { get; set; }
+        public Bill Bill { get; set; }
+        public Guid? BillId { get; set; }
 
         public Product Product { get; set; }
         public Guid? ProductId { get; set; }
