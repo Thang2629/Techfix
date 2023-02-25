@@ -1,19 +1,18 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import PrimaryButton from './PrimaryButton'
+import React from "react";
+import { Link } from "react-router-dom";
+import PrimaryButton from "./PrimaryButton";
 import { BarsOutlined } from "@ant-design/icons";
 
 function ButtonDetail({ url, record }) {
-    return (
-        <div>
-            <NavLink to={`/${url}/${record.id}`}>
-                <PrimaryButton icon={<BarsOutlined />}>
-                    Xem chi tiết
-                </PrimaryButton>
-            </NavLink></div>
-    )
+  return (
+    <div>
+      <Link to={`/${url}/${record.id}`}>
+        <PrimaryButton icon={<BarsOutlined />}>Xem chi tiết</PrimaryButton>
+      </Link>
+    </div>
+  );
 }
 
-ButtonDetail.propTypes = {}
+ButtonDetail.propTypes = {};
 
-export default ButtonDetail
+export default ButtonDetail;
