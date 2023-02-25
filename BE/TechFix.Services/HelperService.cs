@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AuthorizeNet.Api.Contracts.V1;
+using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -20,6 +21,7 @@ using TechFix.Common.Paging;
 using TechFix.EntityModels;
 using TechFix.Services.Common;
 using TechFix.Services.EmailServices;
+using TechFix.TransportModels;
 using TechFix.TransportModels.Dtos;
 
 namespace TechFix.Services
@@ -28,6 +30,12 @@ namespace TechFix.Services
     {
         Task<bool> Upload(IFormFile file, string path, string oldFileName = "");
         string GetExcelValueByColumnName(ExcelWorksheet ws, string columnName, int rowNumber);
+        /** Fix Order **/
+        Task<string> GetFixOrderCode(bool isFixOrder);
+        Task<string> GetFixProductCode();
+        Task<List<FixProduct>> GetRemovedFixProductListItem(List<FixProduct> baseItem, List<FixProductTransport> newItem);
+        Task<List<FixProductTransport>> GetAddedFixProductListItem(List<FixProduct> baseItem, List<FixProductTransport> newItem);
+        /** End Fix Order **/
         /** Fund **/
         Task<string> GetFundCode(bool isAdd);
         Task<CalculateTotalFundDto> CalculateFund(IQueryable<Fund> queryable);
@@ -103,6 +111,51 @@ namespace TechFix.Services
             return false;
         }
         /** END COMMON **/
+
+        /** FIX ORDER **/
+        public async Task<string> GetFixOrderCode(bool isFixOrder)
+        {
+            int nextValue = await _context.GetNextSequenceValue("FixOrderCodeIncrement");
+            if (isFixOrder) return $"BN{nextValue}";
+            return $"BH{nextValue}";
+        }
+
+        public async Task<string> GetFixProductCode()
+        {
+            int nextValue = await _context.GetNextSequenceValue("FixProductCodeIncrement");
+            return $"MD{nextValue}"; // có logic cần update dựa vào loại sp
+        }
+
+        public async Task<List<FixProduct>> GetRemovedFixProductListItem(List<FixProduct> baseItem, List<FixProductTransport> newItem)
+        {
+            var result = new List<FixProduct>();
+            if(baseItem.Count > 0 && newItem.Count > 0)
+            {
+                var removedItem = baseItem.Where(x => !newItem.Any(y => y.Code == x.Code)).ToList();
+
+                if(removedItem.Count > 0)
+                {
+                    result.AddRange(removedItem);
+                }
+            }
+            return result;
+        }
+
+        public async Task<List<FixProductTransport>> GetAddedFixProductListItem(List<FixProduct> baseItem, List<FixProductTransport> newItem)
+        {
+            var result = new List<FixProductTransport>();
+            if (baseItem.Count > 0 && newItem.Count > 0)
+            {
+                var addedItem = newItem.Where(x => !baseItem.Any(y => y.Code == x.Code)).ToList();
+
+                if (addedItem.Count > 0)
+                {
+                    result.AddRange(addedItem);
+                }
+            }
+            return result;
+        }
+        /** END ORDER **/
 
         /** FUND **/
         public async Task<string> GetFundCode(bool isAdd)

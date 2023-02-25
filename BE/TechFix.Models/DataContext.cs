@@ -64,6 +64,11 @@ namespace TechFix.EntityModels
             modelBuilder.HasSequence<int>("FundCodeIncrement")
                 .StartsAt(1000001)
                 .IncrementsBy(1);
+
+            //Apply auto increment sequence AS FixOrderCodeIncrement for FixOrders.Code
+            modelBuilder.HasSequence<int>("FixOrderCodeIncrement")
+                .StartsAt(1000001)
+                .IncrementsBy(1);
         }
 
         private void HandleList(ModelBuilder modelBuilder)

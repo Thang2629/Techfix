@@ -25,5 +25,7 @@ namespace TechFix.TransportModels.Dtos
         public string CashierName { get; set; }
 
         public int TotalItems { get; set; }
+
+        public List<FixProductDto> FixProducts { get; set; }
     }
 }

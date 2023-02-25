@@ -23,7 +23,7 @@ namespace TechFix.TransportModels
 
         public bool IsFixOrder { get; set; }
 
-        public List<FixProduct> FixProducts { get; set; } //Not have dto yet - change dto later
+        public List<FixProductTransport> FixProducts { get; set; }
 
     }
 }
