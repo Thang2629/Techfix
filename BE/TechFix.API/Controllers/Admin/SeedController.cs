@@ -11,7 +11,6 @@ using TechFix.Common.AppSetting;
 using TechFix.EntityModels;
 using TechFix.Services;
 using TechFix.Services.Common;
-using VlinkSequence = TechFix.Services.Common.VlinkSequence;
 
 namespace TechFix.API.Controllers.Admin
 {
@@ -23,13 +22,13 @@ namespace TechFix.API.Controllers.Admin
     {
         private readonly IAuthService _authService;
         private static Random random = new Random();
-        private readonly VlinkSequence _vlinkSequence;
+        private readonly SequenceService _sequenceService;
 
-        public SeedController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService, IAuthService authService, VlinkSequence vlinkSequence)
+        public SeedController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService, IAuthService authService, SequenceService sequenceService)
             : base(mapper, appSettings, context, env, commonService)
         {
             _authService = authService;
-            _vlinkSequence = vlinkSequence;
+            _sequenceService = sequenceService;
         }
 
         [HttpPost]

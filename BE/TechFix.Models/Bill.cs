@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TechFix.EntityModels
 {
-    public class Order : BaseModel
+    public class Bill : BaseModel
     {
         #region FK
 
@@ -17,6 +17,9 @@ namespace TechFix.EntityModels
 
         public User Seller { get; set; }
         public Guid? SellerId { get; set; }
+
+        public List<BillItem> BillItems { get; set; }
+        public List<FixProduct> FixProducts { get; set; }
 
         #endregion
 
@@ -29,5 +32,6 @@ namespace TechFix.EntityModels
         public decimal TotalAmount { get; set; }
         public decimal AmountPaid { get; set; }
         public decimal AmountOwed { get; set; }
+        public string Code { get; set; }
     }
 }
