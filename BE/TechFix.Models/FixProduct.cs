@@ -31,6 +31,7 @@ namespace TechFix.EntityModels
         /// Repair: Chậm, thường, gấp
         /// </summary>
         public string Type { get; set; }
+        public bool IsFixOrder { get; set; }
 
         public DateTime? EstimatedReturnDate { get; set; }
         public DateTime? FinishDate { get; set; }
@@ -48,6 +49,8 @@ namespace TechFix.EntityModels
         public User FixStaff { get; set; }
         public Guid? WarrantyOrderId { get; set; }
         public Order Order { get; set; }
+        public Guid? FixOrderId { get; set; }
+        public FixOrder FixOrder { get; set; }
         public DateTime ReceiptDate { get; set; }
         public DateTime ReturnDate { get; set; }
         public decimal TotalMoney { get; set; }

@@ -83,15 +83,6 @@ namespace TechFix.API.Controllers
             return BadRequest();
         }
 
-        //Helpers
-        private List<Product> GetAllProductByFilter(PagingParams param)
-        {
-            var queryable = _context.Products
-                .Where(m => !m.IsDeleted);
-            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
-            return queryable.ToList();
-        }
-
         // POST api/<ProductsController>
         [HttpPost]
         [Route("export")]
@@ -102,7 +93,7 @@ namespace TechFix.API.Controllers
                 param.PageNumber = 1;
                 param.PageSize = int.MaxValue;
             }
-            var data = GetAllProductByFilter(param);
+            var data = _helperService.GetAllProductByFilter(param);
             if (data.Count > 0)
             {
                 var stream = _helperService.GenerateExcel(data);

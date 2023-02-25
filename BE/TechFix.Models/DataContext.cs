@@ -405,6 +405,7 @@ namespace TechFix.EntityModels
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<FixOrder> FixOrders { get; set; }
         public DbSet<FixProduct> FixProducts { get; set; }
         public DbSet<ExportHistory> ExportHistories { get; set; }
         public DbSet<ImportHistory> ImportHistories { get; set; }
