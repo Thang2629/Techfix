@@ -7,7 +7,12 @@ import { updateSearch } from "../../../redux/global/actions";
 import "./header.less";
 const { Search } = Input;
 
-const HeaderPage = ({ title = "", actions = "default", onCreate }) => {
+const HeaderPage = ({
+  title = "",
+  actions = "default",
+  onCreate,
+  children,
+}) => {
   const d = useDispatch();
   const onSearch = (text) => {
     d(updateSearch(text));
@@ -20,7 +25,9 @@ const HeaderPage = ({ title = "", actions = "default", onCreate }) => {
           <Typography.Title level={3}>{title}</Typography.Title>
         </Col>
         <Col flex={1}>
-          {actions === "default" ? (
+          {children ? (
+            { ...children }
+          ) : actions === "default" ? (
             <Row
               style={{
                 display: "flex",
@@ -43,31 +50,9 @@ const HeaderPage = ({ title = "", actions = "default", onCreate }) => {
                 Thêm mới
               </Button>
             </Row>
-          ) : typeof actions === "function" ? (
-            <Row
-              style={{
-                display: "flex",
-                flexWrap: "nowrap",
-                gap: "1rem",
-                justifyContent: "end",
-              }}
-            >
-              {actions()}
-              <Search
-                className="header-page__search"
-                placeholder="Tìm kiếm..."
-                onSearch={onSearch}
-                enterButton
-              />
-              <Button
-                type="primary"
-                onClick={() => onCreate()}
-                icon={<PlusCircleOutlined />}
-              >
-                Thêm mới
-              </Button>
-            </Row>
-          ) : null}
+          ) : (
+            typeof actions === "function" && actions()
+          )}
         </Col>
       </Row>
     </div>

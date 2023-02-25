@@ -102,7 +102,7 @@ const LeftSection = (props) => {
     <section className="left-section">
       <Space>
         <Input.Search placeholder="Search input here" />
-        <Dropdown overlay={dropdownMenu} trigger={["click"]}>
+        <Dropdown menu={dropdownMenu} trigger={["click"]}>
           <Button type="default" icon={<FilterOutlined />}></Button>
         </Dropdown>
       </Space>

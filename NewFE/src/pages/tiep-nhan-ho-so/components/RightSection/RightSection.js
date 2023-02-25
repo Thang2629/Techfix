@@ -80,7 +80,7 @@ function RightSection(props) {
   );
 
   const operations = (
-    <Dropdown overlay={dropdownMenu} trigger={["click"]} disabled={!phieuInfo}>
+    <Dropdown menu={dropdownMenu} trigger={["click"]} disabled={!phieuInfo}>
       <Button type="outlined" icon={<UnorderedListOutlined />} />
     </Dropdown>
   );

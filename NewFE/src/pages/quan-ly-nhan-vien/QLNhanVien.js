@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { useDispatch } from "react-redux";
-import { Form, message, Modal, Space, Select } from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { Button, Input, Row, Form, message, Modal, Space, Select } from "antd";
 import { ExclamationCircleOutlined, BarsOutlined } from "@ant-design/icons";
 import PageWrapper from "components/Layout/PageWrapper";
 import HeaderPage from "pages/home/header-page";
@@ -18,9 +19,12 @@ import { getListCatagories } from "services/Categories";
 import CreateAndUpdate from "./CreateAndUpdate";
 import { ButtonDelete, PrimaryButton } from "common/components/Buttons";
 import { Link } from "react-router-dom";
-
+import { getProducts } from "services/Products";
+import pickBy from "lodash/pickBy";
+import identity from "lodash/identity";
 const option = {};
 const searchCriteria = SEARCH_CRITERIA.ALL;
+const { Search } = Input;
 
 const QLNhanVien = (props) => {
   const dispatch = useDispatch();
@@ -30,7 +34,9 @@ const QLNhanVien = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
+  const [filterData, setFilterData] = useState([]);
   const [form] = Form.useForm();
+  const refBtn = useRef();
 
   useEffect(() => {
     dispatch(actions.changeRibbonActions(option));
@@ -135,7 +141,6 @@ const QLNhanVien = (props) => {
   ];
 
   const onClickDetail = (values) => {
-    debugger;
     setOpenDetail(!openDetail);
     setNhanVien(values.Id);
   };
@@ -174,48 +179,162 @@ const QLNhanVien = (props) => {
   const onOpenModel = () => {
     onClickOpenModal({});
   };
+  const onSave = async (values) => {
+    const filterParams = [];
+    const formatFilter = pickBy(values, identity);
+    if (formatFilter.hasOwnProperty("Discontinue")) {
+      switch (values.Discontinue) {
+        case "onsale":
+          filterParams.push({
+            PropertyName: "IsDeleted",
+            Comparison: "==",
+            Value: "false",
+          });
+          filterParams.push({
+            PropertyName: "Discontinue",
+            Comparison: "==",
+            Value: "false",
+          });
+          break;
+        case "onstop":
+          filterParams.push({
+            PropertyName: "IsDeleted",
+            Comparison: "==",
+            Value: "false",
+          });
+          filterParams.push({
+            PropertyName: "Discontinue",
+            Comparison: "==",
+            Value: "true",
+          });
+          break;
+        default:
+          filterParams.push({
+            PropertyName: "IsDeleted",
+            Comparison: "==",
+            Value: "true",
+          });
+          break;
+      }
+    }
+    Object.keys(formatFilter).forEach((key) => {
+      if (key !== "Discontinue")
+        filterParams.push({
+          PropertyName: key,
+          Comparison: key === "SearchData" ? "Contains" : "==",
+          Value: formatFilter[key],
+        });
+    });
 
+    const temp = { FilterParams: filterParams, PageNumber: 1, PageSize: 10 };
+
+    setIsLoading(true);
+    const response = await getProducts(temp);
+    setFilterData(response.Data);
+    setIsLoading(false);
+  };
   const renderToolbar = () => {
     return (
-      <>
-        <Select
-          defaultValue="onsale"
-          style={{ width: "10rem" }}
-          options={states}
-        />
-        <Select defaultValue="" style={{ width: "10rem" }}>
-          {categories?.map((item, idx) => {
-            return (
-              <Select.Option key={item.Id} value={item.Id}>
-                {item.Name}
-              </Select.Option>
-            );
-          })}
-        </Select>
-        <Select defaultValue="" style={{ width: "10rem" }}>
-          {manufacturers?.map((item, idx) => {
-            return (
-              <Select.Option key={item.Id} value={item.Id}>
-                {item.Name}
-              </Select.Option>
-            );
-          })}
-        </Select>
-      </>
+      <Row
+        style={{
+          display: "flex",
+          flexWrap: "nowrap",
+          gap: "1rem",
+          justifyContent: "end",
+        }}
+      >
+        <Form
+          style={{
+            display: "flex",
+            gap: "1rem",
+          }}
+          id="queryForm"
+          onFinish={onSave}
+          layout="vertical"
+        >
+          <Form.Item
+            initialvalues=""
+            name="Discontinue"
+            style={{ marginBottom: 0 }}
+          >
+            <Select placeholder="Chọn Trạng Thái" style={{ width: "10rem" }}>
+              {states?.map((item, idx) => {
+                return (
+                  <Select.Option key={item.value} value={item.value}>
+                    {item.label}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            initialvalues=""
+            name="CategoryId"
+            style={{ marginBottom: 0 }}
+          >
+            <Select placeholder="Chọn Danh Mục" style={{ width: "10rem" }}>
+              {categories?.map((item, idx) => {
+                return (
+                  <Select.Option key={item.Id} value={item.Id}>
+                    {item.Name}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            initialvalues=""
+            name="ManufacturerId"
+            style={{ marginBottom: 0 }}
+          >
+            <Select placeholder="Search to Select" style={{ width: "10rem" }}>
+              {manufacturers?.map((item, idx) => {
+                return (
+                  <Select.Option key={item.Id} value={item.Id}>
+                    {item.Name}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+          <Form.Item name="SearchData" style={{ marginBottom: 0 }}>
+            <Search
+              className="header-page__search"
+              placeholder="Tìm kiếm..."
+              onSearch={() => onSearch()}
+              enterButton
+            />
+          </Form.Item>
+          <Form.Item hidden={true} style={{ marginBottom: 0 }}>
+            <Button ref={refBtn} htmlType="submit"></Button>
+          </Form.Item>
+
+          <Button
+            type="primary"
+            onClick={() => onOpenModel()}
+            icon={<PlusCircleOutlined />}
+          >
+            Thêm mới
+          </Button>
+        </Form>
+      </Row>
     );
   };
-
+  const onSearch = () => {
+    refBtn.current.click();
+    return;
+  };
   return (
     <>
       {isLoading && <Loading />}
-      <HeaderPage
-        title="DANH SÁCH SẢN PHẨM"
-        actions={renderToolbar}
-        onCreate={onOpenModel}
-      />
+      <HeaderPage title="DANH SÁCH SẢN PHẨM">{renderToolbar()}</HeaderPage>
       <div className="main__application">
         <PageWrapper>
-          <Grid columns={columns} urlEndpoint={PRODUCTS_GRID_ENDPOINT} />
+          <Grid
+            columns={columns}
+            urlEndpoint={PRODUCTS_GRID_ENDPOINT}
+            data={filterData}
+          />
         </PageWrapper>
       </div>
       <CreateAndUpdate
