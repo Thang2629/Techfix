@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import { getProducts } from "services/Products";
 import pickBy from "lodash/pickBy";
 import identity from "lodash/identity";
+import { fowardTo } from "utils/common/route";
 const option = {};
 const searchCriteria = SEARCH_CRITERIA.ALL;
 const { Search } = Input;
@@ -233,6 +234,7 @@ const QLNhanVien = (props) => {
     setFilterData(response.Data);
     setIsLoading(false);
   };
+
   const renderToolbar = () => {
     return (
       <Row
@@ -311,10 +313,10 @@ const QLNhanVien = (props) => {
 
           <Button
             type="primary"
-            onClick={() => onOpenModel()}
+            onClick={() => onClickAddProduct()}
             icon={<PlusCircleOutlined />}
           >
-            Thêm mới
+            Thêm Sản Phẩm Mới
           </Button>
         </Form>
       </Row>
@@ -323,6 +325,9 @@ const QLNhanVien = (props) => {
   const onSearch = () => {
     refBtn.current.click();
     return;
+  };
+  const onClickAddProduct = () => {
+    fowardTo("/tao-san-pham");
   };
   return (
     <>

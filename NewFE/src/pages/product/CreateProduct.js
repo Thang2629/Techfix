@@ -16,33 +16,23 @@ const DetailCustomer = (props) => {
 
   const items = [
     {
-      label: <>Thông tin khách hàng</>,
+      label: <>Thông tin Sản Phẩm</>,
       key: "1",
       children: <ThongTinKhachHang />,
-    },
-    {
-      label: <>Lịch sử mẫu</>,
-      key: "2",
-      children: <ImplementResult module="module" />,
-    },
-    {
-      label: <>Khác</>,
-      key: "3",
-      children: <ImplementResult module="module" />,
     },
   ];
 
   const handleUpdate = () => {
     return (
       <div className="groupbtn" style={styleButton}>
-        <ButtonBack url="/khach-hang" />
+        <ButtonBack url="/san-pham" />
       </div>
     );
   };
 
   return (
     <div>
-      <HeaderPage title="CHI TIẾT KHÁCH HÀNG" actions={handleUpdate} />
+      <HeaderPage title="Tạo Phản Phẩm">{handleUpdate()}</HeaderPage>
       <div className="main__application">
         <PageWrapper>
           <TabsSection items={items} />
