@@ -10,6 +10,7 @@ namespace TechFix.TransportModels.Dtos
 {
     public class FixOrderDto : IMapFrom<FixOrder>
     {
+        public Guid? Id { get; set; }
         public string Code { get; set; }
 
         public string CustomerPhoneNumber { get; set; }
@@ -26,6 +27,6 @@ namespace TechFix.TransportModels.Dtos
 
         public int TotalItems { get; set; }
 
-        public List<FixProductDto> FixProducts { get; set; }
+        public List<FixProduct> FixProducts { get; set; }
     }
 }

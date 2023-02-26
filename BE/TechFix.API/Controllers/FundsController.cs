@@ -28,10 +28,12 @@ namespace TechFix.API.Controllers
     [Authorize(Roles = UserRole.Admin)]
     public class FundsController : CustomController
     {
-        private IHelperService _helperService;
-        public FundsController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService, IHelperService helperService) : base(mapper, appSettings, context, env, commonService)
+        private FundService _fundService;
+        private SequenceService _sequenceService;
+        public FundsController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService, FundService fundService, SequenceService sequenceService) : base(mapper, appSettings, context, env, commonService)
         {
-            _helperService = helperService;
+            _fundService = fundService;
+            _sequenceService = sequenceService;
         }
 
         // GET: api/<FundsController>
@@ -51,7 +53,7 @@ namespace TechFix.API.Controllers
         {
             var result = _context.Funds
                 .Where(m => !m.IsDeleted);
-            var total = await _helperService.CalculateFund(result);
+            var total = await _fundService.CalculateFund(result);
             return total;
         }
 
@@ -74,7 +76,7 @@ namespace TechFix.API.Controllers
         {
             if(transport != null)
             {
-                var nextCodeSequence = await _helperService.GetFundCode(transport.IsAdd);
+                var nextCodeSequence = await _sequenceService.GetFundCode(transport.IsAdd);
                 _context.Funds.Add(new Fund()
                 {
                     Code = nextCodeSequence,

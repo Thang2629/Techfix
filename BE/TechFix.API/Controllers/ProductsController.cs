@@ -27,10 +27,12 @@ namespace TechFix.API.Controllers
     [ApiController]
     public class ProductsController : CustomController
     {
+        private ProductService _productService;
         private IHelperService _helperService;
-        public ProductsController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService, IHelperService helperService) : base(mapper, appSettings, context, env, commonService)
+        public ProductsController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService, IHelperService helperService, ProductService productService) : base(mapper, appSettings, context, env, commonService)
         {
             _helperService = helperService;
+            _productService = productService;
         }
 
         // GET: api/<ProductsController>
@@ -93,10 +95,10 @@ namespace TechFix.API.Controllers
                 param.PageNumber = 1;
                 param.PageSize = int.MaxValue;
             }
-            var data = _helperService.GetAllProductByFilter(param);
+            var data = _productService.GetAllProductByFilter(param);
             if (data.Count > 0)
             {
-                var stream = _helperService.GenerateExcel(data);
+                var stream = _productService.GenerateExcel(data);
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "export-" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".xlsx");
             }
             return BadRequest();
@@ -107,7 +109,7 @@ namespace TechFix.API.Controllers
         [Route("import")]
         public async Task<IActionResult> ImportData(IFormFile formFile, CancellationToken cancellationToken)
         {
-            var importResult = await _helperService.ImportExcel(formFile, cancellationToken);
+            var importResult = await _productService.ImportExcel(formFile, cancellationToken);
             if (importResult) return Ok(importResult);
             return BadRequest(importResult);
         }

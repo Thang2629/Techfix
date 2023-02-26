@@ -9,13 +9,13 @@ namespace TechFix.TransportModels
 {
     public class FixOrderTransport
     {
-        public Guid CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
 
-        public Guid CashierId { get; set; }
+        public Guid? CashierId { get; set; }
 
-        public Guid StoreId { get; set; }
+        public Guid? StoreId { get; set; }
 
-        public string Code { get; set; } //only for Edit
+        public string Code { get; set; }
 
         public string Note { get; set; }
 

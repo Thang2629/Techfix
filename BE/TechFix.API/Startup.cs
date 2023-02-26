@@ -176,6 +176,13 @@ namespace TechFix.API
             services.AddScoped<IHelperService, HelperService>();
             services.AddScoped<SequenceService>();
             services.AddScoped<CommonService>();
+
+            /** API CONTROLLER SERVICES **/
+            services.AddScoped<ProductService>();
+            services.AddScoped<FundService>();
+            services.AddScoped<FixOrderService>();
+            /** END **/
+
             services.AddScoped<DataContextInitialize>();
         }
 

@@ -33,10 +33,12 @@ namespace TechFix.API.Controllers
     [ApiController]
     public class FixOrdersController : CustomController
     {
-        private IHelperService _helperService;
-        public FixOrdersController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService, IHelperService helperService) : base(mapper, appSettings, context, env, commonService)
+        private FixOrderService _fixOrderService;
+        private SequenceService _sequenceService;
+        public FixOrdersController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService, FixOrderService fixOrderService, SequenceService sequenceService) : base(mapper, appSettings, context, env, commonService)
         {
-            _helperService = helperService;
+            _fixOrderService = fixOrderService;
+            _sequenceService = sequenceService;
         }
 
         // GET: api/<FixOrdersController>
@@ -70,64 +72,28 @@ namespace TechFix.API.Controllers
         [Route("detail/{id}")]
         public IActionResult GetFixOrderDetail(Guid id)
         {
-            var item = _context.FixOrders.Find(id);
+            var item = _context.FixOrders.Include(p => p.FixProducts).FirstOrDefault(x => x.Id == id);
+            if (item == null) return BadRequest();
             var response = new FixOrderDto
             {
                 Code = item.Code,
-                CustomerPhoneNumber = item.Customer.PhoneNumber,
-                CustomerName = item.Customer.Fullname,
-                CustomerGroup = item.Customer.Team,
-                CashierName = item.Cashier.FullName,
-                StoreName = item.Store.Name,
+                CustomerPhoneNumber = item.Customer?.PhoneNumber,
+                CustomerName = item.Customer?.Fullname,
+                CustomerGroup = item.Customer?.Team,
+                CashierName = item.Cashier?.FullName,
+                StoreName = item.Store?.Name,
                 ReceivedDate = item.ReceivedDate,
             };
 
-            if (item != null && item.FixProducts.Count > 0)
+            if (item.FixProducts != null && item.FixProducts.Count > 0)
             {
-                var listItem = new List<FixProductDto>();
-                foreach(var product in item.FixProducts.Where(x => !x.IsDeleted)) 
-                {
-                    var data = new FixProductDto
-                    {
-                        Code = product.Code,
-                        Name = product.Name,
-                        ErrorDescription = product.ErrorDescription,
-                        Condition = product.Condition,
-                        Process = product.Process,
-                        NumberOfTimes = product.NumberOfTimes,
-                        Type = product.Type,
-                        IsFixOrder = product.IsFixOrder,
-                        EstimatedReturnDate = product.EstimatedReturnDate,
-                        FinishDate = product.FinishDate,
-                        Cpu = product.Cpu,
-                        Ram = product.Ram,
-                        Hdd = product.Hdd,
-                        Adapter = product.Adapter,
-                        Wifi = product.Wifi,
-                        Pin = product.Pin,
-                        Keyboard = product.Keyboard,
-                        Psu = product.Psu,
-                        Lcd = product.Lcd,
-                        Other = product.Other,
-                        FixStaffId = product.FixStaffId,
-                        FixOrderId = product.FixOrderId,
-                        ReceiptDate = product.ReceiptDate,
-                        ReturnDate = product.ReturnDate,
-                        TotalMoney = product.TotalMoney,
-                        ProductSerial = product.ProductSerial,
-                        WarrantyPeriod = product.WarrantyPeriod,
-                        IsCreatedBill = product.IsCreatedBill,
-                    };
-
-                    listItem.Add(data);
-                }
+                var listItem = item.FixProducts.Where(x => !x.IsDeleted).ToList();
                 
                 response.FixProducts = listItem;
                 response.TotalItems = listItem.Count;
-
-                return Ok(response);
             }
-            return BadRequest();
+
+            return Ok(response);
         }
 
         // POST api/<FixOrdersController>
@@ -138,7 +104,7 @@ namespace TechFix.API.Controllers
             {
                 var order = new FixOrder
                 {
-                    Code = await _helperService.GetFixOrderCode(transport.IsFixOrder),
+                    Code = !string.IsNullOrWhiteSpace(transport.Code) ? transport.Code.Trim() : await _sequenceService.GetFixOrderCode(transport.IsFixOrder),
                     IsFixOrder = transport.IsFixOrder,
                     CustomerId = transport.CustomerId,
                     CashierId = transport.CashierId,
@@ -148,15 +114,17 @@ namespace TechFix.API.Controllers
                 };
 
                 _context.FixOrders.Add(order);
+                await _context.SaveChangesAsync();
 
-                if (order.FixProducts.Count > 0)
+                if (transport.FixProducts.Count > 0)
                 {
                     List<FixProduct> list = new List<FixProduct>();
                     foreach(var item in transport.FixProducts)
                     {
                         var insertData = new FixProduct
                         {
-                            Code = await _helperService.GetFixProductCode(),
+                            //không cần kiểm tra code giống nhau vì trang test.techfix.com nó cho phép
+                            Code = !string.IsNullOrWhiteSpace(item.Code) ? item.Code.Trim() : await _sequenceService.GetFixProductCode(),
                             Name = item.Name,
                             ErrorDescription = item.ErrorDescription,
                             Condition = item.Condition,
@@ -177,7 +145,7 @@ namespace TechFix.API.Controllers
                             Lcd = item.Lcd,
                             Other = item.Other,
                             FixStaffId = item.FixStaffId,
-                            FixOrderId = item.FixOrderId,
+                            FixOrderId = order.Id,
                             ReceiptDate = item.ReceiptDate,
                             ReturnDate = item.ReturnDate,
                             TotalMoney = item.TotalMoney,
@@ -206,7 +174,7 @@ namespace TechFix.API.Controllers
         [HttpPut("{id}")]
         public async Task Put(Guid id, [FromBody] FixOrderTransport transport)
         {
-            var model = await _context.FixOrders.FindAsync(id);
+            var model = await _context.FixOrders.Include(x => x.FixProducts).FirstOrDefaultAsync(x => x.Id == id);
             if (model != null)
             {
                 model.IsFixOrder = transport.IsFixOrder;
@@ -217,12 +185,12 @@ namespace TechFix.API.Controllers
                 model.ReceivedDate = transport.ReceivedDate;
 
                 //STEP 1: remove deleted data from the edit
-                var removedData = await _helperService.GetRemovedFixProductListItem(model.FixProducts, transport.FixProducts);
+                var removedData = await _fixOrderService.GetRemovedFixProductListItem(model.FixProducts, transport.FixProducts);
                 if (removedData != null)
                 {
                     foreach(var item in removedData)
                     {
-                        var deleteItemTarget = _context.FixProducts.FirstOrDefault(x => x.Code.Equals(item.Code));
+                        var deleteItemTarget = _context.FixProducts.FirstOrDefault(x => !x.IsDeleted && x.Code.Equals(item.Code));
                         if(deleteItemTarget != null) deleteItemTarget.IsDeleted = true;
 
                         await _context.SaveChangesAsync();
@@ -230,14 +198,14 @@ namespace TechFix.API.Controllers
                 }
 
                 //STEP 2: add new data from the edit
-                var addedData = await _helperService.GetAddedFixProductListItem(model.FixProducts, transport.FixProducts);
+                var addedData = await _fixOrderService.GetAddedFixProductListItem(model.FixProducts, transport.FixProducts);
                 if (addedData != null)
                 {
                     foreach(var item in addedData)
                     {
                         var product = new FixProduct
                         {
-                            Code = await _helperService.GetFixProductCode(),
+                            Code = !string.IsNullOrWhiteSpace(item.Code) ? item.Code.Trim() : await _sequenceService.GetFixProductCode(),
                             Name = item.Name,
                             ErrorDescription = item.ErrorDescription,
                             Condition = item.Condition,
@@ -271,12 +239,14 @@ namespace TechFix.API.Controllers
                 }
 
                 //STEP 3: Update the changes
-                var changedData = model.FixProducts.Where(x => transport.FixProducts.Any(y => y.Code == x.Code)).ToList();
+                var changedData = model.FixProducts.Where(x => !x.IsDeleted && transport.FixProducts.Any(y => y.Code == x.Code))
+                    .Where(y => !addedData.Any(z => z.Code == y.Code))
+                    .ToList();
                 if (changedData != null)
-                {
+                 {
                     foreach(var item in changedData)
                     {
-                        var productTarget = model.FixProducts.FirstOrDefault(x => x.Code == item.Code);
+                        var productTarget = model.FixProducts.FirstOrDefault(x => !x.IsDeleted && x.Code == item.Code);
                         if (productTarget != null)
                         {
                             productTarget.Name = item.Name;
@@ -320,7 +290,7 @@ namespace TechFix.API.Controllers
         [HttpDelete("{id}")]
         public async Task Delete(Guid id)
         {
-            var product = await _context.FixOrders.FindAsync(id);
+            var product = await _context.FixOrders.Include(x => x.FixProducts).FirstOrDefaultAsync(x => x.Id == id);
             if (product != null)
             {
                 product.IsDeleted = true;
