@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 import { Menu } from "antd";
 import {
   DashboardOutlined,
-  UserSwitchOutlined,
-  UsergroupAddOutlined,
-  ProjectOutlined,
-  ApartmentOutlined,
-  PieChartOutlined,
-  DeploymentUnitOutlined,
-  FolderOpenOutlined,
+  ToolOutlined,
+  SafetyCertificateOutlined,
+  GoldOutlined,
+  TeamOutlined,
+  HomeOutlined,
+  BookOutlined,
+  LineChartOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 
 import "./Navigation.less";
@@ -59,234 +60,149 @@ const Navigation = (props) => {
       mode="inline"
       // {...rest}
     >
-      {/* <Item
+      <Item
         key="/dashboard"
         className="menu-navigation__item"
         icon={<DashboardOutlined />}
       >
         <Link to="/dashboard">Trang chủ</Link>
-      </Item> */}
-
-      {/* <SubMenu
-        key={"nhan-su-sub"}
-        icon={<UsergroupAddOutlined />}
-        title={"Quản lý nhân sự"}
-        className="menu-navigation__sub-menu"
-      > */}
-      {/* <Item key="phongBan" className="menu-navigation__item">
-        <Link to="/quan-ly-phong-ban">Khoa/Phòng/Ban</Link>
-      </Item> */}
-      <Item key="staffManage" className="menu-navigation__item">
-        <Link to="/san-pham">Nhân viên</Link>
       </Item>
-      {/* </SubMenu> */}
 
-      {/* <SubMenu
-        key={"khach-hang-sub"}
-        icon={<UserSwitchOutlined />}
-        title={"Quản lý khách hàng"}
+      <SubMenu
+        key="repairSub"
+        icon={<ToolOutlined />}
+        title="Sửa chữa"
         className="menu-navigation__sub-menu"
       >
-        <Item key="nhom-khach-hang" className="menu-navigation__item">
-          <Link to="/nhom-khach-hang">Nhóm khách hàng</Link>
+        <Item key="repairOrder" className="menu-navigation__item">
+          <Link to="/">Đơn sửa chữa</Link>
         </Item>
-        <Item key="khach-hang" className="menu-navigation__item">
-          <Link to="/khach-hang">Khách hàng</Link>
+        <Item key="repairProcess" className="menu-navigation__item">
+          <Link to="/">Quy trình sửa chữa</Link>
+        </Item>
+        <Item key="repairReport" className="menu-navigation__item">
+          <Link to="/">Báo cáo sửa chữa</Link>
+        </Item>
+        <Item key="repairSale" className="menu-navigation__item">
+          <Link to="/">Doanh số sửa chữa</Link>
         </Item>
       </SubMenu>
 
       <SubMenu
-        key={"mau"}
-        icon={<ProjectOutlined />}
-        title={"Quản lý mẫu"}
+        key="insureSub"
+        icon={<SafetyCertificateOutlined />}
+        title="Bảo hành"
         className="menu-navigation__sub-menu"
       >
-        <Item key="loai-mau-tiep-nhan" className="menu-navigation__item">
-          <Link to="/loai-mau-tiep-nhan">Loại mẫu tiếp nhận</Link>
+        <Item key="insureOrder" className="menu-navigation__item">
+          <Link to="/">Đơn bảo hành</Link>
         </Item>
-        <Item key="nen-mau" className="menu-navigation__item">
-          <Link to="/nen-mau">Quản lý nền mẫu</Link>
+        <Item key="insureProcess" className="menu-navigation__item">
+          <Link to="/">Quy trình bảo hành</Link>
         </Item>
-        <Item key="nhom-linh-vuc" className="menu-navigation__item">
-          <Link to="/nhom-linh-vuc">Nhóm lĩnh vực</Link>
-        </Item>
-        <Item key="linh-vuc" className="menu-navigation__item">
-          <Link to="/linh-vuc">Lĩnh vực</Link>
-        </Item>
-        <Item key="nhom-chi-tieu" className="menu-navigation__item">
-          <Link to="/nhom-chi-tieu">Nhóm chỉ tiêu</Link>
-        </Item>
-        <Item key="chi-tieu-kiem-nghiem" className="menu-navigation__item">
-          <Link to="/chi-tieu-kiem-nghiem">Chỉ tiêu kiểm nghiệm</Link>
-        </Item>
-        <Item key="dang-bao-che" className="menu-navigation__item">
-          <Link to="/dang-bao-che">Dạng bào chế</Link>
-        </Item>
-        <Item key="hoat-chat" className="menu-navigation__item">
-          <Link to="/hoat-chat">Hoạt chất</Link>
-        </Item>
-        <Item key="hoa-chat" className="menu-navigation__item">
-          <Link to="/hoa-chat">Hóa chất</Link>
-        </Item>
-      </SubMenu> */}
-
-      {/* <SubMenu
-        key={"quy-trinh-sub"}
-        icon={<ApartmentOutlined />}
-        title={"Quản lý quy trình"}
-        className="menu-navigation__sub-menu"
-      >
-        <Item key="tiep-nhan-ho-so" className="menu-navigation__item">
-          <Link to="/tiep-nhan-ho-so">Tiếp nhận hồ sơ</Link>
-        </Item>
-        <Item key="phan-chia-chi-tieu" className="menu-navigation__item">
-          <Link to="/phan-chia-chi-tieu">Phân chia chỉ tiêu</Link>
-        </Item>
-        <Item key="phan-chia-kiem-mau" className="menu-navigation__item">
-          <Link to="/phan-chia-kiem-mau">Phân chia kiểm mẫu</Link>
-        </Item>
-        <Item key="ket-qua-kiem-nghiem" className="menu-navigation__item">
-          <Link to="/ket-qua-kiem-nghiem">Kết quả kiểm mẫu</Link>
-        </Item>
-        <Item key="nha-thau-phu" className="menu-navigation__item">
-          <Link to="/nha-thau-phu">Nhà thầu phụ</Link>
-        </Item>
-        <Item key="tong-hop-ket-qua" className="menu-navigation__item">
-          <Link to="/tong-hop-ket-qua">Tổng hợp kết quả</Link>
-        </Item>
-        <Item key="quan-ly-su-co" className="menu-navigation__item">
-          <Link to="/quan-ly-su-co">Quản lý sự cố</Link>
-        </Item>
-      </SubMenu> */}
-
-      {/* <SubMenu
-				key={"quan-ly-mau-sub"}
-				icon={<DeploymentUnitOutlined />}
-				title={"Quản lý mẫu"}
-				className="menu-navigation__sub-menu"
-			>
-				<Item key="quan-ly-mau-luu" className="menu-navigation__item">
-					<Link to="/quan-ly-mau-luu">Quản lý mẫu lưu</Link>
-				</Item>
-				<Item key="quan-ly-mau-thanh-ly" className="menu-navigation__item">
-					<Link to="/quan-ly-mau-thanh-ly">Quản lý mẫu thanh lý</Link>
-				</Item>
-				<Item
-					key="quan-ly-mau-tra-khach-hang"
-					className="menu-navigation__item"
-				>
-					<Link to="/quan-ly-mau-tra-khach-hang">
-						Quản lý mẫu trả khách hàng
-					</Link>
-				</Item>
-				<Item key="quan-ly-mau-het" className="menu-navigation__item">
-					<Link to="/quan-ly-mau-het">Quản lý mẫu hết</Link>
-				</Item>
-				<Item key="quan-ly-nha-thau-phu" className="menu-navigation__item">
-					<Link to="/quan-ly-nha-thau-phu">Quản lý nhà thầu phụ</Link>
-				</Item>
-			</SubMenu> */}
-
-      {/* <SubMenu
-        key={"quan-ly-tai-lieu-sub"}
-        icon={<FolderOpenOutlined />}
-        title={"Quản lý tài liệu"}
-        className="menu-navigation__sub-menu"
-      >
-        <Item key="nhom-tai-lieu" className="menu-navigation__item">
-          <Link to="/quan-ly-mau-luu">Nhóm tài liệu</Link>
-        </Item>
-        <Item key="tai-lieu-bieu-mau" className="menu-navigation__item">
-          <Link to="/tai-lieu-bieu-mau">Tài liệu/ Biểu mẫu</Link>
+        <Item key="insureReport" className="menu-navigation__item">
+          <Link to="/">Báo cáo bảo hánh</Link>
         </Item>
       </SubMenu>
 
       <SubMenu
-        key={"thong-ke-sub"}
-        icon={<PieChartOutlined />}
-        title={"Báo cáo/ Thống kê"}
+        key="productSub"
+        icon={<GoldOutlined />}
+        title="Sản phẩm"
         className="menu-navigation__sub-menu"
       >
-        <Item key="thong-ke-chung" className="menu-navigation__item">
-          <Link to="/thong-ke-chung">Thống kê chung</Link>
+        <Item key="productManage" className="menu-navigation__item">
+          <Link to="/">Sản phẩm</Link>
         </Item>
-        <Item
-          key="thong-ke-so-mau-nhan-tu-khach-hang"
-          className="menu-navigation__item"
-        >
-          <Link to="/thong-ke-so-mau-nhan-tu-khach-hang">
-            Thống kê số mẫu nhận từ khách hàng
-          </Link>
+        <Item key="orderManage" className="menu-navigation__item">
+          <Link to="/">Đơn hàng</Link>
         </Item>
-        <Item
-          key="thong-ke-mau-nhan-phong-thi-nghiem"
-          className="menu-navigation__item"
-        >
-          <Link to="/thong-ke-mau-nhan-phong-thi-nghiem">
-            Thống kê mẫu nhận phòng thí nghiệm
-          </Link>
-        </Item>
-        <Item key="thong-ke-so-chi-tieu-nhan" className="menu-navigation__item">
-          <Link to="/thong-ke-so-chi-tieu-nhan">Thống kê số chỉ tiêu nhận</Link>
-        </Item>
-        <Item key="thong-ke-tien-do-kiem-thu" className="menu-navigation__item">
-          <Link to="/thong-ke-tien-do-kiem-thu">
-            Thống kê tiến độ thử nghiệm
-          </Link>
-        </Item>
-        <Item key="thong-ke-tai-lieu" className="menu-navigation__item">
-          <Link to="/thong-ke-tai-lieu">Thống kê tài liệu</Link>
-        </Item>
-        <Item key="thong-ke-cac-su-co" className="menu-navigation__item">
-          <Link to="/thong-ke-cac-su-co">Thống kê các sự cố</Link>
-        </Item>
-        <Item
-          key="thong-ke-danh-sach-nhan-su"
-          className="menu-navigation__item"
-        >
-          <Link to="/thong-ke-danh-sach-nhan-su">
-            Thống kê danh sách nhân sự
-          </Link>
-        </Item>
-        <Item
-          key="thong-ke-danh-sach-khac-hang"
-          className="menu-navigation__item"
-        >
-          <Link to="/thong-ke-danh-sach-khac-hang">
-            Thống kê danh sách khách hàng
-          </Link>
-        </Item>
-        <Item key="thong-ke-phuong-phap-thu" className="menu-navigation__item">
-          <Link to="/thong-ke-phuong-phap-thu">
-            Thống kê danh sách phương pháp thử
-          </Link>
-        </Item>
-        <Item key="thong-ke-nen-mau" className="menu-navigation__item">
-          <Link to="/thong-ke-nen-mau">Thống kê danh sách nền mẫu</Link>
-        </Item>
-        <Item
-          key="thong-ke-chi-tieu-kiem-nghiem"
-          className="menu-navigation__item"
-        >
-          <Link to="/thong-ke-chi-tieu-kiem-nghiem">
-            Thống kê danh sách chỉ tiêu thử nghiệm
-          </Link>
+        <Item key="barcode" className="menu-navigation__item">
+          <Link to="/">Mã vạch</Link>
         </Item>
       </SubMenu>
 
       <SubMenu
-        key="system-management"
-        icon={<ApartmentOutlined />}
-        title={"Quản trị hệ thống"}
+        key="custonmerSub"
+        icon={<TeamOutlined />}
+        title="Khách hàng"
         className="menu-navigation__sub-menu"
       >
-        <Item key="he-thong/nguoi-dung" className="menu-navigation__item">
-          <Link to="/he-thong/nguoi-dung">Người dùng</Link>
+        <Item key="customerManage" className="menu-navigation__item">
+          <Link to="/">Khách hàng</Link>
         </Item>
-        <Item key="he-thong/tai-khoan" className="menu-navigation__item">
-          <Link to="/he-thong/tai-khoan">Tài khoản</Link>
+        <Item key="supplierManage" className="menu-navigation__item">
+          <Link to="/">Nhà cung cấp</Link>
         </Item>
-      </SubMenu> */}
+      </SubMenu>
+
+      <SubMenu
+        key="warehouseSub"
+        icon={<HomeOutlined />}
+        title="Hàng kho"
+        className="menu-navigation__sub-menu"
+      >
+        <Item key="warehouseInput" className="menu-navigation__item">
+          <Link to="/">Nhập kho</Link>
+        </Item>
+        <Item key="warehouseMove" className="menu-navigation__item">
+          <Link to="/">Chuyển kho</Link>
+        </Item>
+        <Item key="warehouseBacklog" className="menu-navigation__item">
+          <Link to="/">Tồn kho</Link>
+        </Item>
+      </SubMenu>
+
+      <SubMenu
+        key="documentSub"
+        icon={<BookOutlined />}
+        title="Sổ sách"
+        className="menu-navigation__sub-menu"
+      >
+        <Item key="receipt" className="menu-navigation__item">
+          <Link to="/">Phiếu thu</Link>
+        </Item>
+        <Item key="payment" className="menu-navigation__item">
+          <Link to="/">Phiếu chi</Link>
+        </Item>
+        <Item key="cashbook" className="menu-navigation__item">
+          <Link to="/">Sổ quỷ</Link>
+        </Item>
+      </SubMenu>
+
+      <SubMenu
+        key="reportSub"
+        icon={<LineChartOutlined />}
+        title="Báo cáo"
+        className="menu-navigation__sub-menu"
+      >
+        <Item key="profit" className="menu-navigation__item">
+          <Link to="/">Lợi nhuận</Link>
+        </Item>
+        <Item key="totalSale" className="menu-navigation__item">
+          <Link to="/">Doanh số tổng</Link>
+        </Item>
+        <Item key="totalReport" className="menu-navigation__item">
+          <Link to="/">Báo cáo tổng hợp</Link>
+        </Item>
+      </SubMenu>
+
+      <SubMenu
+        key="setting"
+        icon={<SettingOutlined />}
+        title="Thiết lập"
+        className="menu-navigation__sub-menu"
+      >
+        <Item key="staffManage" className="menu-navigation__item">
+          <Link to="/san-pham">Nhân viên</Link>
+        </Item>
+        <Item key="authorizeManage" className="menu-navigation__item">
+          <Link to="">Phân quyền</Link>
+        </Item>
+        <Item key="warehouseManage" className="menu-navigation__item">
+          <Link to="/">Kho</Link>
+        </Item>
+      </SubMenu>
     </Menu>
   );
 };
