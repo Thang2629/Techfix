@@ -1,5 +1,5 @@
 // react import
-import React from 'react';
+import React from "react";
 // import { useDispatch } from 'react-redux';
 
 // hooks
@@ -11,11 +11,11 @@ import React from 'react';
 // import LanguageProvider from 'common/provider/Language';
 // import { defineRulesFor } from 'utils/ability';
 
-import Routes from 'routes/Routes';
-import './App.less';
+import RoutesApp from "routes/Routes";
+import "./App.less";
 
 const App = (props) => {
-  return <Routes />;
-}
+  return <RoutesApp />;
+};
 
 export default App;

@@ -34,37 +34,33 @@ function HomeRoutes(props) {
   // let { path, } = useRouteMatch();
   const containers = (
     <Switch>
-      <Route path={`/`} exact component={Dashboard} />
-      <Route path={`/dashboard`} exact component={Dashboard} />
-      <Route path={`/quan-ly-khoa`} exact component={ApartmentManage} />
-      <Route path={`/quan-ly-phong-ban`} exact component={PhongBanManage} />
-      <Route path={`/san-pham`} exact component={StaffManage} />
-      <Route path={`/nhom-khach-hang`} exact component={CustomerGroup} />
-      <Route path={`/khach-hang`} exact component={CustomerManage} />
-      <Route path={`/loai-mau-tiep-nhan`} exact component={MauTiepNhan} />
-      <Route path={`/nhom-linh-vuc`} exact component={FieldsGroup} />
-      <Route path={`/linh-vuc`} exact component={Field} />
-      <Route path={`/dang-bao-che`} exact component={DangBaoChe} />
-      <Route path={`/hoat-chat`} exact component={HoatChat} />
-      <Route
-        path={`/chi-tieu-kiem-nghiem`}
-        exact
-        component={ChiTieuKiemNghiem}
-      />
-      <Route path={`/nhom-chi-tieu`} exact component={NhomChiTieu} />
-      <Route path={`/tiep-nhan-ho-so`} exact component={HoSoTiepNhan} />
-      <Route path={`/ho-so/:id`} exact component={PhanChiaChiTieu} />
-      <Route path={`/phan-chia-chi-tieu`} exact component={PhanChiaChiTieu} />
-      <Route path={`/phan-chia-kiem-mau`} exact component={PhanChiaKiemMau} />
-      <Route path={`/ket-qua-kiem-nghiem`} exact component={PhanChiaKiemMau} />
-      <Route path={`/nha-thau-phu`} exact component={PhanChiaKiemMau} />
-      <Route path={`/tong-hop-ket-qua`} exact component={PhanChiaKiemMau} />
-      <Route path={`/thong-ke/chi-tieu`} exact component={ThongKe} />
-      <Route path={`/he-thong/tai-khoan`} exact component={QuanTriNguoiDung} />
-      <Route path={`/he-thong/nguoi-dung`} exact component={QuanTriNguoiDung} />
-      <Route path={`/tiep-nhan-ho-so/new`} exact component={CreatePhieu} />
-      <Route path={`/quan-ly-nhan-vien/:id`} exact component={DetailNhanVien} />
-      <Route path={`/khach-hang/:id`} exact component={CustomerManageDetail} />
+      <Route path="/" exact component={Dashboard} />
+      <Route path="/dashboard" exact component={Dashboard} />
+      <Route path="/quan-ly-khoa" exact component={ApartmentManage} />
+      <Route path="/quan-ly-phong-ban" exact component={PhongBanManage} />
+      <Route path="/san-pham" exact component={StaffManage} />
+      <Route path="/nhom-khach-hang" exact component={CustomerGroup} />
+      <Route path="/khach-hang" exact component={CustomerManage} />
+      <Route path="/loai-mau-tiep-nhan" exact component={MauTiepNhan} />
+      <Route path="/nhom-linh-vuc" exact component={FieldsGroup} />
+      <Route path="/linh-vuc" exact component={Field} />
+      <Route path="/dang-bao-che" exact component={DangBaoChe} />
+      <Route path="/hoat-chat" exact component={HoatChat} />
+      <Route path="/chi-tieu-kiem-nghiem" exact component={ChiTieuKiemNghiem} />
+      <Route path="/nhom-chi-tieu" exact component={NhomChiTieu} />
+      <Route path="/tiep-nhan-ho-so" exact component={HoSoTiepNhan} />
+      <Route path="/ho-so/:id" exact component={PhanChiaChiTieu} />
+      <Route path="/phan-chia-chi-tieu" exact component={PhanChiaChiTieu} />
+      <Route path="/phan-chia-kiem-mau" exact component={PhanChiaKiemMau} />
+      <Route path="/ket-qua-kiem-nghiem" exact component={PhanChiaKiemMau} />
+      <Route path="/nha-thau-phu" exact component={PhanChiaKiemMau} />
+      <Route path="/tong-hop-ket-qua" exact component={PhanChiaKiemMau} />
+      <Route path="/thong-ke/chi-tieu" exact component={ThongKe} />
+      <Route path="/he-thong/tai-khoan" exact component={QuanTriNguoiDung} />
+      <Route path="/he-thong/nguoi-dung" exact component={QuanTriNguoiDung} />
+      <Route path="/tiep-nhan-ho-so/new" exact component={CreatePhieu} />
+      <Route path="/quan-ly-nhan-vien/:id" exact component={DetailNhanVien} />
+      <Route path="/khach-hang/:id" exact component={CustomerManageDetail} />
     </Switch>
   );
   return (
