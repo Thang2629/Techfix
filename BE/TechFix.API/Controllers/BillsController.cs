@@ -55,7 +55,7 @@ namespace TechFix.API.Controllers
                 AmountOwed = request.AmountOwed,
                 Code = await _sequenceService.GetNextBillCode()
             };
-            if (request.Products.Any())
+            if (request.Products?.Any() == true)
             {
                 var productIds = request.Products.Select(p => p.Id);
                 var products = await _context.Products
@@ -93,7 +93,7 @@ namespace TechFix.API.Controllers
                 }
             }
 
-            if (request.FixProducts.Any())
+            if (request.FixProducts?.Any() == true)
             {
                 var fixProductIds = request.FixProducts.Select(fp => fp.Id).ToList();
                 var fixProducts = await _context.FixProducts
@@ -112,6 +112,9 @@ namespace TechFix.API.Controllers
                     fixProduct.IsCreatedBill = true;
                 }
             }
+
+            _context.Bills.Add(bill);
+            await _context.SaveChangesAsync();
 
             return Ok();
         }

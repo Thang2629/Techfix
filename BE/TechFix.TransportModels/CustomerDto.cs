@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using TechFix.Common.Interfaces;
+using TechFix.EntityModels;
 
-namespace TechFix.EntityModels
+namespace TechFix.TransportModels
 {
-    public class Customer : BaseModel
+    public class CustomerDto : IMapFrom<Customer>, IMapTo<Customer>
     {
         public string ImagePath { get; set; }
         public string Team { get; set; } //Khách sỉ, Khách lẻ

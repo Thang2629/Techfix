@@ -37,5 +37,5 @@ namespace TechFix.API.Controllers
 			_env = env;
 			_commonService = commonService;
 		}
-	}
+    }
 }

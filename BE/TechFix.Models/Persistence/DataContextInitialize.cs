@@ -54,12 +54,28 @@ public class DataContextInitialize
             {
                 SeedProductCondition();
             }
+
+            if (!_context.PaymentMethods.Any())
+            {
+                SeedPaymentMethods();
+            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while seeding the database.");
             throw;
         }
+    }
+
+    private void SeedPaymentMethods()
+    {
+        _context.PaymentMethods.AddRange(new List<PaymentMethod>
+        {
+            new (){Id = Guid.Parse("5F88B1B9-090F-4ADE-B7B3-377626F985B8"), Name = "Tiền mặt"},
+            new (){Id = Guid.Parse("649312B0-80D7-4573-B70F-E99F673FB2A2"), Name = "Thẻ"},
+            new (){Id = Guid.Parse("50F73E3A-C353-48FE-82E5-4A9187252D77"), Name = "CK"},
+        });
+        _context.SaveChanges();
     }
 
     private void SeedStore()
@@ -84,9 +100,6 @@ public class DataContextInitialize
             new() { Id = new Guid("67425823-7017-4e67-aa50-0527636e6a4d"), Name = "HP", Path = "/adapter/hp" },
             new() { Id = new Guid("dfca494b-325f-4ccc-9d98-c33fc5b3173c"), Name = "HP", Path = "/adapter/hp" },
             new() { Id = new Guid("50793467-3d5e-42e0-aa5a-11f515d66e6b"), Name = "Lenovo", Path = "/adapter/lenovo" },
-            new() { Id = new Guid("62e44abf-e3cb-4c83-81e9-7867c13ad4a3"), Name = "L1", Path = "/adapter/lenovo/l1" },
-            new() { Id = new Guid("c905a591-3349-4aed-b8fc-0e20dc7aec43"), Name = "L1.1", Path = "/adapter/lenovo/l1/l1.1" },
-            new() { Id = new Guid("0bef5e3a-fd1d-4690-8af1-3c4756617778"), Name = "L1.2", Path = "/adapter/lenovo/l1/l1.2" },
             new() { Id = new Guid("52d70768-b31e-42ed-870d-01325b72ddc1"), Name = "ASUS", Path = "/adapter/asus" },
             new() { Id = new Guid("5b7288dc-4045-4d69-bb8a-1e463b64db8d"), Name = "ACER", Path = "/adapter/acer" },
             new() { Id = new Guid("d3d142c9-74e2-4a24-ad16-328fc6ae2b59"), Name = "TOSHIBA", Path = "/adapter/toshiba" },
@@ -210,6 +223,7 @@ public class DataContextInitialize
         CreateSequence("BillCode", 1000000);
         CreateSequence("FixOrderCode", 1000000);
         CreateSequence("FixProductCode", 1000000);
+        CreateSequence("CustomerCode", 100000);
     }
 
     private void CreateSequence(string sequenceName, int startNumber)
