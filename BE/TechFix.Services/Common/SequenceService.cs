@@ -35,6 +35,26 @@ namespace TechFix.Services.Common
             var sequence = await _context.GetNextSequenceValue("BillCode");
             return $"PX{sequence}";
         }
+
+        public async Task<string> GetFundCode(bool isAdd)
+        {
+            int nextValue = await _context.GetNextSequenceValue("FundCodeIncrement");
+            if (isAdd) return $"TQ{nextValue}";
+            return $"CQ{nextValue}";
+        }
+
+        public async Task<string> GetFixOrderCode(bool isFixOrder)
+        {
+            int nextValue = await _context.GetNextSequenceValue("FixOrderCode");
+            if (isFixOrder) return $"BN{nextValue}";
+            return $"BH{nextValue}";
+        }
+
+        public async Task<string> GetFixProductCode()
+        {
+            int nextValue = await _context.GetNextSequenceValue("FixProductCode");
+            return $"MD{nextValue}";
+        }
     }
 	
 }

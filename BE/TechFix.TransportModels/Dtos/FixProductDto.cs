@@ -1,21 +1,16 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TechFix.Common.Interfaces;
+using TechFix.EntityModels;
 
-namespace TechFix.EntityModels
+namespace TechFix.TransportModels.Dtos
 {
-    /// <summary>
-    /// Bao gồm cả máy sửa chữa và máy bảo hành
-    /// </summary>
-    [Index(nameof(FixStaffId))]
-    public class FixProduct : BaseModel
+    public class FixProductDto : IMapFrom<FixProduct>
     {
-        #region FK
-
-        public Bill Bill { get; set; }
-        public Guid? BillId { get; set; }
-
-
-        #endregion
+        public Guid Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public string ErrorDescription { get; set; }
@@ -52,9 +47,7 @@ namespace TechFix.EntityModels
         public string Lcd { get; set; }
         public string Other { get; set; }
         public Guid? FixStaffId { get; set; }
-        public User FixStaff { get; set; }
         public Guid? FixOrderId { get; set; }
-        public FixOrder FixOrder { get; set; }
         public DateTime ReceiptDate { get; set; }
         public DateTime ReturnDate { get; set; }
         public decimal TotalMoney { get; set; }

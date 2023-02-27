@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -70,17 +72,63 @@ public class DataContextInitialize
     {
         _context.Categories.AddRange(new List<Category>
         {
-            new() {Id = Guid.NewGuid(), Name = "LCD - Màn hình Laptop"},
-            new() {Id = Guid.NewGuid(), Name = "Màn hình AOC"},
-            new() {Id = Guid.NewGuid(), Name = "Phần mềm diệt virus - win"},
-            new() {Id = Guid.NewGuid(), Name = "VGA Laptop"},
-            new() {Id = Guid.NewGuid(), Name = "CPU - Vi xử lý"},
-            new() {Id = Guid.NewGuid(), Name = "ASUS"},
-            new() {Id = Guid.NewGuid(), Name = "ACER"},
-            new() {Id = Guid.NewGuid(), Name = "TOSHIBA"},
-            new() {Id = Guid.NewGuid(), Name = "SONY"},
-            new() {Id = Guid.NewGuid(), Name = "Macbook"},
-            new() {Id = Guid.NewGuid(), Name = "Keo tản nhiệt"}
+            new() { Id = new Guid("5937b3fe-a1ef-4d83-9c91-2927a0c00185"), Name = "LCD - Màn hình Laptop", Path = "/lcd" },
+            new() { Id = new Guid("3e107806-2a75-4eed-9987-dc88a69a031a"), Name = "Màn hình AOC", Path = "/lcd/aoc" },
+            new() { Id = new Guid("1406750b-1862-4c8f-8eb0-cc6299a7e28e"), Name = "Phần mềm Virus - Win", Path = "/virus-win" },
+            new() { Id = new Guid("51ccd309-6ac0-4ecd-814b-c7d06abca651"), Name = "Card VGA Laptop", Path = "/vga-laptop" },
+            new() { Id = new Guid("9f119605-7dcc-4d80-ac69-f07f860a93e8"), Name = "CPU Vi xử lý", Path = "/cpu" },
+            new() { Id = new Guid("a09590c7-fa52-446b-a3a4-5768e4fd4e95"), Name = "Box HDD - CaddyBay Laptop", Path = "/hdd-caddybay" },
+            new() { Id = new Guid("76879d8a-5602-4840-96a6-769d83816a54"), Name = "Cáp chuyển đổi tín hiệu", Path = "/cable" },
+            new() { Id = new Guid("b31a8971-b446-43f2-b983-ee106455f3a0"), Name = "Adapter Laptop", Path = "/adapter" },
+            new() { Id = new Guid("57b2461d-353e-49ce-a5d3-8a089324d151"), Name = "DELL", Path = "/adapter/dell" },
+            new() { Id = new Guid("67425823-7017-4e67-aa50-0527636e6a4d"), Name = "HP", Path = "/adapter/hp" },
+            new() { Id = new Guid("dfca494b-325f-4ccc-9d98-c33fc5b3173c"), Name = "HP", Path = "/adapter/hp" },
+            new() { Id = new Guid("50793467-3d5e-42e0-aa5a-11f515d66e6b"), Name = "Lenovo", Path = "/adapter/lenovo" },
+            new() { Id = new Guid("62e44abf-e3cb-4c83-81e9-7867c13ad4a3"), Name = "L1", Path = "/adapter/lenovo/l1" },
+            new() { Id = new Guid("c905a591-3349-4aed-b8fc-0e20dc7aec43"), Name = "L1.1", Path = "/adapter/lenovo/l1/l1.1" },
+            new() { Id = new Guid("0bef5e3a-fd1d-4690-8af1-3c4756617778"), Name = "L1.2", Path = "/adapter/lenovo/l1/l1.2" },
+            new() { Id = new Guid("52d70768-b31e-42ed-870d-01325b72ddc1"), Name = "ASUS", Path = "/adapter/asus" },
+            new() { Id = new Guid("5b7288dc-4045-4d69-bb8a-1e463b64db8d"), Name = "ACER", Path = "/adapter/acer" },
+            new() { Id = new Guid("d3d142c9-74e2-4a24-ad16-328fc6ae2b59"), Name = "TOSHIBA", Path = "/adapter/toshiba" },
+            new() { Id = new Guid("429f224b-bf56-4c2e-830a-79f0ed3ae3f3"), Name = "SONY", Path = "/adapter/sony" },
+            new() { Id = new Guid("c44fdaa4-e6ac-4a58-80df-537baee6ab1e"), Name = "Macbook", Path = "/adapter/macbook" },
+            new() { Id = new Guid("8debca51-ea31-4699-9b92-d72d1c4d990f"), Name = "Keo tản nhiệt", Path = "/thermal-paste" },
+            new() { Id = new Guid("e3ff15cd-6adc-4f01-a0a0-10079aeb4af1"), Name = "HDD Laptop - PC", Path = "/hdd" },
+            new() { Id = new Guid("2ffddc6a-52c1-4b25-8632-0eccbbd0bdc9"), Name = "HDD Laptop", Path = "/hdd/laptop" },
+            new() { Id = new Guid("43f7ca1d-c33d-448c-8e8e-29d91329bfc8"), Name = "HDD PC", Path = "/hdd/pc" },
+            new() { Id = new Guid("b83c2713-74b5-4610-b8e4-f05d4c89c2f1"), Name = "SSD - Ổ cứng rắn", Path = "/ssd" },
+            new() { Id = new Guid("a00039d2-39c8-4ff6-98ef-3c83183e7d7f"), Name = "SSD 2.5in", Path = "/ssd/2.5" },
+            new() { Id = new Guid("190d2d13-85d9-40ca-be84-007df211792e"), Name = "SSD mSata", Path = "/ssd/msata" },
+            new() { Id = new Guid("9ddfcbb3-bc48-4b66-abe9-05b361dad875"), Name = "SSD M2 Sata3", Path = "/ssd/m2-sata3" },
+            new() { Id = new Guid("f68ab117-976f-4ccf-bfd7-2bda43f72e2b"), Name = "SSD NVMe - PCIE", Path = "/ssd/nvme" },
+            new() { Id = new Guid("eb4c1945-0218-41ae-a9d3-e24030a6f9f8"), Name = "SSD - Macbook", Path = "/ssd/macbook" },
+            new() { Id = new Guid("aec6ad12-c89d-4f6d-a323-f2e507dbe2d4"), Name = "RAM - Bộ nhớ trong", Path = "/ram" },
+            new() { Id = new Guid("97e44c8d-c398-4452-8a9a-66e3f5a54f46"), Name = "RAM - PC", Path = "/ram/pc" },
+            new() { Id = new Guid("246a4eb8-716c-4210-bf35-014e5b37440e"), Name = "RAM - Laptop", Path = "/ram/laptop" },
+            new() { Id = new Guid("7549ac63-367e-4dd8-b0d9-f2f527ed0bbb"), Name = "Pin Laptop - Macbook", Path = "/pin" },
+            new() { Id = new Guid("32610e85-c98b-4640-a7cd-4ffdb8531cb4"), Name = "Pin Laptop", Path = "/pin/laptop" },
+            new() { Id = new Guid("62e4b9b9-2d05-4e1a-a535-7e7f50097710"), Name = "Pin Macbook", Path = "/pin/macbook" },
+            new() { Id = new Guid("3673731b-2fc1-4d3d-9a0b-ac52a0ac9fb8"), Name = "PSU - Nguồn PC", Path = "/psu" },
+            new() { Id = new Guid("2b3e5af1-c218-4e1c-b6a0-5e54d0905223"), Name = "Nguồn CH New", Path = "/psu/ch-new" },
+            new() { Id = new Guid("089aac0a-789b-4339-8e56-062f29e6ef27"), Name = "Nguồn Dell", Path = "/psu/dell" },
+            new() { Id = new Guid("16a9ba40-b861-4062-9203-2f7d57aabd97"), Name = "Nguồn HP", Path = "/psu/hp" },
+            new() { Id = new Guid("a06abcfe-fb3c-4b2a-8c39-d287a7963867"), Name = "Nguồn Lenovo", Path = "/psu/lenovo" },
+            new() { Id = new Guid("7e26d06a-e329-4bb2-9e3b-0c3b93732589"), Name = "Nguồn tổng hợp", Path = "/psu/tong-hop" },
+            new() { Id = new Guid("b4555973-9779-4fa0-b564-ca3368eaa33e"), Name = "Phím - chuột PC", Path = "/phim-chuot" },
+            new() { Id = new Guid("5288443a-d3d9-4a6b-bd83-8af3b41837be"), Name = "Combo K + M", Path = "/phim-chuot/combo-km" },
+            new() { Id = new Guid("af2f3d60-c5c0-4989-aa3c-36c4694ede03"), Name = "Bàn Phím", Path = "/phim-chuot/ban-phim" },
+            new() { Id = new Guid("d691aaf6-0129-4ff1-8c4c-74dc6bc29cc5"), Name = "Chuột USB", Path = "/phim-chuot/chuot-usb" },
+            new() { Id = new Guid("c4c231e5-b021-4924-b591-3fce093af85b"), Name = "Pad Mouse", Path = "/phim-chuot/mousepad" },
+            new() { Id = new Guid("11342b7f-a61a-4224-8703-b60fb926c770"), Name = "Card màn hình PC", Path = "/vga-pc" },
+            new() { Id = new Guid("daca376d-1508-4a12-b976-5f9412a8f67c"), Name = "Nvidia Quadro", Path = "/vga-pc/quadro" },
+            new() { Id = new Guid("ce6e6b7d-680c-44c4-9c85-87989dbfeb95"), Name = "VGA GTX", Path = "/vga-pc/gtx" },
+            new() { Id = new Guid("86d093b8-d21b-4f01-87be-c9d7c8b368bd"), Name = "VGA RTX", Path = "/vga-pc/rtx" },
+            new() { Id = new Guid("f235b8a7-7378-4026-9af5-7d33f5970eb9"), Name = "Linh kiện điện thoại", Path = "/accessory" },
+            new() { Id = new Guid("97600878-aa5b-4ac4-8e3f-fbf2ddaacf43"), Name = "Cáp sạc", Path = "/accessory/cable" },
+            new() { Id = new Guid("9757b9fd-e278-439b-af23-90a00d7b790f"), Name = "Pin iphone", Path = "/accessory/pin-iphone" },
+            new() { Id = new Guid("73bcdabc-a59c-46a2-844e-d4d6ad7db96d"), Name = "Pin dự phòng", Path = "/accessory/pin-du-phong" },
+            new() { Id = new Guid("a1da03e6-25f4-4c58-9f7a-24f762327c94"), Name = "Docking laptop", Path = "/docking-laptop" },
+
         });
         _context.SaveChanges();
     }
@@ -89,10 +137,10 @@ public class DataContextInitialize
     {
         _context.ProductUnits.AddRange(new List<ProductUnit>
         {
-            new ProductUnit {Id = Guid.NewGuid(), Name = "Cái", IsDeleted = false},
-            new ProductUnit {Id = Guid.NewGuid(), Name = "Bộ", IsDeleted = false},
-            new ProductUnit {Id = Guid.NewGuid(), Name = "Con", IsDeleted = false},
-            new ProductUnit {Id = Guid.NewGuid(), Name = "Cm", IsDeleted = false}
+            new ProductUnit {Id = new Guid("EB4A1712-88AC-4694-8941-5E7305BBC4B1"), Name = "Bộ", IsDeleted = false},
+            new ProductUnit {Id = new Guid("0A30FCA8-BC21-407E-9264-8EA2E5F41575"), Name = "Con", IsDeleted = false},
+            new ProductUnit {Id = new Guid("7035167E-2EC1-46CB-A346-9F6A20EAC535"), Name = "Cái", IsDeleted = false},
+            new ProductUnit {Id = new Guid("92C5A297-4635-46AD-8C9E-B5F28FD44E75"), Name = "Cm", IsDeleted = false}
         });
         _context.SaveChanges();
     }
@@ -101,12 +149,12 @@ public class DataContextInitialize
     {
         _context.ProductConditions.AddRange(new List<ProductCondition>
         {
-            new ProductCondition {Id = new Guid("9420681a-6d03-45bb-ab59-bd1af9e3054a"), Name = "Mới 100%", IsDeleted = false},
-            new ProductCondition {Id = new Guid("cb98afde-54ed-416c-a73c-18eef6f0983b"), Name = "Mới 99%", IsDeleted = false},
-            new ProductCondition {Id = new Guid("fcdf46b9-c1d6-4664-8ea4-7a1b25ab1875"), Name = "Mới 98%", IsDeleted = false},
-            new ProductCondition {Id = new Guid("ba55e427-1ecd-4d44-a27a-a5be26b89fdd"), Name = "Cũ đã qua sửa chữa", IsDeleted = false},
-            new ProductCondition {Id = new Guid("de2d4f17-b82c-47c0-9a88-a7bae70c8579"), Name = "Outlet", IsDeleted = false},
-            new ProductCondition {Id = new Guid("f97327e2-d6aa-439f-991a-875460b45284"), Name = "New Outlet", IsDeleted = false}
+            new ProductCondition {Id = new Guid("9420681A-6D03-45BB-AB59-BD1AF9E3054A"), Name = "Mới 100%", IsDeleted = false},
+            new ProductCondition {Id = new Guid("CB98AFDE-54ED-416C-A73C-18EEF6F0983B"), Name = "Mới 99%", IsDeleted = false},
+            new ProductCondition {Id = new Guid("FCDF46B9-C1D6-4664-8EA4-7A1B25AB1875"), Name = "Mới 98%", IsDeleted = false},
+            new ProductCondition {Id = new Guid("BA55E427-1ECD-4D44-A27A-A5BE26B89FDD"), Name = "Cũ đã qua sửa chữa", IsDeleted = false},
+            new ProductCondition {Id = new Guid("DE2D4F17-B82C-47C0-9A88-A7BAE70C8579"), Name = "Outlet", IsDeleted = false},
+            new ProductCondition {Id = new Guid("F97327E2-D6AA-439F-991A-875460B45284"), Name = "New Outlet", IsDeleted = false}
         });
         _context.SaveChanges();
     }
@@ -160,6 +208,8 @@ public class DataContextInitialize
     {
         CreateSequence("ProductCode", 100000);
         CreateSequence("BillCode", 1000000);
+        CreateSequence("FixOrderCode", 1000000);
+        CreateSequence("FixProductCode", 1000000);
     }
 
     private void CreateSequence(string sequenceName, int startNumber)
