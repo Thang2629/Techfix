@@ -4,7 +4,7 @@ import TabsSection from "common/components/TabsSection/TabsSection";
 import PageWrapper from "components/Layout/PageWrapper";
 import HeaderPage from "pages/home/header-page";
 import React from "react";
-import ThongTinKhachHang from "./tabs-component/ThongTinKhachHang";
+import ThongTinSanPham from "./tabs-component/ThongTinSanPham";
 
 const DetailCustomer = (props) => {
   const styleButton = {
@@ -18,7 +18,7 @@ const DetailCustomer = (props) => {
     {
       label: <>Thông tin Sản Phẩm</>,
       key: "1",
-      children: <ThongTinKhachHang />,
+      children: <ThongTinSanPham />,
     },
   ];
 

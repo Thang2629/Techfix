@@ -2,13 +2,23 @@ import React, { useEffect, useState, useRef } from "react";
 
 import { useDispatch } from "react-redux";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Input, Row, Form, message, Modal, Space, Select } from "antd";
+import {
+  Button,
+  Input,
+  Row,
+  Form,
+  message,
+  Modal,
+  Space,
+  Select,
+  Spin,
+} from "antd";
 import { ExclamationCircleOutlined, BarsOutlined } from "@ant-design/icons";
 import PageWrapper from "components/Layout/PageWrapper";
 import HeaderPage from "pages/home/header-page";
-
+import { useHistory } from "react-router-dom";
 import Grid from "components/Grid";
-import Loading from "components/Loading/Loading";
+
 import * as actions from "redux/global/actions";
 import { SEARCH_CRITERIA } from "static/Constants";
 import { deleteNhanVien } from "services/apartment-manage";
@@ -16,6 +26,7 @@ import { DELETE_ERROR, DELETE_SUCCESS } from "utils/common/messageContants";
 import { PRODUCTS_GRID_ENDPOINT } from "services/Products";
 import { getListManufacturers } from "services/Manufacturers";
 import { getListCatagories } from "services/Categories";
+
 import CreateAndUpdate from "./CreateAndUpdate";
 import { ButtonDelete, PrimaryButton } from "common/components/Buttons";
 import { Link } from "react-router-dom";
@@ -29,12 +40,15 @@ const { Search } = Input;
 
 const QLNhanVien = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [isOpen, setIsopen] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
   const [nhanVien, setNhanVien] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
+  const [productUnits, setProductUnits] = useState([]);
+  const [productConditions, setProductConditions] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [form] = Form.useForm();
   const refBtn = useRef();
@@ -128,7 +142,7 @@ const QLNhanVien = (props) => {
       dataIndex: "action",
       render: (_, values) => (
         <Space>
-          <Link to={`/quan-ly-nhan-vien/${values.Id}`}>
+          <Link to={`/san-pham/${values.Id}`}>
             <PrimaryButton
               icon={<BarsOutlined />}
               onClick={() => onClickDetail(values)}
@@ -144,6 +158,7 @@ const QLNhanVien = (props) => {
   const onClickDetail = (values) => {
     setOpenDetail(!openDetail);
     setNhanVien(values.Id);
+    // history.push(`/san-pham/${values.Id}`);
   };
 
   const readGrid = (refresh) => {
@@ -331,25 +346,26 @@ const QLNhanVien = (props) => {
   };
   return (
     <>
-      {isLoading && <Loading />}
-      <HeaderPage title="DANH SÁCH SẢN PHẨM">{renderToolbar()}</HeaderPage>
-      <div className="main__application">
-        <PageWrapper>
-          <Grid
-            columns={columns}
-            urlEndpoint={PRODUCTS_GRID_ENDPOINT}
-            data={filterData}
-          />
-        </PageWrapper>
-      </div>
-      <CreateAndUpdate
-        isOpen={isOpen}
-        ID={nhanVien}
-        reloadTable={() => readGrid(true)}
-        form={form}
-        onClose={() => setIsopen(false)}
-        title={nhanVien ? "Cập nhật dữ liệu" : "Thêm mới dữ liệu"}
-      />
+      <Spin spinning={isLoading} tip="Loading...">
+        <HeaderPage title="DANH SÁCH SẢN PHẨM">{renderToolbar()}</HeaderPage>
+        <div className="main__application">
+          <PageWrapper>
+            <Grid
+              columns={columns}
+              urlEndpoint={PRODUCTS_GRID_ENDPOINT}
+              data={filterData}
+            />
+          </PageWrapper>
+        </div>
+        <CreateAndUpdate
+          isOpen={isOpen}
+          ID={nhanVien}
+          reloadTable={() => readGrid(true)}
+          form={form}
+          onClose={() => setIsopen(false)}
+          title={nhanVien ? "Cập nhật dữ liệu" : "Thêm mới dữ liệu"}
+        />
+      </Spin>
     </>
   );
 };

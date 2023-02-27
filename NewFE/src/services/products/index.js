@@ -11,3 +11,7 @@ export const getProducts = (payload) => {
 export const getProductDetails = (Id) => {
   return api.sendPost(`${PRODUCTS_ENDPOINT}/detail/${Id}`);
 };
+
+export const updateProduct = (Id, payload) => {
+  return api.sendPut(`${PRODUCTS_ENDPOINT}/${Id}`, payload);
+};

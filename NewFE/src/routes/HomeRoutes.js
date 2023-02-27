@@ -65,6 +65,7 @@ function HomeRoutes(props) {
       <Route path="/khach-hang/:id" exact component={CustomerManageDetail} />
       {/* New route */}
       <Route path="/tao-san-pham" exact component={CreateProduct} />
+      <Route path="/san-pham/:id" exact component={CreateProduct} />
     </Switch>
   );
   return (
