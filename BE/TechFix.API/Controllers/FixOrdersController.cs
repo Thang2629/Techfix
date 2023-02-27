@@ -14,16 +14,9 @@ using TechFix.EntityModels;
 using TechFix.Services.Common;
 using TechFix.TransportModels;
 using TechFix.TransportModels.Dtos;
-using Microsoft.AspNetCore.Http;
-using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using TechFix.Services;
-using AuthorizeNet;
-using Bogus.DataSets;
-using Microsoft.AspNetCore.JsonPatch.Internal;
-using StackExchange.Redis;
-using static QRCoder.PayloadGenerator;
-using System.Diagnostics;
+using TechFix.Common.Constants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -128,7 +121,7 @@ namespace TechFix.API.Controllers
                             Name = item.Name,
                             ErrorDescription = item.ErrorDescription,
                             Condition = item.Condition,
-                            Process = item.Process,
+                            Process = !string.IsNullOrEmpty(item.Process) ? item.Process : ConstantValue.PROCESS_CHECKING,
                             NumberOfTimes = item.NumberOfTimes,
                             Type = item.Type,
                             IsFixOrder = item.IsFixOrder,

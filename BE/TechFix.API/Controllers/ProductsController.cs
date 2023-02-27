@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -44,6 +43,8 @@ namespace TechFix.API.Controllers
                 .Include(p => p.Manufacturer)
                 .Include(p => p.Supplier)
                 .Include(p => p.Category)
+                .Include(p => p.ProductUnit)
+                .Include(p => p.ProductCondition)
                 .AsNoTracking();
             queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
             var mapConfig = new MapperConfiguration(
@@ -51,6 +52,8 @@ namespace TechFix.API.Controllers
                     .ForMember(dest => dest.ManufacturerName, opt => opt.MapFrom(src => src.Manufacturer.Name))
                     .ForMember(dest => dest.SupplierName, opt => opt.MapFrom(src => src.Supplier.Name))
                     .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                    .ForMember(dest => dest.ProductUnitName, opt => opt.MapFrom(src => src.ProductUnit.Name))
+                    .ForMember(dest => dest.ProductConditionName, opt => opt.MapFrom(src => src.ProductCondition.Name))
             );
             var projectTo = queryable.ProjectTo<ProductDto>(mapConfig);
             var result = PagedList<ProductDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
@@ -71,14 +74,24 @@ namespace TechFix.API.Controllers
                     Code = item.Code,
                     Description = item.Description,
                     Quantity = item.Quantity,
-                    OriginalCost = item.OriginalPrice,
-                    SellIn = item.FakePrice,
-                    SellOut = item.WebPrice,
+                    OriginalPrice = item.OriginalPrice,
+                    FakePrice = item.FakePrice,
+                    WebPrice = item.WebPrice,
                     Warranty = item.Warranty,
                     MinimumNorm = item.MinimumNorm,
                     MaximumNorm = item.MaximumNorm,
                     AllowNegativeSell = item.AllowNegativeSell,
                     IsInventoryTracking = item.IsInventoryTracking,
+                    CategoryId = item.CategoryId,
+                    CategoryName = item.CategoryId != null ? _context.Categories.FirstOrDefault(x => x.Id == item.CategoryId)?.Name : null,
+                    ManufacturerId = item.ManufacturerId,
+                    ManufacturerName = item.ManufacturerId != null ? _context.Manufacturers.FirstOrDefault(x => x.Id == item.ManufacturerId)?.Name : null,
+                    SupplierId = item.SupplierId,
+                    SupplierName = item.SupplierId != null ? _context.Suppliers.FirstOrDefault(x => x.Id == item.SupplierId)?.Name : null,
+                    ProductUnitId = item.ProductUnitId,
+                    ProductUnitName = item.ProductUnitId != null ? _context.ProductUnits.FirstOrDefault(x => x.Id == item.ProductUnitId)?.Name : null,
+                    ProductConditionId = item.ProductConditionId,
+                    ProductConditionName = item.ProductConditionId != null ? _context.ProductConditions.FirstOrDefault(x => x.Id == item.ProductConditionId)?.Name : null,
                 };
                 return Ok(response);
             }
