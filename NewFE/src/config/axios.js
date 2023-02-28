@@ -107,10 +107,35 @@ export const sendDelete = (api, payload, options = {}) => {
     axios
       .delete(api, payload, options)
       .then((response) => {
-        resolve(response.data);
+        resolve(
+          response.status === STATUS_CODE.OK
+            ? { Success: true }
+            : { Success: false, Message: response.title }
+        );
       })
       .catch((error) => {
         console.log("error sendDelete>>>", error);
+        reject(error);
+      });
+  });
+};
+
+// Put request
+export const sendPut = (api, payload, options = {}) => {
+  if (FakeData[api]) return fakeResponse(FakeData[api]);
+
+  return new Promise((resolve, reject) => {
+    axios
+      .put(api, payload, options)
+      .then((response) => {
+        resolve(
+          response.status === STATUS_CODE.OK
+            ? { Success: true }
+            : { Success: false, Message: response.title }
+        );
+      })
+      .catch((error) => {
+        console.log("error sendPost>>>", error);
         reject(error);
       });
   });
