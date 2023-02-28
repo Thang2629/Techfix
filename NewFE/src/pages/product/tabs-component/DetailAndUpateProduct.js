@@ -125,7 +125,6 @@ const ThongTinSanPham = (props) => {
 
   const onClickAddButton = (type) => {
     setIsopen(true);
-    debugger;
   };
 
   const btnEdit = useMemo(() => {
