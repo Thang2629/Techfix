@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Hangfire;
 using Hangfire.MemoryStorage;
@@ -35,6 +36,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using TechFix.API.Filters;
 using TechFix.EntityModels.Persistence;
 
 namespace TechFix.API
@@ -75,6 +77,13 @@ namespace TechFix.API
             //services.AddControllers().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.AddControllers().AddNewtonsoftJson(opts => opts.SerializerSettings.ContractResolver = new DefaultContractResolver());
             //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddControllersWithViews(options =>
+                    options.Filters.Add<ApiExceptionFilterAttribute>())
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.Converters
+                        .Add(new JsonStringEnumConverter()));
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddStackExchangeRedisCache(options =>
