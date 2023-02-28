@@ -32,12 +32,20 @@ import { getListCatagories } from "services/Categories";
 import { getListProductUnits } from "services/ProductUnits";
 import { getListProductConditions } from "services/ProductConditions";
 import { getListSuppliers } from "services/Supplier";
-
+import { PlusSquareOutlined } from "@ant-design/icons";
+import CreateDialog from "./components/CreateDialog";
+const CREATE_TYPE = {
+  PRODUCTS_UNIT: "PRODUCTS_UNIT",
+  CATEGORY: "CATEGORY",
+  MANUFACTURER: "MANUFACTURER",
+  PRODUCTS_CONDITION: "PRODUCTS_CONDITION",
+};
 const ThongTinSanPham = (props) => {
   const { id } = useParams();
 
   const [dataCustomer, setDataCustomer] = useState([]);
   // eslint-disable-next-line no-unused-vars
+  const [isOpen, setIsopen] = useState(false);
   const [dataKH, setDataKH] = useState([]);
   const [productDetails, setProductDetails] = useState({});
   const [categories, setCategories] = useState([]);
@@ -89,6 +97,7 @@ const ThongTinSanPham = (props) => {
   //   }, []);
   const getProductDetail = async () => {
     const data = await getProductDetails(id);
+    form.setFieldsValue(data);
     setProductDetails(data);
   };
 
@@ -105,13 +114,18 @@ const ThongTinSanPham = (props) => {
   }, []);
 
   const onFinish = async (values) => {
-    const data = await updateProduct(id, values);
+    const response = await updateProduct(id, values);
 
-    if (data.isSuccess) {
+    if (response.Success) {
       message.success(SAVE_SUCCESS);
     } else {
-      message.error(SAVE_ERROR);
+      message.error(response.Message);
     }
+  };
+
+  const onClickAddButton = (type) => {
+    setIsopen(true);
+    debugger;
   };
 
   const btnEdit = useMemo(() => {
@@ -218,14 +232,23 @@ const ThongTinSanPham = (props) => {
                 <Col span={12}>
                   <Form.Item label="Đơn vị tính" name="ProductUnit">
                     {isUpdate ? (
-                      <Select allowClear>
-                        {productUnits &&
-                          productUnits.map((item) => (
-                            <Select.Option key={item.Id} values={item.Id}>
-                              {item.Name}
-                            </Select.Option>
-                          ))}
-                      </Select>
+                      <div style={{ display: "flex" }}>
+                        <Select allowClear>
+                          {productUnits &&
+                            productUnits.map((item) => (
+                              <Select.Option key={item.Id} values={item.Id}>
+                                {item.Name}
+                              </Select.Option>
+                            ))}
+                        </Select>
+                        <Button
+                          type="primary"
+                          icon={<PlusSquareOutlined />}
+                          onClick={() =>
+                            onClickAddButton(CREATE_TYPE.PRODUCTS_UNIT)
+                          }
+                        />
+                      </div>
                     ) : (
                       <Text strong>
                         {isEmpty(productDetails.ProductUnit)
@@ -338,14 +361,21 @@ const ThongTinSanPham = (props) => {
                 <Col span={12}>
                   <Form.Item label="Danh Mục" name="CategoryId">
                     {isUpdate ? (
-                      <Select allowClear>
-                        {categories &&
-                          categories.map((item) => (
-                            <Select.Option key={item.Id} values={item.Id}>
-                              {item.Name}
-                            </Select.Option>
-                          ))}
-                      </Select>
+                      <div style={{ display: "flex" }}>
+                        <Select allowClear>
+                          {categories &&
+                            categories.map((item) => (
+                              <Select.Option key={item.Id} values={item.Id}>
+                                {item.Name}
+                              </Select.Option>
+                            ))}
+                        </Select>
+                        <Button
+                          type="primary"
+                          icon={<PlusSquareOutlined />}
+                          onClick={() => onClickAddButton(CREATE_TYPE.CATEGORY)}
+                        />
+                      </div>
                     ) : (
                       <Text strong>
                         <Text strong>
@@ -360,14 +390,23 @@ const ThongTinSanPham = (props) => {
                 <Col span={12}>
                   <Form.Item label="Nhà Sản Xuất" name="ManufacturerId">
                     {isUpdate ? (
-                      <Select allowClear>
-                        {manufacturers &&
-                          manufacturers.map((item) => (
-                            <Select.Option key={item.Id} values={item.Id}>
-                              {item.Name}
-                            </Select.Option>
-                          ))}
-                      </Select>
+                      <div style={{ display: "flex" }}>
+                        <Select allowClear>
+                          {manufacturers &&
+                            manufacturers.map((item) => (
+                              <Select.Option key={item.Id} values={item.Id}>
+                                {item.Name}
+                              </Select.Option>
+                            ))}
+                        </Select>
+                        <Button
+                          type="primary"
+                          icon={<PlusSquareOutlined />}
+                          onClick={() =>
+                            onClickAddButton(CREATE_TYPE.MANUFACTURER)
+                          }
+                        />
+                      </div>
                     ) : (
                       <Text strong>
                         {isEmpty(productDetails.ManufacturerId)
@@ -410,14 +449,23 @@ const ThongTinSanPham = (props) => {
                 <Col span={12}>
                   <Form.Item label="Nhà Cung Cấp" name="SupplierId">
                     {isUpdate ? (
-                      <Select allowClear>
-                        {suppliers &&
-                          suppliers.map((item) => (
-                            <Select.Option key={item.Id} values={item.Id}>
-                              {item.Name}
-                            </Select.Option>
-                          ))}
-                      </Select>
+                      <div style={{ display: "flex" }}>
+                        <Select allowClear>
+                          {suppliers &&
+                            suppliers.map((item) => (
+                              <Select.Option key={item.Id} values={item.Id}>
+                                {item.Name}
+                              </Select.Option>
+                            ))}
+                        </Select>
+                        <Button
+                          type="primary"
+                          icon={<PlusSquareOutlined />}
+                          onClick={() =>
+                            onClickAddButton(CREATE_TYPE.PRODUCTS_CONDITION)
+                          }
+                        />
+                      </div>
                     ) : (
                       <Text strong>
                         {isEmpty(productDetails.SupplierId)
@@ -433,14 +481,23 @@ const ThongTinSanPham = (props) => {
                     name="ProductConditionId"
                   >
                     {isUpdate ? (
-                      <Select allowClear>
-                        {productConditions &&
-                          productConditions.map((item) => (
-                            <Select.Option key={item.Id} values={item.Id}>
-                              {item.Name}
-                            </Select.Option>
-                          ))}
-                      </Select>
+                      <div style={{ display: "flex" }}>
+                        <Select allowClear>
+                          {productConditions &&
+                            productConditions.map((item) => (
+                              <Select.Option key={item.Id} values={item.Id}>
+                                {item.Name}
+                              </Select.Option>
+                            ))}
+                        </Select>
+                        <Button
+                          type="primary"
+                          icon={<PlusSquareOutlined />}
+                          onClick={() =>
+                            onClickAddButton(CREATE_TYPE.PRODUCTS_CONDITION)
+                          }
+                        />
+                      </div>
                     ) : (
                       <Text strong>
                         {isEmpty(productDetails.ProductConditionId)
@@ -461,6 +518,11 @@ const ThongTinSanPham = (props) => {
   return (
     <div className="main__application">
       {loading ? <Loading /> : renderForm}
+      <CreateDialog
+        isOpen={isOpen}
+        handleClosed={() => setIsopen(false)}
+        title={"Thông tin"}
+      />
     </div>
   );
 };

@@ -28,7 +28,8 @@ const QuanTriNguoiDung = lazy(() => import("pages/quan-tri-nguoi-dung"));
 const CreatePhieu = lazy(() =>
   import("pages/tiep-nhan-ho-so/components/CreatePhieu")
 );
-const CreateProduct = lazy(() => import("pages/product/CreateProduct"));
+const CreateProduct = lazy(() => import("pages/product/ProductDetails"));
+const ProductManagement = lazy(() => import("pages/product"));
 
 const HoatChat = lazy(() => import("pages/hoat-chat"));
 
@@ -40,7 +41,7 @@ function HomeRoutes(props) {
       <Route path="/dashboard" exact component={Dashboard} />
       <Route path="/quan-ly-khoa" exact component={ApartmentManage} />
       <Route path="/quan-ly-phong-ban" exact component={PhongBanManage} />
-      <Route path="/san-pham" exact component={StaffManage} />
+      <Route path="/quan-ly-nhan-vien" exact component={StaffManage} />
       <Route path="/nhom-khach-hang" exact component={CustomerGroup} />
       <Route path="/khach-hang" exact component={CustomerManage} />
       <Route path="/loai-mau-tiep-nhan" exact component={MauTiepNhan} />
@@ -64,6 +65,7 @@ function HomeRoutes(props) {
       <Route path="/quan-ly-nhan-vien/:id" exact component={DetailNhanVien} />
       <Route path="/khach-hang/:id" exact component={CustomerManageDetail} />
       {/* New route */}
+      <Route path="/san-pham" exact component={ProductManagement} />
       <Route path="/tao-san-pham" exact component={CreateProduct} />
       <Route path="/san-pham/:id" exact component={CreateProduct} />
     </Switch>

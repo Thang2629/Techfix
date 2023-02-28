@@ -107,7 +107,11 @@ export const sendDelete = (api, payload, options = {}) => {
     axios
       .delete(api, payload, options)
       .then((response) => {
-        resolve(response.data);
+        resolve(
+          response.status === STATUS_CODE.OK
+            ? { Success: true }
+            : { Success: false, Message: response.title }
+        );
       })
       .catch((error) => {
         console.log("error sendDelete>>>", error);
@@ -124,7 +128,11 @@ export const sendPut = (api, payload, options = {}) => {
     axios
       .put(api, payload, options)
       .then((response) => {
-        resolve(response.data);
+        resolve(
+          response.status === STATUS_CODE.OK
+            ? { Success: true }
+            : { Success: false, Message: response.title }
+        );
       })
       .catch((error) => {
         console.log("error sendPost>>>", error);

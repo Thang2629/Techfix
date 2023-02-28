@@ -4,9 +4,12 @@ import TabsSection from "common/components/TabsSection/TabsSection";
 import PageWrapper from "components/Layout/PageWrapper";
 import HeaderPage from "pages/home/header-page";
 import React from "react";
-import ThongTinSanPham from "./tabs-component/ThongTinSanPham";
+import DetailAndUpateProduct from "./tabs-component/DetailAndUpateProduct";
+import CreateAndCopyProduct from "./tabs-component/DetailAndUpateProduct";
+import { useParams } from "react-router-dom";
 
 const DetailCustomer = (props) => {
+  const { id } = useParams();
   const styleButton = {
     marginBottom: "5px",
     display: "flex",
@@ -14,15 +17,7 @@ const DetailCustomer = (props) => {
     justifyContent: "end",
   };
 
-  const items = [
-    {
-      label: <>Thông tin Sản Phẩm</>,
-      key: "1",
-      children: <ThongTinSanPham />,
-    },
-  ];
-
-  const handleUpdate = () => {
+  const handleBack = () => {
     return (
       <div className="groupbtn" style={styleButton}>
         <ButtonBack url="/san-pham" />
@@ -32,10 +27,11 @@ const DetailCustomer = (props) => {
 
   return (
     <div>
-      <HeaderPage title="Tạo Phản Phẩm">{handleUpdate()}</HeaderPage>
+      <HeaderPage title="Tạo Phản Phẩm">{handleBack()}</HeaderPage>
       <div className="main__application">
         <PageWrapper>
-          <TabsSection items={items} />
+          {id ? <DetailAndUpateProduct /> : <CreateAndCopyProduct />}
+          {/* <TabsSection items={items} /> */}
         </PageWrapper>
       </div>
     </div>

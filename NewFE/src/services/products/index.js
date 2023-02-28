@@ -15,3 +15,7 @@ export const getProductDetails = (Id) => {
 export const updateProduct = (Id, payload) => {
   return api.sendPut(`${PRODUCTS_ENDPOINT}/${Id}`, payload);
 };
+
+export const deleteProduct = (Id) => {
+  return api.sendDelete(`${PRODUCTS_ENDPOINT}/${Id}`);
+};
