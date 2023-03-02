@@ -24,7 +24,7 @@ import { SEARCH_CRITERIA } from "static/Constants";
 import { deleteNhanVien } from "services/apartment-manage";
 import { DELETE_ERROR, DELETE_SUCCESS } from "utils/common/messageContants";
 import { getListManufacturers } from "services/Manufacturers";
-import { getListCatagories } from "services/Categories";
+import { getListCategories } from "services/Categories";
 import { ButtonDelete, PrimaryButton } from "common/components/Buttons";
 import { Link } from "react-router-dom";
 import {
@@ -69,7 +69,7 @@ const ProductManagement = (props) => {
   };
   const getCatagories = async () => {
     setIsLoading(true);
-    const response = await getListCatagories();
+    const response = await getListCategories();
     setCategories(response);
     setIsLoading(false);
   };

@@ -11,9 +11,17 @@ import {
   Typography,
   Checkbox,
   Tag,
+  Popconfirm,
+  InputNumber,
 } from "antd";
 import Loading from "components/Loading/Loading";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from "react";
 import { useParams } from "react-router-dom";
 import {
   getAllCustomerGroupService,
@@ -27,13 +35,28 @@ import { SAVE_ERROR, SAVE_SUCCESS } from "utils/common/messageContants";
 import isEmpty from "lodash/isEmpty";
 import TextArea from "antd/lib/input/TextArea";
 import { updateProduct } from "services/Products";
-import { getListManufacturers } from "services/Manufacturers";
-import { getListCatagories } from "services/Categories";
-import { getListProductUnits } from "services/ProductUnits";
-import { getListProductConditions } from "services/ProductConditions";
+import {
+  getListManufacturers,
+  createManufacturer,
+} from "services/Manufacturers";
+import { getListCategories, createCategory } from "services/Categories";
+import {
+  getListProductUnits,
+  updateProductUnit,
+  createProductUnit,
+} from "services/ProductUnits";
+import {
+  getListProductConditions,
+  createProductCondition,
+} from "services/ProductConditions";
 import { getListSuppliers } from "services/Supplier";
 import { PlusSquareOutlined } from "@ant-design/icons";
 import CreateDialog from "./components/CreateDialog";
+import PageWrapper from "components/Layout/PageWrapper";
+import Grid from "components/Grid";
+import { ButtonDelete, PrimaryButton } from "common/components/Buttons";
+import { formatNumber } from "utils/formatNumber";
+
 const CREATE_TYPE = {
   PRODUCTS_UNIT: "PRODUCTS_UNIT",
   CATEGORY: "CATEGORY",
@@ -46,6 +69,7 @@ const ThongTinSanPham = (props) => {
   const [dataCustomer, setDataCustomer] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [isOpen, setIsopen] = useState(false);
+  const [value, setValue] = useState("");
   const [dataKH, setDataKH] = useState([]);
   const [productDetails, setProductDetails] = useState({});
   const [categories, setCategories] = useState([]);
@@ -56,6 +80,8 @@ const ThongTinSanPham = (props) => {
   const [loading, setLoading] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [form] = Form.useForm();
+  const [formTab] = Form.useForm();
+  const [typeCreate, setTypeCreate] = useState("");
   const { Text } = Typography;
 
   const getManufacturers = async () => {
@@ -63,7 +89,7 @@ const ThongTinSanPham = (props) => {
     setManufacturers(response);
   };
   const getCatagories = async () => {
-    const response = await getListCatagories();
+    const response = await getListCategories();
     setCategories(response);
   };
   const getProductUnits = async () => {
@@ -124,6 +150,9 @@ const ThongTinSanPham = (props) => {
   };
 
   const onClickAddButton = (type) => {
+    setTypeCreate(type);
+    debugger;
+    // renderBodyByType(type);
     setIsopen(true);
   };
 
@@ -180,7 +209,7 @@ const ThongTinSanPham = (props) => {
                       hidden={true}
                       label="Id"
                       name="Id"
-                      value={productDetails.Id}
+                      value={productDetails?.Id}
                     >
                       <Input />
                     </Form.Item>
@@ -189,11 +218,7 @@ const ThongTinSanPham = (props) => {
                     {isUpdate ? (
                       <Input />
                     ) : (
-                      <Text strong>
-                        {isEmpty(productDetails.Name)
-                          ? "-"
-                          : productDetails.Name}
-                      </Text>
+                      <Text strong>{productDetails?.Name || "-"}</Text>
                     )}
                   </Form.Item>
                 </Col>
@@ -206,9 +231,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.Quantity)
-                          ? "-"
-                          : productDetails.Quantity}
+                        {formatNumber(productDetails?.Quantity) || "-"}
                       </Text>
                     )}
                   </Form.Item>
@@ -218,11 +241,7 @@ const ThongTinSanPham = (props) => {
                     {isUpdate ? (
                       <Input />
                     ) : (
-                      <Text strong>
-                        {isEmpty(productDetails.Code)
-                          ? "-"
-                          : productDetails.Code}
-                      </Text>
+                      <Text strong>{productDetails?.Code || ""}</Text>
                     )}
                   </Form.Item>
                 </Col>
@@ -249,11 +268,7 @@ const ThongTinSanPham = (props) => {
                         />
                       </div>
                     ) : (
-                      <Text strong>
-                        {isEmpty(productDetails.ProductUnit)
-                          ? "-"
-                          : productDetails.ProductUnit}
-                      </Text>
+                      <Text strong>{productDetails?.ProductUnit || ""}</Text>
                     )}
                   </Form.Item>
                 </Col>
@@ -269,7 +284,7 @@ const ThongTinSanPham = (props) => {
                           <Checkbox />
                         ) : (
                           <Text strong>
-                            {isEmpty(productDetails.IsInventoryTracking) ? (
+                            {productDetails?.IsInventoryTracking ? (
                               <Tag color="red">Không</Tag>
                             ) : (
                               <Tag color="blue">Có</Tag>
@@ -288,7 +303,7 @@ const ThongTinSanPham = (props) => {
                           <Checkbox />
                         ) : (
                           <Text strong>
-                            {isEmpty(productDetails.AllowNegativeSell) ? (
+                            {productDetails?.AllowNegativeSell ? (
                               <Tag color="red">Không</Tag>
                             ) : (
                               <Tag color="blue">Có</Tag>
@@ -307,9 +322,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.FakePrice)
-                          ? "-"
-                          : productDetails.FakePrice}
+                        {formatNumber(productDetails?.FakePrice) || "-"}
                       </Text>
                     )}
                   </Form.Item>
@@ -320,9 +333,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.WebPrice)
-                          ? "-"
-                          : productDetails.WebPrice}
+                        {formatNumber(productDetails?.WebPrice) || "-"}
                       </Text>
                     )}
                   </Form.Item>
@@ -334,11 +345,7 @@ const ThongTinSanPham = (props) => {
                     {isUpdate ? (
                       <Input />
                     ) : (
-                      <Text strong>
-                        {isEmpty(productDetails.Warranty)
-                          ? "-"
-                          : productDetails.Warranty}
-                      </Text>
+                      <Text strong>{productDetails?.Warranty || ""}</Text>
                     )}
                   </Form.Item>
                 </Col>
@@ -348,9 +355,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.OriginalPrice)
-                          ? "-"
-                          : productDetails.OriginalPrice}
+                        {formatNumber(productDetails?.OriginalPrice) || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -377,11 +382,7 @@ const ThongTinSanPham = (props) => {
                       </div>
                     ) : (
                       <Text strong>
-                        <Text strong>
-                          {isEmpty(productDetails.CategoryId)
-                            ? "-"
-                            : productDetails.CategoryName}
-                        </Text>
+                        <Text strong>{productDetails?.CategoryName || ""}</Text>
                       </Text>
                     )}
                   </Form.Item>
@@ -408,9 +409,7 @@ const ThongTinSanPham = (props) => {
                       </div>
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.ManufacturerId)
-                          ? "-"
-                          : productDetails.ManufacturerName}
+                        {productDetails?.ManufacturerName || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -423,9 +422,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.MinimumNorm)
-                          ? "-"
-                          : productDetails.MinimumNorm}
+                        {formatNumber(productDetails?.MinimumNorm) || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -436,9 +433,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.MaximumNorm)
-                          ? "-"
-                          : productDetails.MaximumNorm}
+                        {formatNumber(productDetails?.MaximumNorm) || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -457,20 +452,9 @@ const ThongTinSanPham = (props) => {
                               </Select.Option>
                             ))}
                         </Select>
-                        <Button
-                          type="primary"
-                          icon={<PlusSquareOutlined />}
-                          onClick={() =>
-                            onClickAddButton(CREATE_TYPE.PRODUCTS_CONDITION)
-                          }
-                        />
                       </div>
                     ) : (
-                      <Text strong>
-                        {isEmpty(productDetails.SupplierId)
-                          ? "-"
-                          : productDetails.SupplierName}
-                      </Text>
+                      <Text strong>{productDetails?.SupplierName || ""}</Text>
                     )}
                   </Form.Item>
                 </Col>
@@ -499,9 +483,7 @@ const ThongTinSanPham = (props) => {
                       </div>
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.ProductConditionId)
-                          ? "-"
-                          : productDetails.ProductConditionName}
+                        {productDetails?.ProductConditionName || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -513,14 +495,250 @@ const ThongTinSanPham = (props) => {
       </Form>
     );
   }, [dataCustomer, form, btnEdit, id, isUpdate, onFinish, dataKH]);
+  // grid
+  const dataUnit = [
+    { Id: 1, Code: "Code1", Name: "Name1" },
+    { Id: 2, Code: "Code2", Name: "Name1" },
+  ];
+  const [data, setData] = useState(dataUnit);
+  const [editingKey, setEditingKey] = useState("");
+  const isEditing = (record) => record.Id === editingKey;
+  const edit = (record) => {
+    form.setFieldsValue({
+      Name: "",
+      ...record,
+    });
+    setEditingKey(record.Id);
+  };
+  const cancel = () => {
+    setEditingKey("");
+  };
+  const save = async (record) => {
+    try {
+      const row = await form.validateFields();
+      const value = inputTable.current.input.value;
 
+      const newData = [...productUnits];
+      const response = await updateProductUnit(id, value);
+      debugger;
+      const index = newData.findIndex((item) => record.id === item.Id);
+
+      if (index > -1) {
+        const item = newData[index];
+        newData.splice(index, 1, {
+          ...item,
+          ...row,
+        });
+        setData(newData);
+        setEditingKey("");
+      } else {
+        newData.push(row);
+        setData(newData);
+        setEditingKey("");
+      }
+    } catch (errInfo) {
+      console.log("Validate Failed:", errInfo);
+    }
+  };
+
+  const bodyDialog1 = () => {
+    debugger;
+    switch (typeCreate) {
+      case CREATE_TYPE.CATEGORY:
+        return renderBodyByType(typeCreate, categories);
+      case CREATE_TYPE.MANUFACTURER:
+        return renderBodyByType(typeCreate, manufacturers);
+      case CREATE_TYPE.PRODUCTS_CONDITION:
+        return renderBodyByType(typeCreate, productConditions);
+      case CREATE_TYPE.PRODUCTS_UNIT:
+        return renderBodyByType(typeCreate, productUnits);
+      default:
+        return;
+    }
+  };
+  const renderBodyByType = (type, listData) => {
+    return (
+      <PageWrapper>
+        <Form form={formTab} component={false}>
+          <Grid
+            data={listData}
+            components={{
+              body: {
+                cell: EditableCell,
+              },
+            }}
+            columns={mergedColumns}
+          />
+        </Form>
+      </PageWrapper>
+    );
+  };
+  const testColumn = [
+    {
+      title: "STT",
+      dataIndex: "",
+      width: "10%",
+      render: (row, _, index) => {
+        return <div>{index + 1}</div>;
+      },
+    },
+    {
+      title: "Danh Sách",
+      dataIndex: "Name",
+      width: "25%",
+      editable: true,
+    },
+    {
+      title: "",
+      dataIndex: "operation",
+      width: "40%",
+      render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Typography.Link
+              onClick={() => save(record)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Save
+            </Typography.Link>
+            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+              <a>Cancel</a>
+            </Popconfirm>
+          </span>
+        ) : (
+          <Typography.Link
+            disabled={editingKey !== ""}
+            onClick={() => edit(record)}
+          >
+            Edit
+          </Typography.Link>
+        );
+      },
+    },
+  ];
+  const inputTable = useRef();
+  const EditableCell = ({
+    editing,
+    dataIndex,
+    title,
+    inputType,
+    record,
+    index,
+    children,
+    ...restProps
+  }) => {
+    const inputNode =
+      inputType === "number" ? (
+        <InputNumber ref={inputTable} />
+      ) : (
+        <Input ref={inputTable} />
+      );
+    return (
+      <td {...restProps}>
+        {editing ? (
+          <Form.Item
+            name={dataIndex}
+            style={{
+              margin: 0,
+            }}
+            rules={[
+              {
+                required: true,
+                message: `Please Input ${title}!`,
+              },
+            ]}
+          >
+            {inputNode}
+          </Form.Item>
+        ) : (
+          children
+        )}
+      </td>
+    );
+  };
+  const mergedColumns = testColumn.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record) => ({
+        record,
+        inputType: col.dataIndex === "age" ? "number" : "text",
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
+  // grid
+  const bodyDialog2 = () => {
+    debugger;
+    switch (typeCreate) {
+      case CREATE_TYPE.CATEGORY:
+        return renderCreateFormByType("CategoryName");
+      case CREATE_TYPE.MANUFACTURER:
+        return renderCreateFormByType("ManufacturerName");
+      case CREATE_TYPE.PRODUCTS_CONDITION:
+        return renderCreateFormByType("ProductConditionName");
+      case CREATE_TYPE.PRODUCTS_UNIT:
+        return renderCreateFormByType("ProductUnit");
+      default:
+        return;
+    }
+  };
+  const onCreateByType = (values, typeCreate) => {
+    debugger;
+  };
+  const renderCreateFormByType = (typeCreate) => {
+    return (
+      <PageWrapper>
+        <Form
+          form={formTab}
+          id="tabForm1"
+          onFinish={(values, typeCreate) => onCreateByType(values, typeCreate)}
+        >
+          <Row>
+            <Col
+              span={12}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+              }}
+            >
+              <Form.Item label="" name={typeCreate}>
+                <Input placeholder="Nhập tên" />
+              </Form.Item>
+              <Button
+                size="medium"
+                type="primary"
+                key="submit"
+                htmlType="submit"
+                form="tabForm1"
+                icon={<SaveOutlined />}
+                style={{ alignSelf: "flex-start" }}
+              >
+                Lưu
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </PageWrapper>
+    );
+  };
   return (
     <div className="main__application">
       {loading ? <Loading /> : renderForm}
       <CreateDialog
         isOpen={isOpen}
         handleClosed={() => setIsopen(false)}
-        title={"Thông tin"}
+        title={`Thông tin`}
+        bodyDialog={bodyDialog1}
+        bodyDialog2={bodyDialog2}
       />
     </div>
   );

@@ -4,7 +4,7 @@ import * as api from "config/axios";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "redux/global/actions";
 import "./Grid.less";
-
+import isEmpty from "lodash/isEmpty";
 const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
   const dispatch = useDispatch();
   const searchText = useSelector((state) => state.global.searchText);
@@ -21,13 +21,13 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
   const [selectedIds, setSelectedIds] = useState([]);
 
   useEffect(() => {
-    fetchData(searchText);
+    !isEmpty(urlEndpoint) && fetchData(searchText);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchText]);
 
   useEffect(() => {
     if (readGrid) {
-      fetchData();
+      !isEmpty(urlEndpoint) && fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readGrid]);
@@ -74,7 +74,7 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
   };
 
   useEffect(() => {
-    urlEndpoint && fetchData();
+    !isEmpty(urlEndpoint) && fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(tableParams)]);
 
@@ -125,9 +125,6 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
         pagination={isHidePagination ? false : tableParams.pagination}
         loading={loading}
         rowKey="id"
-        rowSelection={{
-          ...rowSelection,
-        }}
         {...rest}
       />
     </div>
