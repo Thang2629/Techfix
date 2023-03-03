@@ -11,50 +11,50 @@ import {
   Typography,
   Checkbox,
   Tag,
-  Popconfirm,
   InputNumber,
 } from "antd";
 import Loading from "components/Loading/Loading";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useRef,
-} from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import {
-  getAllCustomerGroupService,
-  getCustomerByIdService,
-  updateCustomerService,
-} from "services/customer-manager";
+
 import { getProductDetails } from "services/Products";
 import { SaveOutlined } from "@ant-design/icons";
 import "../style.less";
-import { SAVE_ERROR, SAVE_SUCCESS } from "utils/common/messageContants";
-import isEmpty from "lodash/isEmpty";
-import TextArea from "antd/lib/input/TextArea";
+import {
+  DELETE_SUCCESS,
+  SAVE_SUCCESS,
+  CREATE_SUCCESS,
+} from "utils/common/messageContants";
 import { updateProduct } from "services/Products";
 import {
   getListManufacturers,
   createManufacturer,
+  updateManufacturer,
+  deleteManufacturer,
 } from "services/Manufacturers";
-import { getListCategories, createCategory } from "services/Categories";
+import {
+  getListCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} from "services/Categories";
 import {
   getListProductUnits,
   updateProductUnit,
   createProductUnit,
+  deleteProductUnit,
 } from "services/ProductUnits";
 import {
   getListProductConditions,
   createProductCondition,
+  updateProductCondition,
+  deleteProductCondition,
 } from "services/ProductConditions";
 import { getListSuppliers } from "services/Supplier";
 import { PlusSquareOutlined } from "@ant-design/icons";
 import CreateDialog from "./components/CreateDialog";
 import PageWrapper from "components/Layout/PageWrapper";
 import Grid from "components/Grid";
-import { ButtonDelete, PrimaryButton } from "common/components/Buttons";
 import { formatNumber } from "utils/formatNumber";
 
 const CREATE_TYPE = {
@@ -63,6 +63,7 @@ const CREATE_TYPE = {
   MANUFACTURER: "MANUFACTURER",
   PRODUCTS_CONDITION: "PRODUCTS_CONDITION",
 };
+
 const ThongTinSanPham = (props) => {
   const { id } = useParams();
 
@@ -81,6 +82,7 @@ const ThongTinSanPham = (props) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [form] = Form.useForm();
   const [formTab] = Form.useForm();
+  const [formTabCreate] = Form.useForm();
   const [typeCreate, setTypeCreate] = useState("");
   const { Text } = Typography;
 
@@ -105,22 +107,6 @@ const ThongTinSanPham = (props) => {
     setSuppliers(response.Data);
   };
 
-  const getCustomerById = async () => {
-    setLoading(true);
-    const result = await getCustomerByIdService(id);
-    if (result.isSuccess) {
-      setDataCustomer(result.data);
-      form.setFieldsValue(result.data);
-    }
-    setLoading(false);
-  };
-
-  //   const getDataNhomKH = useCallback(async () => {
-  //     const data = await getAllCustomerGroupService();
-  //     if (data.isSuccess) {
-  //       setDataKH(data.data.nhomKhachHangNames);
-  //     }
-  //   }, []);
   const getProductDetail = async () => {
     const data = await getProductDetails(id);
     form.setFieldsValue(data);
@@ -151,7 +137,6 @@ const ThongTinSanPham = (props) => {
 
   const onClickAddButton = (type) => {
     setTypeCreate(type);
-    debugger;
     // renderBodyByType(type);
     setIsopen(true);
   };
@@ -496,67 +481,85 @@ const ThongTinSanPham = (props) => {
     );
   }, [dataCustomer, form, btnEdit, id, isUpdate, onFinish, dataKH]);
   // grid
-  const dataUnit = [
-    { Id: 1, Code: "Code1", Name: "Name1" },
-    { Id: 2, Code: "Code2", Name: "Name1" },
-  ];
-  const [data, setData] = useState(dataUnit);
+
   const [editingKey, setEditingKey] = useState("");
   const isEditing = (record) => record.Id === editingKey;
   const edit = (record) => {
-    form.setFieldsValue({
+    formTab.setFieldsValue({
       Name: "",
       ...record,
     });
     setEditingKey(record.Id);
   };
+  const onDelete = async (record) => {
+    const response = await deleteAction(record.Id);
+    if (response.Success) {
+      message.success(DELETE_SUCCESS);
+    } else {
+      message.error(response.Message);
+    }
+  };
+
   const cancel = () => {
     setEditingKey("");
   };
   const save = async (record) => {
     try {
-      const row = await form.validateFields();
       const value = inputTable.current.input.value;
-
-      const newData = [...productUnits];
-      const response = await updateProductUnit(id, value);
-      debugger;
-      const index = newData.findIndex((item) => record.id === item.Id);
-
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey("");
+      const response = await updateAction(value);
+      if (response.Success) {
+        message.success(CREATE_SUCCESS);
       } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey("");
+        message.error(response.Message);
       }
     } catch (errInfo) {
       console.log("Validate Failed:", errInfo);
     }
   };
-
-  const bodyDialog1 = () => {
-    debugger;
+  const updateAction = (value) => {
     switch (typeCreate) {
       case CREATE_TYPE.CATEGORY:
-        return renderBodyByType(typeCreate, categories);
+        return updateCategory(id, value);
       case CREATE_TYPE.MANUFACTURER:
-        return renderBodyByType(typeCreate, manufacturers);
+        return updateManufacturer(id, value);
       case CREATE_TYPE.PRODUCTS_CONDITION:
-        return renderBodyByType(typeCreate, productConditions);
+        return updateProductCondition(id, value);
       case CREATE_TYPE.PRODUCTS_UNIT:
-        return renderBodyByType(typeCreate, productUnits);
+        return updateProductUnit(id, value);
       default:
         return;
     }
   };
-  const renderBodyByType = (type, listData) => {
+  const deleteAction = () => {
+    switch (typeCreate) {
+      case CREATE_TYPE.CATEGORY:
+        return deleteCategory(id);
+      case CREATE_TYPE.MANUFACTURER:
+        return deleteManufacturer(id);
+      case CREATE_TYPE.PRODUCTS_CONDITION:
+        return deleteProductCondition(id);
+      case CREATE_TYPE.PRODUCTS_UNIT:
+        return deleteProductUnit(id);
+      default:
+        return;
+    }
+  };
+
+  const renderTablist = () => {
+    switch (typeCreate) {
+      case CREATE_TYPE.CATEGORY:
+        return renderTabListByType(typeCreate, categories);
+      case CREATE_TYPE.MANUFACTURER:
+        return renderTabListByType(typeCreate, manufacturers);
+      case CREATE_TYPE.PRODUCTS_CONDITION:
+        return renderTabListByType(typeCreate, productConditions);
+      case CREATE_TYPE.PRODUCTS_UNIT:
+        return renderTabListByType(typeCreate, productUnits);
+      default:
+        return;
+    }
+  };
+  const renderTabListByType = (type, listData) => {
     return (
       <PageWrapper>
         <Form form={formTab} component={false}>
@@ -573,7 +576,7 @@ const ThongTinSanPham = (props) => {
       </PageWrapper>
     );
   };
-  const testColumn = [
+  const tabColumns = [
     {
       title: "STT",
       dataIndex: "",
@@ -604,17 +607,36 @@ const ThongTinSanPham = (props) => {
             >
               Save
             </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
+            <Typography.Link
+              onClick={cancel}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Cancel
+            </Typography.Link>
           </span>
         ) : (
-          <Typography.Link
-            disabled={editingKey !== ""}
-            onClick={() => edit(record)}
-          >
-            Edit
-          </Typography.Link>
+          <span>
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() => edit(record)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Edit
+            </Typography.Link>
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() => onDelete(record)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Delete
+            </Typography.Link>
+          </span>
         );
       },
     },
@@ -659,7 +681,7 @@ const ThongTinSanPham = (props) => {
       </td>
     );
   };
-  const mergedColumns = testColumn.map((col) => {
+  const mergedColumns = tabColumns.map((col) => {
     if (!col.editable) {
       return col;
     }
@@ -675,31 +697,36 @@ const ThongTinSanPham = (props) => {
     };
   });
   // grid
-  const bodyDialog2 = () => {
-    debugger;
+  const renderTabCreate = () => {
+    console.log(typeCreate);
     switch (typeCreate) {
       case CREATE_TYPE.CATEGORY:
-        return renderCreateFormByType("CategoryName");
+        return renderCreateFormByType(createCategory);
       case CREATE_TYPE.MANUFACTURER:
-        return renderCreateFormByType("ManufacturerName");
+        return renderCreateFormByType(createManufacturer);
       case CREATE_TYPE.PRODUCTS_CONDITION:
-        return renderCreateFormByType("ProductConditionName");
+        return renderCreateFormByType(createProductCondition);
       case CREATE_TYPE.PRODUCTS_UNIT:
-        return renderCreateFormByType("ProductUnit");
+        return renderCreateFormByType(createProductUnit);
       default:
         return;
     }
   };
-  const onCreateByType = (values, typeCreate) => {
-    debugger;
+  const onCreateByType = async (values, action) => {
+    const response = await action(values.Name);
+    if (response.Success) {
+      message.success(SAVE_SUCCESS);
+    } else {
+      message.error(response.Message);
+    }
   };
   const renderCreateFormByType = (typeCreate) => {
     return (
       <PageWrapper>
         <Form
-          form={formTab}
-          id="tabForm1"
-          onFinish={(values, typeCreate) => onCreateByType(values, typeCreate)}
+          form={formTabCreate}
+          id="formTabCreate"
+          onFinish={(values) => onCreateByType(values, typeCreate)}
         >
           <Row>
             <Col
@@ -710,7 +737,7 @@ const ThongTinSanPham = (props) => {
                 gap: "0.5rem",
               }}
             >
-              <Form.Item label="" name={typeCreate}>
+              <Form.Item label="" name="Name">
                 <Input placeholder="Nhập tên" />
               </Form.Item>
               <Button
@@ -718,7 +745,7 @@ const ThongTinSanPham = (props) => {
                 type="primary"
                 key="submit"
                 htmlType="submit"
-                form="tabForm1"
+                form="formTabCreate"
                 icon={<SaveOutlined />}
                 style={{ alignSelf: "flex-start" }}
               >
@@ -737,8 +764,8 @@ const ThongTinSanPham = (props) => {
         isOpen={isOpen}
         handleClosed={() => setIsopen(false)}
         title={`Thông tin`}
-        bodyDialog={bodyDialog1}
-        bodyDialog2={bodyDialog2}
+        bodyDialog={renderTablist}
+        bodyDialog2={renderTabCreate}
       />
     </div>
   );

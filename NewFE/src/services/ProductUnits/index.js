@@ -10,6 +10,10 @@ export const updateProductUnit = (id, payload) => {
   return api.sendPut(`${PRODUCT_UNITS_ENDPOINT}/${id}`, payload);
 };
 
-export const createProductUnit = (id, payload) => {
-  return api.sendPost(`${PRODUCT_UNITS_ENDPOINT}/${id}`, payload);
+export const createProductUnit = (payload) => {
+  return api.sendPost(`${PRODUCT_UNITS_ENDPOINT}`, payload);
+};
+
+export const deleteProductUnit = (id) => {
+  return api.sendDelete(`${PRODUCT_UNITS_ENDPOINT}/${id}`);
 };
