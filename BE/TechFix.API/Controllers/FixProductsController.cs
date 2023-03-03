@@ -69,6 +69,26 @@ namespace TechFix.API.Controllers
             return Ok(new { TotalFixed, TotalFailed, TotalMoney });
         }
 
+        [HttpPost]
+        [Route("get-fixproduct-revenue")]
+        public IActionResult GetAllTimeBills(PagingParams param)
+        {
+            var queryable = _context.GetRepairProductReportViews
+                .Where(x => !x.IsDeleted)
+                .AsNoTracking();
+
+            param.PageNumber = 1;
+            param.PageSize = int.MaxValue;
+
+            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+            var list = queryable.ToList();
+            var TotalRecords = list.Select(x => x.Id).Distinct().Count();
+            var TotalProducts = list.Select(x => x.FixProductId).Count();
+            var TotalMoney = list.Sum(x => x.TotalMoney);
+
+            return Ok(new { TotalRecords, TotalProducts, TotalMoney });
+        }
+
         // GET: api/<FixProductsController>
         [HttpPost]
         [Route("get-view-by-customer")]
@@ -167,6 +187,50 @@ namespace TechFix.API.Controllers
                 }).ToList()
             })
             .Skip((param.PageNumber - 1) * param.PageSize).Take(param.PageSize).ToList();
+
+            return Ok(group);
+        }
+
+        [HttpPost]
+        [Route("get-view-report")]
+        public IActionResult GetFixProductRevenueReport(PagingParams param)
+        {
+            var queryable = _context.GetRepairProductReportViews
+                .Where(x => !x.IsDeleted)
+                .AsNoTracking();
+
+            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+
+            //group logic
+            var group = queryable.ToList().GroupBy(x => x.Id)
+                .Select(record => new GetRepairProductReportViewDto
+                {
+                    Id = record.Key,
+                    CustomerName = record.FirstOrDefault()?.CustomerName,
+                    FixStaffName = record.FirstOrDefault()?.FixStaffName,
+                    Code = record.FirstOrDefault()?.Code,
+                    AmountOwed = record.FirstOrDefault()?.AmountOwed,
+                    AmountPaid = record.FirstOrDefault()?.AmountPaid,
+                    CreatedDate = record.FirstOrDefault()?.CreatedDate,
+                    StoreName = record.FirstOrDefault()?.StoreName,
+                    TotalAmount = record.FirstOrDefault()?.TotalAmount,
+                    TotalQuantity = record.FirstOrDefault()?.TotalQuantity,
+                    IsDeleted = record.FirstOrDefault()?.IsDeleted,
+                    FixProducts = record.Select(x => new FixProductReportDto
+                    {
+                        FixProductId = x.Id,
+                        Condition = x.Condition,
+                        FixProductCode = x.FixProductCode,
+                        FixProductName = x.FixProductName,
+                        FixProductQuantity = x.FixProductQuantity,
+                        FixProductUnitName = x.FixProductUnitName,
+                        FixStaffName = record.FirstOrDefault()?.FixStaffName,
+                        ProductSerial = x.ProductSerial,
+                        TotalMoney = x.TotalMoney,
+                        WarrantyPeriod = x.WarrantyPeriod
+                    }).ToList()
+                })
+                .Skip((param.PageNumber - 1) * param.PageSize).Take(param.PageSize).ToList();
 
             return Ok(group);
         }

@@ -10,6 +10,7 @@ namespace TechFix.TransportModels.Dtos
 {
     public class ProductConditionDto : IMapFrom<ProductCondition>
     {
+        public Guid? Id { get; set; }
         public string Name { get; set; }
     }
 }
