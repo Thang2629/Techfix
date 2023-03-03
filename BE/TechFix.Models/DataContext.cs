@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using TechFix.EntityModels.Handle;
+using TechFix.EntityModels.Views;
 
 namespace TechFix.EntityModels
 {
@@ -72,7 +73,13 @@ namespace TechFix.EntityModels
 
         private static void HandleView(ModelBuilder modelBuilder)
         {
-          
+            modelBuilder.Entity<RepairProductByCustomerView>(entity => {
+                entity.ToView("RepairProductByCustomerView");
+            });
+
+            modelBuilder.Entity<RepairProductByFixStaffView>(entity => {
+                entity.ToView("RepairProductByFixStaffView");
+            });
         }
 
         private void HandleRowVersion(ModelBuilder modelBuilder)
@@ -224,5 +231,8 @@ namespace TechFix.EntityModels
         public DbSet<ProductHistory> ProductHistories { get; set; }
         public DbSet<Template> Templates { get; set; }
 
+        //View Table
+        public DbSet<RepairProductByCustomerView> RepairProductByCustomerViews { get; set; }
+        public DbSet<RepairProductByFixStaffView> RepairProductByFixStaffViews { get; set; }
     }
 }

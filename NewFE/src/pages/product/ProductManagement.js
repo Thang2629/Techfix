@@ -23,14 +23,15 @@ import * as actions from "redux/global/actions";
 import { SEARCH_CRITERIA } from "static/Constants";
 import { deleteNhanVien } from "services/apartment-manage";
 import { DELETE_ERROR, DELETE_SUCCESS } from "utils/common/messageContants";
-import { PRODUCTS_GRID_ENDPOINT } from "services/Products";
 import { getListManufacturers } from "services/Manufacturers";
 import { getListCatagories } from "services/Categories";
-
-import CreateAndUpdate from "./CreateAndUpdate";
 import { ButtonDelete, PrimaryButton } from "common/components/Buttons";
 import { Link } from "react-router-dom";
-import { getProducts } from "services/Products";
+import {
+  PRODUCTS_GRID_ENDPOINT,
+  getProducts,
+  deleteProduct,
+} from "services/Products";
 import pickBy from "lodash/pickBy";
 import identity from "lodash/identity";
 import { fowardTo } from "utils/common/route";
@@ -38,7 +39,7 @@ const option = {};
 const searchCriteria = SEARCH_CRITERIA.ALL;
 const { Search } = Input;
 
-const QLNhanVien = (props) => {
+const ProductManagement = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [isOpen, setIsopen] = useState(false);
@@ -147,8 +148,7 @@ const QLNhanVien = (props) => {
               onClick={() => onClickDetail(values)}
             ></PrimaryButton>
           </Link>
-          <ButtonDelete />
-          {/* <ButtonDelete onClick={() => onClickDelete(values)} /> */}
+          <ButtonDelete onClick={() => onClickDelete(values)} />
         </Space>
       ),
     },
@@ -163,15 +163,14 @@ const QLNhanVien = (props) => {
   const readGrid = (refresh) => {
     dispatch(actions.refreshGrid(refresh));
   };
-  const handleDelete = (values) => {
-    deleteNhanVien([values.id]).then((res) => {
-      if (res.isSuccess) {
-        message.success(DELETE_SUCCESS);
-        readGrid(true);
-      } else {
-        message.success(DELETE_ERROR);
-      }
-    });
+  const handleDelete = async (values) => {
+    const response = await deleteProduct(values.Id);
+    if (response.Success) {
+      message.success(DELETE_SUCCESS);
+      readGrid(true);
+    } else {
+      message.success(response.Message);
+    }
   };
 
   const onClickOpenModal = (record = {}) => {
@@ -184,7 +183,7 @@ const QLNhanVien = (props) => {
     Modal.confirm({
       title: "Xác Nhận",
       icon: <ExclamationCircleOutlined />,
-      content: "Bạn có chắc chắn muốn xóa trường này không?",
+      content: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
       okText: "Xác Nhận",
       cancelText: "Hủy",
       onOk: () => handleDelete(values),
@@ -356,19 +355,19 @@ const QLNhanVien = (props) => {
             />
           </PageWrapper>
         </div>
-        <CreateAndUpdate
+        {/* <DetailAndUpdate
           isOpen={isOpen}
           ID={nhanVien}
           reloadTable={() => readGrid(true)}
           form={form}
           onClose={() => setIsopen(false)}
           title={nhanVien ? "Cập nhật dữ liệu" : "Thêm mới dữ liệu"}
-        />
+        /> */}
       </Spin>
     </>
   );
 };
 
-QLNhanVien.propTypes = {};
+ProductManagement.propTypes = {};
 
-export default QLNhanVien;
+export default ProductManagement;
