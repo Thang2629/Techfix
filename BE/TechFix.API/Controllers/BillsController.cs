@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using TechFix.Common.AppSetting;
+using TechFix.Common.Constants;
 using TechFix.EntityModels;
+using TechFix.Services;
 using TechFix.Services.Common;
 using TechFix.TransportModels.Dtos;
-using VlinkSequence = TechFix.EntityModels.VlinkSequence;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,13 +26,15 @@ namespace TechFix.API.Controllers
     public class BillsController : CustomController
     {
         private readonly SequenceService _sequenceService;
+        private readonly IHistoryServices _historyServices;
         public BillsController(IMapper mapper,
             IOptions<AppSettings> appSettings,
             DataContext context,
             IWebHostEnvironment env,
-            CommonService commonService, SequenceService sequenceService) : base(mapper, appSettings, context, env, commonService)
+            CommonService commonService, SequenceService sequenceService, IHistoryServices historyServices) : base(mapper, appSettings, context, env, commonService)
         {
             _sequenceService = sequenceService;
+            _historyServices = historyServices;
         }
 
         [HttpPost]
@@ -90,6 +92,8 @@ namespace TechFix.API.Controllers
                         ProductSerial = productDto.Serial,
                         WarrantyPeriod = productDto.WarrantyPeriod
                     });
+
+                    await _historyServices.WriteProductHistory(product, ProductHistoryAction.Sell, bill.Code, productDto.Quantity);
                 }
             }
 
@@ -110,6 +114,7 @@ namespace TechFix.API.Controllers
                     fixProduct.ProductSerial = fixProductDto.Serial;
                     fixProduct.WarrantyPeriod = fixProductDto.WarrantyPeriod;
                     fixProduct.IsCreatedBill = true;
+                    fixProduct.BillId = bill.Id;
                 }
             }
 

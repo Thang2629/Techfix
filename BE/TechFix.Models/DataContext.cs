@@ -219,7 +219,7 @@ namespace TechFix.EntityModels
         public DbSet<Customer> Customers { get; set; }
         public DbSet<FixOrder> FixOrders { get; set; }
         public DbSet<FixProduct> FixProducts { get; set; }
-        public DbSet<ExportHistory> ExportHistories { get; set; }
+        public DbSet<MoneyInHistory> MoneyInHistories { get; set; }
         public DbSet<ImportHistory> ImportHistories { get; set; }
         public DbSet<ProductHistory> ProductHistories { get; set; }
         public DbSet<Template> Templates { get; set; }

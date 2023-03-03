@@ -4,13 +4,13 @@ using AutoMapper;
 using Microsoft.Extensions.Options;
 using TechFix.EntityModels;
 using TechFix.Common.AppSetting;
-using Microsoft.CodeAnalysis;
 
 namespace TechFix.Services
 {
     public interface IHistoryServices
     {
         Task<Guid> WriteProductHistory(Product product, string actionName, string code, int quantity);
+        Task<Guid> WriteMoneyInHistory(Guid billId, Customer customer, decimal amount, decimal inDebtAmount, Guid? cashierId, DateTime paymentDate, PaymentMethod paymentMethod);
     }
 
     public class HistoryServices : IHistoryServices
@@ -47,7 +47,29 @@ namespace TechFix.Services
                 OriginalPrice = product.OriginalPrice
             };
             _context.ProductHistories.Add(productHistory);
-            await _context.SaveChangesAsync();
+
+            return id;
+        }
+
+        public async Task<Guid> WriteMoneyInHistory(Guid billId, Customer customer, decimal amount, decimal inDebtAmount, Guid? cashierId, DateTime paymentDate, PaymentMethod paymentMethod)
+        {
+            var id = Guid.NewGuid();
+            var history = new MoneyInHistory
+            {
+                Id = id,
+                Amount = amount,
+                CashierId = cashierId,
+                PaymentDate = paymentDate,
+                BillId = billId,
+                PaymentMethodId = paymentMethod.Id,
+                CustomerId = customer?.Id
+            };
+            _context.MoneyInHistories.Add(history);
+
+            if (customer != null)
+            {
+                customer.InDebtAmount += inDebtAmount;
+            }
 
             return id;
         }
