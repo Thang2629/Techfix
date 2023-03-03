@@ -14,6 +14,7 @@ using TechFix.Services.Common;
 using TechFix.TransportModels;
 using TechFix.TransportModels.Dtos;
 using Microsoft.EntityFrameworkCore;
+using TechFix.Common.Constants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,24 +46,130 @@ namespace TechFix.API.Controllers
             return Ok(result);
         }
 
-        //// GET: api/<FixProductsController>
-        //[HttpPost]
-        //[Route("get-all-by-customer")]
-        //public IActionResult GetAllFixProductsByCustomer(PagingParams param)
-        //{
-        //    var queryable = _context.FixProducts
-        //        .Include(p => p.Bill)
-        //        .Include(p => p.FixStaff)
-        //        .Include(p => p.FixOrder)
-        //        .Where(x => !x.IsDeleted)
-        //        .AsNoTracking();
-        //    queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
-        //    var mapConfig = new MapperConfiguration(
-        //        cfg => cfg.CreateMap<FixProduct, FixProductDto>());
-        //    var projectTo = queryable.ProjectTo<FixProductDto>(mapConfig);
-        //    var result = PagedList<FixProductDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
-        //    return Ok(result);
-        //}
+        [HttpPost]
+        [Route("get-sale")]
+        public IActionResult GetAllTimeSales(PagingParams param)
+        {
+            var queryable = _context.FixProducts
+                .Where(x => !x.IsDeleted)
+                .AsNoTracking();
+
+            param.PageNumber = 1;
+            param.PageSize = int.MaxValue;
+
+            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+            var list = queryable.ToList();
+            int TotalFixed = 0, TotalFailed = 0;
+            decimal TotalMoney = 0;
+
+            TotalFixed = list.Where(x => !x.IsDeleted && x.Process.Equals(ConstantValue.PROCESS_DONE)).Count();
+            TotalFailed = list.Where(x => x.IsDeleted && x.Process.Equals(ConstantValue.PROCESS_RETURN_CUSTOMER)).Count();
+            TotalMoney = list.Sum(x => x.TotalMoney);
+
+            return Ok(new { TotalFixed, TotalFailed, TotalMoney });
+        }
+
+        // GET: api/<FixProductsController>
+        [HttpPost]
+        [Route("get-view-by-customer")]
+        public IActionResult GetAllFixProductsByCustomer(PagingParams param)
+        {
+            var queryable = _context.RepairProductByCustomerViews
+                .Where(x => !x.IsDeleted)
+                .AsNoTracking();
+
+            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+
+            //group logic
+            var group = queryable.ToList().GroupBy(x => x.Id)
+            .Select(record => new RepairProductByCustomerViewDto()
+             {
+                 Id = record.Key,
+                 CustomerName = record.Select(x => x.CustomerName).FirstOrDefault(),
+                 FixOrderCode = record.Select(x => x.FixOrderCode).FirstOrDefault(),
+                 Count = record.ToList().Count(),
+                 TotalMoney = record.Sum(x => x.TotalMoney),
+                 FixProducts = record.Select(x => new FixProductViewDto()
+                 {
+                     SearchData = x.SearchData,
+                     Adapter = x.Adapter,
+                     Code = x.FixProductCode,
+                     Condition = x.FixProductCondition,
+                     Cpu = x.Cpu,
+                     ErrorDescription = x.FixProductErrorDescription,
+                     EstimatedReturnDate = x.FixProductEstimatedReturnDate,
+                     FinishDate = x.FixProductFinishDate,
+                     FixStaffName = x.FixStaffName,
+                     CustomerName = x.CustomerName,
+                     Hdd = x.Hdd,
+                     Id = x.FixProductId,
+                     Keyboard = x.Keyboard,
+                     Lcd = x.Lcd,
+                     Name = x.FixProductName,
+                     Other = x.Other,
+                     Pin = x.Pin,
+                     Process = x.FixProductProcess,
+                     Psu = x.Psu,
+                     Ram = x.Ram,
+                     ReceiptDate = x.FixProductReceiptDate,
+                     ReturnDate = x.FixProductReturnDate,
+                     TotalMoney = x.TotalMoney,
+                     Wifi = x.Wifi
+                 }).ToList()
+             }).Skip((param.PageNumber -1) * param.PageSize).Take(param.PageSize).ToList();
+            return Ok(group);
+        }
+
+        [HttpPost]
+        [Route("get-view-by-fixstaff")]
+        public IActionResult GetAllFixProductsByFixStaff(PagingParams param)
+        {
+            var queryable = _context.RepairProductByFixStaffViews
+                .Where(x => !x.IsDeleted)
+                .AsNoTracking();
+
+            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+
+            //group logic
+            var group = queryable.ToList().GroupBy(x => x.Id)
+            .Select(record => new RepairProductByFixStaffViewDto()
+            {
+                Id = record.Key,
+                Name = record.Select(x => x.FixStaffName).FirstOrDefault(),
+                Count = record.ToList().Count(),
+                TotalMoney = record.Sum(x => x.TotalMoney),
+                FixProducts = record.Select(x => new FixProductViewDto()
+                {
+                    SearchData = x.SearchData,
+                    Adapter = x.Adapter,
+                    Code = x.FixProductCode,
+                    Condition = x.FixProductCondition,
+                    Cpu = x.Cpu,
+                    ErrorDescription = x.FixProductErrorDescription,
+                    EstimatedReturnDate = x.FixProductEstimatedReturnDate,
+                    FinishDate = x.FixProductFinishDate,
+                    FixStaffName = x.FixStaffName,
+                    CustomerName = x.CustomerName,
+                    Hdd = x.Hdd,
+                    Id = x.FixProductId,
+                    Keyboard = x.Keyboard,
+                    Lcd = x.Lcd,
+                    Name = x.FixProductName,
+                    Other = x.Other,
+                    Pin = x.Pin,
+                    Process = x.FixProductProcess,
+                    Psu = x.Psu,
+                    Ram = x.Ram,
+                    ReceiptDate = x.FixProductReceiptDate,
+                    ReturnDate = x.FixProductReturnDate,
+                    TotalMoney = x.TotalMoney,
+                    Wifi = x.Wifi
+                }).ToList()
+            })
+            .Skip((param.PageNumber - 1) * param.PageSize).Take(param.PageSize).ToList();
+
+            return Ok(group);
+        }
 
         [HttpPost]
         [Route("detail/{id}")]

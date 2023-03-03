@@ -59,6 +59,80 @@ public class DataContextInitialize
             {
                 SeedPaymentMethods();
             }
+
+            if (_context.RepairProductByCustomerViews == null)
+            {
+                var RepairProductByCustomer = "CREATE VIEW [RepairProductByCustomerView] AS" +
+                                                "SELECT c.Id," +
+                                                "c.Fullname as CustomerName," +
+                                                "fo.Code as FixOrderCode," +
+                                                "c.Fullname + '|' + c.PhoneNumber + '|' + fo.Code + '|' + fp.Code as SearchData," +
+                                                "fp.Id as FixProductId," +
+                                                "fp.Code as FixProductCode," +
+                                                "fp.Name as FixProductName," +
+                                                "fp.ErrorDescription as FixProductErrorDescription," +
+                                                "fp.Condition as FixProductCondition," +
+                                                "fp.ReceiptDate as FixProductReceiptDate," +
+                                                "fp.TotalMoney," +
+                                                "fp.EstimatedReturnDate as FixProductEstimatedReturnDate," +
+                                                "fp.FinishDate as FixProductFinishDate," +
+                                                "fp.ReturnDate as FixProductReturnDate," +
+                                                "fp.Process as FixProductProcess," +
+                                                "u.FullName as FixStaffName," +
+                                                "fp.Cpu," +
+                                                "fp.Hdd," +
+                                                "fp.Ram," +
+                                                "fp.Wifi," +
+                                                "fp.Pin," +
+                                                "fp.Adapter," +
+                                                "fp.Keyboard," +
+                                                "fp.Psu," +
+                                                "fp.Lcd," +
+                                                "fp.Other," +
+                                                "c.IsDeleted" +
+                                                "FROM Users u JOIN FixProducts fp ON u.Id = fp.FixStaffId" +
+                                                "JOIN FixOrders fo ON fo.Id = fp.FixOrderId" +
+                                                "JOIN Customers c ON c.Id = fo.CustomerId";
+                
+                _context.Database.ExecuteSqlRaw(RepairProductByCustomer);
+            }
+
+            if(_context.RepairProductByFixStaffViews == null)
+            {
+                var RepairProductByFixStaff = "CREATE VIEW [RepairProductByFixStaffView] AS" +
+                                                "SELECT u.Id," +
+                                                "u.FullName as FixStaffName," +
+                                                "c.Fullname + '|' + c.PhoneNumber + '|' + fo.Code + '|' + fp.Code as SearchData," +
+                                                "c.Fullname as CustomerName," +
+                                                "fp.Id as FixProductId," +
+                                                "fo.Code as FixOrderCode," +
+                                                "fp.Code as FixProductCode," +
+                                                "fp.Name as FixProductName," +
+                                                "fp.ErrorDescription as FixProductErrorDescription," +
+                                                "fp.Condition as FixProductCondition," +
+                                                "fp.ReceiptDate as FixProductReceiptDate," +
+                                                "fp.TotalMoney," +
+                                                "fp.EstimatedReturnDate as FixProductEstimatedReturnDate," +
+                                                "fp.FinishDate as FixProductFinishDate," +
+                                                "fp.ReturnDate as FixProductReturnDate," +
+                                                "fp.Process as FixProductProcess," +
+                                                "fp.Cpu," +
+                                                "fp.Hdd," +
+                                                "fp.Ram," +
+                                                "fp.Wifi," +
+                                                "fp.Pin," +
+                                                "fp.Adapter," +
+                                                "fp.Keyboard," +
+                                                "fp.Psu," +
+                                                "fp.Lcd," +
+                                                "fp.Other," +
+                                                "c.IsDeleted" +
+                                                "FROM Users u JOIN FixProducts fp ON u.Id = fp.FixStaffId" +
+                                                "JOIN FixOrders fo ON fo.Id = fp.FixOrderId" +
+                                                "JOIN Customers c ON c.Id = fo.CustomerId";
+
+                _context.Database.ExecuteSqlRaw(RepairProductByFixStaff);
+            }
         }
         catch (Exception ex)
         {
