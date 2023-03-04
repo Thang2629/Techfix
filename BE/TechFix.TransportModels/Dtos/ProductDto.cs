@@ -50,6 +50,9 @@ namespace TechFix.TransportModels.Dtos
         /// Tình trạng sản phẩm
         /// </summary>
         public Guid? ProductConditionId { get; set; }
-        public string ProductConditionName { get; set;}
+        public string ProductConditionName { get; set; }
+        public bool Discontinue { get; set; }
+        public string ImagePath { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
