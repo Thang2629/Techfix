@@ -18,6 +18,9 @@ namespace TechFix.EntityModels
         public User Seller { get; set; }
         public Guid? SellerId { get; set; }
 
+        public Store Store { get; set; }
+        public Guid? StoreId { get; set; }
+
         public List<BillItem> BillItems { get; set; }
         public List<FixProduct> FixProducts { get; set; }
 

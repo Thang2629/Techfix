@@ -132,6 +132,38 @@ public class DataContextInitialize
                                                 "JOIN Customers c ON c.Id = fo.CustomerId";
 
                 _context.Database.ExecuteSqlRaw(RepairProductByFixStaff);
+
+            }
+
+            if(_context.GetRepairProductReportViews == null)
+            {
+                var RepairProductReport = "CREATE VIEW [GetRepairProductReportView] AS" +
+                                        "SELECT b.Id," +
+                                        "b.Code," +
+                                        "c.Fullname as CustomerName," +
+                                        "s.Name as StoreName," +
+                                        "b.CreatedDate," +
+                                        "u.FullName as FixStaffName," +
+                                        "b.TotalQuantity," +
+                                        "b.TotalAmount," +
+                                        "b.AmountPaid," +
+                                        "b.AmountOwed," +
+                                        "b.IsDeleted," +
+                                        "fp.Id as FixProductId," +
+                                        "fp.Code as FixProductCode," +
+                                        "fp.Name as FixProductName," +
+                                        "fp.ProductSerial," +
+                                        "fp.Condition," +
+                                        "fp.WarrantyPeriod," +
+                                        "fp.TotalMoney" +
+                                        "FROM Bills b" +
+                                        "JOIN Customers c ON b.CustomerId = c.Id" +
+                                        "JOIN Users u ON b.SellerId = u.Id" +
+                                        "JOIN PaymentMethods pm ON b.PaymentMethodId = pm.Id" +
+                                        "JOIN FixProducts fp ON b.Id = fp.BillId" +
+                                        "JOIN Stores s ON s.Id = b.StoreId";
+
+                _context.Database.ExecuteSqlRaw(RepairProductReport);
             }
         }
         catch (Exception ex)
