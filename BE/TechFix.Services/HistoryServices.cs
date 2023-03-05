@@ -68,7 +68,7 @@ namespace TechFix.Services
 
             if (customer != null)
             {
-                customer.InDebtAmount += inDebtAmount;
+                customer.AmountOwed += inDebtAmount;
             }
 
             return id;

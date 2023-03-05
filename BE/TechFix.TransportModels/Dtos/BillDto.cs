@@ -2,7 +2,7 @@
 using TechFix.Common.Interfaces;
 using TechFix.EntityModels;
 
-namespace TechFix.TransportModels
+namespace TechFix.TransportModels.Dtos
 {
     public class BillDto : IMapTo<Bill>
     {
