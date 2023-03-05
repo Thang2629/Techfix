@@ -12,7 +12,7 @@ namespace TechFix.EntityModels
         public string ImagePath { get; set; }
         public string Team { get; set; } //Khách sỉ, Khách lẻ
         public string Code { get; set; }
-        public string Fullname { get; set; }
+        public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string Sex { get; set; }

@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using TechFix.Common.AppSetting;
 using TechFix.Common.Constants;
+using TechFix.Common.Helper;
+using TechFix.Common.Paging;
 using TechFix.EntityModels;
 using TechFix.Services;
 using TechFix.Services.Common;
+using TechFix.TransportModels;
 using TechFix.TransportModels.Dtos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -55,7 +59,9 @@ namespace TechFix.API.Controllers
                 TotalAmount = request.TotalAmount,
                 AmountPaid = request.AmountPaid,
                 AmountOwed = request.AmountOwed,
-                Code = await _sequenceService.GetNextBillCode()
+                StoreId = request.StoreId,
+                Code = await _sequenceService.GetNextBillCode(),
+                SaleDate = DateTime.Now
             };
             if (request.Products?.Any() == true)
             {
@@ -167,7 +173,35 @@ namespace TechFix.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("get-all")]
+        public async Task<IActionResult> GetBills(PagingParams param)
+        {
+            //var queryable = _context.Bills
+            //    .Include(b => b.Customer)
+            //    .Include(b => b.Store)
+            //    .Include(b => b.Seller)
+            //    .AsNoTracking();
+            //queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+            //queryable = queryable.OrderByDescending(b => b.SaleDate);
+
+            //var mapConfig = new MapperConfiguration(
+            //    cfg => cfg.CreateMap<Bill, BillDto>()
+            //        .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Customer.PhoneNumber))
+            //        .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Customer.FullName))
+            //        .ForMember(dest => dest.StoreName, opt => opt.MapFrom(src => src.Store.Name))
+            //        .ForMember(dest => dest.sta, opt => opt.MapFrom(src => src.Seller.FullName))
+            //);
+            //var projectTo = queryable.ProjectTo<BillDto>(mapConfig);
+            //var result = PagedList<BillDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
+            //for (var i = 0; i < result.Data.Count; i++)
+            //{
+            //    result.Data[i].Index = i + 1;
+            //}
+
+            return Ok();
+        }
+
+
     }
-
-
 }

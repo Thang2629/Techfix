@@ -4,6 +4,7 @@ namespace TechFix.TransportModels.Dtos
 {
     public class PostBillDto
     {
+        public Guid? StoreId { get; set; }
         public Guid? CustomerId { get; set; }
         public Guid? PaymentMethodId { get; set; }
         public string Note { get; set; }

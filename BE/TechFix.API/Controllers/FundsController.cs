@@ -8,6 +8,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using TechFix.Common.AppSetting;
 using TechFix.Common.Constants.User;
@@ -63,9 +64,15 @@ namespace TechFix.API.Controllers
         public IActionResult GetAllFunds(PagingParams param)
         {
             var queryable = _context.Funds
+                .Include(f=>f.Cashier)
                 .Where(m => !m.IsDeleted);
             queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
-            var projectTo = queryable.ProjectTo<FundDto>(_mapper.ConfigurationProvider);
+            var mapConfig = new MapperConfiguration(
+                cfg => cfg.CreateMap<Fund, FundDto>()
+                    .ForMember(dest => dest.StoreName, opt => opt.MapFrom(src => src.Store.Name))
+                    .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Cashier.FullName))
+            );
+            var projectTo = queryable.ProjectTo<FundDto>(mapConfig);
             var result = PagedList<FundDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
             return Ok(result);
         }
@@ -80,7 +87,7 @@ namespace TechFix.API.Controllers
                 _context.Funds.Add(new Fund()
                 {
                     Code = nextCodeSequence,
-                    Cashier = transport.Cashier,
+                    CashierId = _context.UserInfo.CurrentUserId,
                     Amount = transport.Amount,
                     ImageUrl = transport.ImageUrl,
                     IsAdd = transport.IsAdd,
@@ -97,17 +104,15 @@ namespace TechFix.API.Controllers
         [HttpPut("{id}")]
         public async Task Put(Guid id, [FromBody] FundTransport transport)
         {
-            var model = await _context.Funds.FindAsync(id);
-            if (model != null)
+            var fund = await _context.Funds.FindAsync(id);
+            if (fund != null)
             {
-                model.Cashier = transport.Cashier;
-                model.Amount = transport.Amount;
-                model.ImageUrl = transport.ImageUrl;
-                model.IsAdd = transport.IsAdd;
-                model.Note = transport.Note;
-                model.PaymentDate = transport.PaymentDate;
-                model.PaymentMethod = transport.PaymentMethod;
-                model.StoreId = transport.StoreId;
+                fund.Amount = transport.Amount;
+                fund.ImageUrl = transport.ImageUrl;
+                fund.IsAdd = transport.IsAdd;
+                fund.Note = transport.Note;
+                fund.PaymentDate = transport.PaymentDate;
+                fund.PaymentMethod = transport.PaymentMethod;
 
                 await _context.SaveChangesAsync();
             }

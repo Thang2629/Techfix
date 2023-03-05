@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechFix.EntityModels;
 
@@ -11,9 +12,10 @@ using TechFix.EntityModels;
 namespace TechFix.EntityModels.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230304122453_RenameSaleDateField")]
+    partial class RenameSaleDateField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,9 +65,6 @@ namespace TechFix.EntityModels.Migrations
                         .HasColumnType("decimal(38,16)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsReturn")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -464,7 +463,7 @@ namespace TechFix.EntityModels.Migrations
                         .HasPrecision(38, 16)
                         .HasColumnType("decimal(38,16)");
 
-                    b.Property<Guid?>("CashierId")
+                    b.Property<Guid?>("Cashier")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
@@ -507,8 +506,6 @@ namespace TechFix.EntityModels.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CashierId");
 
                     b.HasIndex("StoreId");
 
@@ -1688,15 +1685,9 @@ namespace TechFix.EntityModels.Migrations
 
             modelBuilder.Entity("TechFix.EntityModels.Fund", b =>
                 {
-                    b.HasOne("TechFix.EntityModels.User", "Cashier")
-                        .WithMany()
-                        .HasForeignKey("CashierId");
-
                     b.HasOne("TechFix.EntityModels.Store", "Store")
                         .WithMany()
                         .HasForeignKey("StoreId");
-
-                    b.Navigation("Cashier");
 
                     b.Navigation("Store");
                 });

@@ -4,28 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechFix.EntityModels
+namespace TechFix.EntityModels.Views
 {
-    public class Bill : BaseModel
+    public class BillView
     {
-        #region FK
-
-        public Customer Customer { get; set; }
+        public Guid? Id { get; set; }
         public Guid? CustomerId { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
         public Guid? PaymentMethodId { get; set; }
-
-        public User Seller { get; set; }
         public Guid? SellerId { get; set; }
-
-        public Store Store { get; set; }
         public Guid? StoreId { get; set; }
-
-        public List<BillItem> BillItems { get; set; }
-        public List<FixProduct> FixProducts { get; set; }
-
-        #endregion
-
         public string Note { get; set; }
         public decimal Vat { get; set; }
         public decimal TotalGoodsMoney { get; set; }
@@ -36,7 +23,11 @@ namespace TechFix.EntityModels
         public decimal AmountPaid { get; set; }
         public decimal AmountOwed { get; set; }
         public string Code { get; set; }
+        public int Index { get; set; }
+        public string PhoneNumber { get; set; }
+        public string FullName { get; set; }
+        public string StoreName { get; set; }
         public DateTime SaleDate { get; set; }
-        public bool IsReturn { get; set; }
+        public string StaffName { get; set; }
     }
 }

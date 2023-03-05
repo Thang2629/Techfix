@@ -48,7 +48,7 @@ namespace TechFix.API.Controllers
             queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
             var mapConfig = new MapperConfiguration(
                 cfg => cfg.CreateMap<FixOrder, FixOrderDto>()
-                    .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.Fullname))
+                    .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FullName))
                     .ForMember(dest => dest.CustomerPhoneNumber, opt => opt.MapFrom(src => src.Customer.PhoneNumber))
                     .ForMember(dest => dest.CustomerGroup, opt => opt.MapFrom(src => src.Customer.Team))
                     .ForMember(dest => dest.StoreName, opt => opt.MapFrom(src => src.Store.Name))
@@ -71,7 +71,7 @@ namespace TechFix.API.Controllers
             {
                 Code = item.Code,
                 CustomerPhoneNumber = item.Customer?.PhoneNumber,
-                CustomerName = item.Customer?.Fullname,
+                CustomerName = item.Customer?.FullName,
                 CustomerGroup = item.Customer?.Team,
                 CashierName = item.Cashier?.FullName,
                 StoreName = item.Store?.Name,
