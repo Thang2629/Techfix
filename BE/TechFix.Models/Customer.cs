@@ -19,6 +19,6 @@ namespace TechFix.EntityModels
         public string Email { get; set; }
         public DateTime? Birthday { get; set; }
         public string Note { get; set; }
-        public decimal InDebtAmount { get; set; }
+        public decimal AmountOwed { get; set; }
     }
 }

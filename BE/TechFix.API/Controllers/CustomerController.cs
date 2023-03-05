@@ -14,15 +14,15 @@ using System;
 using AutoMapper.QueryableExtensions;
 using TechFix.Common.Helper;
 using TechFix.Common.Paging;
-using TechFix.TransportModels;
 using TechFix.TransportModels.Dtos;
+using TechFix.TransportModels;
 
 namespace TechFix.API.Controllers
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	[Route("api/[controller]")]
+    /// <summary>
+    /// 
+    /// </summary>
+    [Route("api/[controller]")]
     [ApiController]
 	[Authorize(Roles = UserRole.AllRole)]
     public class CustomerController : ControllerBase
@@ -72,6 +72,15 @@ namespace TechFix.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("detail/{id}")]
+        public async Task<IActionResult> GetCustomerDetail(Guid customerId)
+        {
+            var customer = await _context.Customers.FindAsync(customerId);
+            if (customer == null) return BadRequest();
+            return Ok(customer);
+        }
+
         // POST api/<CustomersController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CustomerDto customerDto)
@@ -109,6 +118,35 @@ namespace TechFix.API.Controllers
             if (customer != null)
             {
                 customer.IsDeleted = true;
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("pay-debt")]
+        public async Task<IActionResult> CustomerPayDebt([FromBody] CustomerPayDebtTransport transport)
+        {
+            var customer = await _context.Customers.FindAsync(transport.CustomerId);
+            if (customer != null)
+            {
+                decimal totalPaid = 0;
+                foreach(var item in transport.PayDebtItem)
+                {
+                    var bill = await _context.Bills.FindAsync(item.BillId);
+                    if (bill != null && bill.CustomerId == customer.Id && !bill.IsDeleted)
+                    {
+                        bill.AmountOwed -= item.Amount;
+                        totalPaid += item.Amount;
+
+                        if(bill.AmountOwed < 0) bill.AmountOwed = 0;
+                    }
+                }
+
+                customer.AmountOwed -= totalPaid;
+                if(customer.AmountOwed < 0) customer.AmountOwed = 0;
+
                 await _context.SaveChangesAsync();
             }
 
