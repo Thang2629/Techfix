@@ -8,14 +8,24 @@ export const getProducts = (payload) => {
   return api.sendPost(PRODUCTS_GRID_ENDPOINT, payload);
 };
 
-export const getProductDetails = (Id) => {
-  return api.sendPost(`${PRODUCTS_ENDPOINT}/detail/${Id}`);
+export const getProductDetails = (id) => {
+  return api.sendPost(`${PRODUCTS_ENDPOINT}/detail/${id}`);
 };
 
-export const updateProduct = (Id, payload) => {
-  return api.sendPut(`${PRODUCTS_ENDPOINT}/${Id}`, payload);
+export const updateProduct = (id, payload) => {
+  return api.sendPut(`${PRODUCTS_ENDPOINT}/${id}`, payload);
 };
 
-export const deleteProduct = (Id) => {
-  return api.sendDelete(`${PRODUCTS_ENDPOINT}/${Id}`);
+export const createProduct = (payload) => {
+  return api.sendPost(`${PRODUCTS_ENDPOINT}`, payload);
+};
+export const deleteProduct = (id) => {
+  return api.sendDelete(`${PRODUCTS_ENDPOINT}/${id}`);
+};
+
+export const changeStatusProduct = (id) => {
+  return api.sendPut(`${PRODUCTS_ENDPOINT}/change-status/${id}`);
+};
+export const restoreProduct = (id) => {
+  return api.sendPut(`${PRODUCTS_ENDPOINT}/restore/${id}`);
 };

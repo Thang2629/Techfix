@@ -1,7 +1,9 @@
 import * as api from "config/axios";
 
 const PRODUCT_UNITS_ENDPOINT = "api/ProductUnits";
-
+const config = {
+  headers: { "Content-Type": "text/plain" },
+};
 export const getListProductUnits = () => {
   return api.sendGet(PRODUCT_UNITS_ENDPOINT);
 };

@@ -1,7 +1,9 @@
 import * as api from "config/axios";
 
 const CATEGORIES_ENDPOINT = "api/Categories";
-
+const config = {
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+};
 export const getListCategories = () => {
   return api.sendGet(CATEGORIES_ENDPOINT);
 };
@@ -11,7 +13,7 @@ export const createCategory = (payload) => {
 };
 
 export const updateCategory = (id, payload) => {
-  return api.sendPut(`${CATEGORIES_ENDPOINT}/${id}`, payload);
+  return api.sendPut(`${CATEGORIES_ENDPOINT}/${id}`, payload, config);
 };
 
 export const deleteCategory = (id) => {

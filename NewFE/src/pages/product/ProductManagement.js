@@ -1,7 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 
 import { useDispatch } from "react-redux";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import {
+  ExclamationCircleOutlined,
+  CopyOutlined,
+  PlusCircleOutlined,
+  PauseOutlined,
+  UndoOutlined,
+} from "@ant-design/icons";
+
 import {
   Button,
   Input,
@@ -13,7 +20,6 @@ import {
   Select,
   Spin,
 } from "antd";
-import { ExclamationCircleOutlined, BarsOutlined } from "@ant-design/icons";
 import PageWrapper from "components/Layout/PageWrapper";
 import HeaderPage from "pages/home/header-page";
 import { useHistory } from "react-router-dom";
@@ -21,8 +27,10 @@ import Grid from "components/Grid";
 
 import * as actions from "redux/global/actions";
 import { SEARCH_CRITERIA } from "static/Constants";
-import { deleteNhanVien } from "services/apartment-manage";
-import { DELETE_ERROR, DELETE_SUCCESS } from "utils/common/messageContants";
+import {
+  CHANGE_STATUS_SUCCESS,
+  DELETE_SUCCESS,
+} from "utils/common/messageContants";
 import { getListManufacturers } from "services/Manufacturers";
 import { getListCategories } from "services/Categories";
 import { ButtonDelete, PrimaryButton } from "common/components/Buttons";
@@ -31,6 +39,8 @@ import {
   PRODUCTS_GRID_ENDPOINT,
   getProducts,
   deleteProduct,
+  changeStatusProduct,
+  restoreProduct,
 } from "services/Products";
 import pickBy from "lodash/pickBy";
 import identity from "lodash/identity";
@@ -104,6 +114,11 @@ const ProductManagement = (props) => {
     {
       title: "Tên Sản Phẩm",
       dataIndex: "Name",
+      render: (_, values) => (
+        <Space>
+          <Link to={`/san-pham/${values.Id}`}>{values.Name}</Link>
+        </Space>
+      ),
     },
     {
       title: "SL",
@@ -142,24 +157,45 @@ const ProductManagement = (props) => {
       dataIndex: "action",
       render: (_, values) => (
         <Space>
-          <Link to={`/san-pham/${values.Id}`}>
-            <PrimaryButton
-              icon={<BarsOutlined />}
-              onClick={() => onClickDetail(values)}
-            ></PrimaryButton>
-          </Link>
-          <ButtonDelete onClick={() => onClickDelete(values)} />
+          <PrimaryButton
+            icon={<CopyOutlined />}
+            onClick={() => onClickCopy(values)}
+          />
+          {!values.Discontinue &&
+            !values.IsDeleted && ( //Kinh Doanh
+              <>
+                <ButtonDelete
+                  icon={<PauseOutlined />}
+                  onClick={() => onClickChangeStatus(values)}
+                />
+                <ButtonDelete onClick={() => onClickDelete(values)} />
+              </>
+            )}
+          {values.Discontinue && //Ngừng Kinh Doanh
+            !values.IsDeleted && (
+              <>
+                <PrimaryButton
+                  icon={<UndoOutlined />}
+                  onClick={() => onClickRestore(values)}
+                />
+              </>
+            )}
+          {values.IsDeleted && ( //Xóa Sp
+            <>
+              <PrimaryButton
+                icon={<UndoOutlined />}
+                onClick={() => onClickRestore(values)}
+              />
+            </>
+          )}
         </Space>
       ),
     },
   ];
 
-  const onClickDetail = (values) => {
-    setOpenDetail(!openDetail);
-    setNhanVien(values.Id);
-    // history.push(`/san-pham/${values.Id}`);
+  const onClickCopy = (values) => {
+    fowardTo(`/tao-san-pham`, { isCopy: true, productId: values.Id });
   };
-
   const readGrid = (refresh) => {
     dispatch(actions.refreshGrid(refresh));
   };
@@ -172,11 +208,24 @@ const ProductManagement = (props) => {
       message.success(response.Message);
     }
   };
+  const handleChangeStatus = async (values) => {
+    const response = await changeStatusProduct(values.Id);
+    if (response.Success) {
+      message.success(CHANGE_STATUS_SUCCESS);
+      readGrid(true);
+    } else {
+      message.success(response.Message);
+    }
+  };
 
-  const onClickOpenModal = (record = {}) => {
-    setNhanVien(record.id);
-    form.setFieldsValue(record);
-    setIsopen(true);
+  const handleRestoreProduct = async (values) => {
+    const response = await restoreProduct(values.Id);
+    if (response.Success) {
+      message.success(CHANGE_STATUS_SUCCESS);
+      readGrid(true);
+    } else {
+      message.success(response.Message);
+    }
   };
 
   const onClickDelete = (values) => {
@@ -190,8 +239,26 @@ const ProductManagement = (props) => {
     });
   };
 
-  const onOpenModel = () => {
-    onClickOpenModal({});
+  const onClickChangeStatus = (values) => {
+    Modal.confirm({
+      title: "Xác Nhận",
+      icon: <ExclamationCircleOutlined />,
+      content: "Bạn có chắc chắn muốn ngừng kinh doanh sản phẩm này không?",
+      okText: "Xác Nhận",
+      cancelText: "Hủy",
+      onOk: () => handleChangeStatus(values),
+    });
+  };
+
+  const onClickRestore = (values) => {
+    Modal.confirm({
+      title: "Xác Nhận",
+      icon: <ExclamationCircleOutlined />,
+      content: "Bạn có chắc chắn muốn khôi phục sản phẩm này không?",
+      okText: "Xác Nhận",
+      cancelText: "Hủy",
+      onOk: () => handleRestoreProduct(values),
+    });
   };
   const onSave = async (values) => {
     const filterParams = [];
@@ -340,7 +407,7 @@ const ProductManagement = (props) => {
     return;
   };
   const onClickAddProduct = () => {
-    fowardTo("/tao-san-pham");
+    fowardTo("/tao-san-pham", { isCreate: true });
   };
   return (
     <>

@@ -67,11 +67,8 @@ const CREATE_TYPE = {
 const ThongTinSanPham = (props) => {
   const { id } = useParams();
 
-  const [dataCustomer, setDataCustomer] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [isOpen, setIsopen] = useState(false);
-  const [value, setValue] = useState("");
-  const [dataKH, setDataKH] = useState([]);
   const [productDetails, setProductDetails] = useState({});
   const [categories, setCategories] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
@@ -239,7 +236,7 @@ const ThongTinSanPham = (props) => {
                         <Select allowClear>
                           {productUnits &&
                             productUnits.map((item) => (
-                              <Select.Option key={item.Id} values={item.Id}>
+                              <Select.Option key={item.Id} value={item.Id}>
                                 {item.Name}
                               </Select.Option>
                             ))}
@@ -354,7 +351,7 @@ const ThongTinSanPham = (props) => {
                         <Select allowClear>
                           {categories &&
                             categories.map((item) => (
-                              <Select.Option key={item.Id} values={item.Id}>
+                              <Select.Option key={item.Id} value={item.Id}>
                                 {item.Name}
                               </Select.Option>
                             ))}
@@ -379,7 +376,7 @@ const ThongTinSanPham = (props) => {
                         <Select allowClear>
                           {manufacturers &&
                             manufacturers.map((item) => (
-                              <Select.Option key={item.Id} values={item.Id}>
+                              <Select.Option key={item.Id} value={item.Id}>
                                 {item.Name}
                               </Select.Option>
                             ))}
@@ -432,7 +429,7 @@ const ThongTinSanPham = (props) => {
                         <Select allowClear>
                           {suppliers &&
                             suppliers.map((item) => (
-                              <Select.Option key={item.Id} values={item.Id}>
+                              <Select.Option key={item.Id} value={item.Id}>
                                 {item.Name}
                               </Select.Option>
                             ))}
@@ -450,6 +447,14 @@ const ThongTinSanPham = (props) => {
                   >
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
+                        {/* <Select
+                          placeholder="Select a option and change input text above"
+                          allowClear
+                        >
+                          <Select.Option value="male">male</Select.Option>
+                          <Select.Option value="female">female</Select.Option>
+                          <Select.Option value="other">other</Select.Option>
+                        </Select> */}
                         <Select allowClear>
                           {productConditions &&
                             productConditions.map((item) => (
@@ -458,13 +463,6 @@ const ThongTinSanPham = (props) => {
                               </Select.Option>
                             ))}
                         </Select>
-                        <Button
-                          type="primary"
-                          icon={<PlusSquareOutlined />}
-                          onClick={() =>
-                            onClickAddButton(CREATE_TYPE.PRODUCTS_CONDITION)
-                          }
-                        />
                       </div>
                     ) : (
                       <Text strong>
@@ -479,7 +477,7 @@ const ThongTinSanPham = (props) => {
         </Row>
       </Form>
     );
-  }, [dataCustomer, form, btnEdit, id, isUpdate, onFinish, dataKH]);
+  }, [form, btnEdit, id, isUpdate, onFinish]);
   // grid
 
   const [editingKey, setEditingKey] = useState("");
@@ -506,7 +504,7 @@ const ThongTinSanPham = (props) => {
   const save = async (record) => {
     try {
       const value = inputTable.current.input.value;
-      const response = await updateAction(value);
+      const response = await updateAction(record.Id, value);
       if (response.Success) {
         message.success(CREATE_SUCCESS);
       } else {
@@ -516,16 +514,16 @@ const ThongTinSanPham = (props) => {
       console.log("Validate Failed:", errInfo);
     }
   };
-  const updateAction = (value) => {
+  const updateAction = (itemId, value) => {
     switch (typeCreate) {
       case CREATE_TYPE.CATEGORY:
-        return updateCategory(id, value);
+        return updateCategory(itemId, value);
       case CREATE_TYPE.MANUFACTURER:
-        return updateManufacturer(id, value);
+        return updateManufacturer(itemId, value);
       case CREATE_TYPE.PRODUCTS_CONDITION:
-        return updateProductCondition(id, value);
+        return updateProductCondition(itemId, value);
       case CREATE_TYPE.PRODUCTS_UNIT:
-        return updateProductUnit(id, value);
+        return updateProductUnit(itemId, value);
       default:
         return;
     }
@@ -605,7 +603,7 @@ const ThongTinSanPham = (props) => {
                 marginRight: 8,
               }}
             >
-              Save
+              Lưu
             </Typography.Link>
             <Typography.Link
               onClick={cancel}
@@ -613,7 +611,7 @@ const ThongTinSanPham = (props) => {
                 marginRight: 8,
               }}
             >
-              Cancel
+              Hủy
             </Typography.Link>
           </span>
         ) : (
@@ -625,7 +623,7 @@ const ThongTinSanPham = (props) => {
                 marginRight: 8,
               }}
             >
-              Edit
+              Chỉnh Sửa
             </Typography.Link>
             <Typography.Link
               disabled={editingKey !== ""}
@@ -634,7 +632,7 @@ const ThongTinSanPham = (props) => {
                 marginRight: 8,
               }}
             >
-              Delete
+              Xóa
             </Typography.Link>
           </span>
         );
@@ -720,13 +718,13 @@ const ThongTinSanPham = (props) => {
       message.error(response.Message);
     }
   };
-  const renderCreateFormByType = (typeCreate) => {
+  const renderCreateFormByType = (action) => {
     return (
       <PageWrapper>
         <Form
           form={formTabCreate}
           id="formTabCreate"
-          onFinish={(values) => onCreateByType(values, typeCreate)}
+          onFinish={(values) => onCreateByType(values, action)}
         >
           <Row>
             <Col
