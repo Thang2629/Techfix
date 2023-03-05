@@ -166,7 +166,7 @@ const Navigation = (props) => {
           <Link to="/">Phiếu chi</Link>
         </Item>
         <Item key="cashbook" className="menu-navigation__item">
-          <Link to="/">Sổ quỷ</Link>
+          <Link to="/cashbook">Sổ quỹ</Link>
         </Item>
       </SubMenu>
 
