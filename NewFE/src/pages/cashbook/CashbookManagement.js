@@ -33,10 +33,10 @@ export default function CashbookManagement() {
       title: "Người thu",
       dataIndex: "FullName",
     },
-    // {
-    //   title: "Chứng từ liên quan",
-    //   dataIndex: "Quantity",
-    // },
+    {
+      title: "Chứng từ liên quan",
+      dataIndex: "ImageUrl",
+    },
     {
       title: "Kho thu",
       dataIndex: "StoreName",

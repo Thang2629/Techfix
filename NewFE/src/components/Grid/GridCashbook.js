@@ -6,6 +6,8 @@ import * as actions from "redux/global/actions";
 import _ from "lodash";
 import pickBy from "lodash/pickBy";
 import identity from "lodash/identity";
+import { STORE_ID_KEY, PRODUCT_ASSOCIATED } from "static/Constants";
+import { getProductAssicatedByType } from "services/ProductAssociated";
 import "./Grid.less";
 
 const GridCashbook = ({
@@ -30,6 +32,7 @@ const GridCashbook = ({
     FilterParams: [],
   });
   const [selectedIds, setSelectedIds] = useState([]);
+  const [storeId, setStoreId] = useState(null)
 
   useEffect(() => {
     fetchData(searchText);
@@ -86,7 +89,15 @@ const GridCashbook = ({
   useEffect(() => {
     const filterParams = [];
     const formatFilter = pickBy(dataFilter, identity);
-    if (formatFilter.hasOwnProperty("dateFilter")) {
+    const fetchStore = async () => {
+      const response = await getProductAssicatedByType(
+        PRODUCT_ASSOCIATED.STORE
+      );
+      const storeId = JSON.parse(localStorage.getItem(STORE_ID_KEY))? JSON.parse(localStorage.getItem(STORE_ID_KEY)): response[0].Id;
+      setStoreId(storeId)
+    }
+    fetchStore()
+    if (formatFilter.hasOwnProperty("dateFilter") && !_.isEmpty(dataFilter?.dateFilter[0])) {
       filterParams.push({
         PropertyName: "PaymentDate",
         Comparison: ">=",
@@ -102,11 +113,21 @@ const GridCashbook = ({
         Comparison: "==",
         Value: tabActive === 1,
       });
+      filterParams.push({
+        PropertyName: "StoreId",
+        Comparison: "==",
+        Value: storeId,
+      });
     } else {
       filterParams.push({
         PropertyName: "IsAdd",
         Comparison: "==",
         Value: tabActive === 1,
+      });
+      filterParams.push({
+        PropertyName: "StoreId",
+        Comparison: "==",
+        Value: storeId,
       });
     }
     setTableParams({
@@ -115,13 +136,6 @@ const GridCashbook = ({
         pageSize: 10,
       },
       FilterParams: filterParams,
-      // [
-      //   {
-      //     PropertyName: "IsAdd",
-      //     Comparison: "==",
-      //     Value: tabActive === 1,
-      //   },
-      // ],
     });
   }, [tabActive, dataFilter]);
 
