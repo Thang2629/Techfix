@@ -38,8 +38,6 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
   };
 
   useEffect(() => {
-    const test = tableParams;
-    debugger;
     !isEmpty(urlEndpoint) && fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -50,13 +48,11 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
 
   const fetchData = (page = 1) => {
     setLoading(true);
-    debugger;
     const paramsRequest = {
       FilterParams: tableParams.FilterParams,
       PageSize: tableParams.pagination.pageSize,
       PageNumber: page,
     };
-    debugger;
     api
       .sendPost(urlEndpoint, paramsRequest)
       .then((results) => {
@@ -109,7 +105,6 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
 
   useEffect(() => {
     if (data) {
-      debugger;
       setRowData(data);
       setTableParams({
         FilterParams: tableParams.FilterParams,
@@ -123,7 +118,6 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
   }, [data]);
 
   const onChange = (pagination, filters, sorter, extra) => {
-    debugger;
     setTableParams({
       ...tableParams,
       pagination: {

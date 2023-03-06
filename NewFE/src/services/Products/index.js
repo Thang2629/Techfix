@@ -3,6 +3,9 @@ import * as api from "config/axios";
 export const PRODUCTS_ENDPOINT = "api/Products";
 
 export const PRODUCTS_GRID_ENDPOINT = "api/Products/get-all";
+const config = {
+  headers: { "Content-Type": "multipart/form-data" },
+};
 
 export const getProducts = (payload) => {
   return api.sendPost(PRODUCTS_GRID_ENDPOINT, payload);
@@ -28,4 +31,12 @@ export const changeStatusProduct = (id) => {
 };
 export const restoreProduct = (id) => {
   return api.sendPut(`${PRODUCTS_ENDPOINT}/restore/${id}`);
+};
+
+export const exportProduct = (payload) => {
+  return api.sendPost(`${PRODUCTS_ENDPOINT}/export`, payload);
+};
+
+export const importProduct = (payload) => {
+  return api.sendPost(`${PRODUCTS_ENDPOINT}/import`, payload, config);
 };

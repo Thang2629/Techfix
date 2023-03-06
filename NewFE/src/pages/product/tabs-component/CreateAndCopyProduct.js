@@ -71,7 +71,6 @@ const ThongTinSanPham = (props) => {
   const isCopy = location.state.isCopy;
   const productId = location.state.productId;
 
-  debugger;
   // eslint-disable-next-line no-unused-vars
   const [isOpen, setIsopen] = useState(false);
   const [productDetails, setProductDetails] = useState({});
@@ -127,7 +126,6 @@ const ThongTinSanPham = (props) => {
   }, []);
 
   const onFinish = async (values) => {
-    debugger;
     const response = await createProduct(values);
 
     if (response.Success) {
@@ -401,7 +399,7 @@ const ThongTinSanPham = (props) => {
   const save = async (record) => {
     try {
       const value = inputTable.current.input.value;
-      debugger;
+
       const response = await updateAction(record.Id, value);
       if (response.Success) {
         message.success(CREATE_SUCCESS);

@@ -19,6 +19,7 @@ import {
   Space,
   Select,
   Spin,
+  Upload,
 } from "antd";
 import PageWrapper from "components/Layout/PageWrapper";
 import HeaderPage from "pages/home/header-page";
@@ -41,6 +42,8 @@ import {
   deleteProduct,
   changeStatusProduct,
   restoreProduct,
+  importProduct,
+  exportProduct,
 } from "services/Products";
 import pickBy from "lodash/pickBy";
 import identity from "lodash/identity";
@@ -51,14 +54,10 @@ const { Search } = Input;
 
 const ProductManagement = (props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const [isOpen, setIsopen] = useState(false);
-  const [openDetail, setOpenDetail] = useState(false);
-  const [nhanVien, setNhanVien] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
-
+  const [searchParams, setSearchParams] = useState({});
   const [filterData, setFilterData] = useState([]);
   const [form] = Form.useForm();
   const refBtn = useRef();
@@ -308,13 +307,24 @@ const ProductManagement = (props) => {
     });
 
     const temp = { FilterParams: filterParams, PageNumber: 1, PageSize: 10 };
-
+    setSearchParams(temp);
     setIsLoading(true);
     const response = await getProducts(temp);
     setFilterData(response.Data);
     setIsLoading(false);
   };
+  const onExport = () => {
+    console.log(searchParams);
 
+    exportProduct(searchParams);
+  };
+  const onImport = ({ fileList }) => {
+    const formData = new FormData();
+    // add one or more of your files in FormData
+    // again, the original file is located at the `originFileObj` key
+    formData.append("formFile", fileList[0].originFileObj);
+    importProduct(formData);
+  };
   const renderToolbar = () => {
     return (
       <Row
@@ -325,6 +335,19 @@ const ProductManagement = (props) => {
           justifyContent: "end",
         }}
       >
+        <Button type="primary" onClick={() => onExport()}>
+          Xuất File
+        </Button>
+        <Upload
+          name="file"
+          showUploadList={false}
+          onChange={onImport}
+          multiple="false"
+          maxCount={1}
+          beforeUpload={() => false}
+        >
+          <Button type="primary">Nhập File</Button>
+        </Upload>
         <Form
           style={{
             display: "flex",
@@ -396,7 +419,7 @@ const ProductManagement = (props) => {
             onClick={() => onClickAddProduct()}
             icon={<PlusCircleOutlined />}
           >
-            Thêm Sản Phẩm Mới
+            Thêm Sản Phẩm
           </Button>
         </Form>
       </Row>
