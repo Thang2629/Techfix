@@ -13,5 +13,8 @@ namespace TechFix.Common.Constants
         public const string PROCESS_DONE = "Đã sửa xong";
         public const string PROCESS_PRICE_REPORT = "Báo giá";
         public const string PROCESS_RETURN_CUSTOMER = "Trả khách";
+
+        public const string CUSTOMER_WHOLESALE = "Khách sỉ";
+        public const string CUSTOMER_FLT = "Khách lẻ";
     }
 }
