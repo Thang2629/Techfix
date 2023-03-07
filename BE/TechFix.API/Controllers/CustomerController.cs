@@ -19,6 +19,7 @@ using TechFix.TransportModels;
 using TechFix.Services;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
+using TechFix.Common.Constants;
 
 namespace TechFix.API.Controllers
 {
@@ -173,7 +174,9 @@ namespace TechFix.API.Controllers
             if (data.Count > 0)
             {
                 var stream = _customerService.GenerateExcel(data);
-                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "export-" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".xlsx");
+                string time = DateTime.Now.ToString("ddMMyyyy_HHmmss");
+
+                return File(stream, ConstantValue.FILE_TYPE_EXCEL, $"export{ConstantValue.FILE_CUSTOMER_EXCEL}" + time + ConstantValue.FILE_EXT_EXCEL);
             }
             return BadRequest();
         }

@@ -2,12 +2,14 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -70,7 +72,6 @@ namespace TechFix.Services
             var dataString = ws.Cells[rowNumber, columnNo].Value != null ? ws.Cells[rowNumber, columnNo].Value.ToString().Trim() : string.Empty;
             return dataString;
         }
-
         public async Task<bool> Upload(IFormFile file, string path, string oldFileName = "")
         {
             if (file.Length > 0)

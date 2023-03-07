@@ -8,6 +8,12 @@ namespace TechFix.Common.Constants
 {
     public static class ConstantValue
     {
+        public const string FILE_TYPE_EXCEL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        public const string FILE_EXT_EXCEL = ".xlsx";
+        public const string FILE_CUSTOMER_EXCEL = "customer-";
+        public const string FILE_PRODUCT_EXCEL = "product-";
+        public const string FILE_SUPPLIER_EXCEL = "supplier-";
+
         public const string PROCESS_CHECKING = "Đang kiểm tra";
         public const string PROCESS_INPROGRESS = "Đang sửa";
         public const string PROCESS_DONE = "Đã sửa xong";
