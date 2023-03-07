@@ -49,6 +49,25 @@ namespace TechFix.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("detail/{id}")]
+        public async Task<IActionResult> GetSupplierDetail(Guid id)
+        {
+            var supplier = await _context.Suppliers.FindAsync(id);
+            if (supplier == null) return BadRequest();
+            return Ok(new SupplierDto
+            {
+                Id = id,
+                Address = supplier.Address,
+                Email = supplier.Email,
+                Name = supplier.Name,
+                Note = supplier.Note,
+                Phone = supplier.Phone,
+                Indebt = supplier.InDebt,
+                UrlImage = supplier.ImagePath
+            });
+        }
+
         // POST api/<SuppliersController>
         [HttpPost]
         public async Task Post([FromBody] SupplierTransport supplier)

@@ -16,6 +16,9 @@ using TechFix.Common.Helper;
 using TechFix.Common.Paging;
 using TechFix.TransportModels.Dtos;
 using TechFix.TransportModels;
+using TechFix.Services;
+using Microsoft.AspNetCore.Http;
+using System.Threading;
 
 namespace TechFix.API.Controllers
 {
@@ -33,13 +36,16 @@ namespace TechFix.API.Controllers
 		private readonly IWebHostEnvironment _env;
 		private readonly CommonService _commonService;
 		private readonly SequenceService _sequenceService;
+        private readonly ICustomerService _customerService;
 
 		public CustomerController(
 			IMapper mapper,
 			IOptions<AppSettings> appSettings,
 			DataContext context,
 			IWebHostEnvironment env,
-			CommonService commonService, SequenceService sequenceService)
+			CommonService commonService,
+            SequenceService sequenceService,
+            ICustomerService customerService)
 		{
 			_mapper = mapper;
 			_appSettings = appSettings.Value;
@@ -47,6 +53,7 @@ namespace TechFix.API.Controllers
 			_env = env;
 			_commonService = commonService;
             _sequenceService = sequenceService;
+            _customerService = customerService;
         }
 
         // GET: api/<CustomersController>
@@ -151,6 +158,33 @@ namespace TechFix.API.Controllers
             }
 
             return Ok();
+        }
+        
+        [HttpPost]
+        [Route("export")]
+        public async Task<IActionResult> Export(PagingParams param)
+        {
+            if (param != null)
+            {
+                param.PageNumber = 1;
+                param.PageSize = int.MaxValue;
+            }
+            var data = _customerService.GetAllCustomerByFilter(param);
+            if (data.Count > 0)
+            {
+                var stream = _customerService.GenerateExcel(data);
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "export-" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".xlsx");
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("import")]
+        public async Task<IActionResult> Import(IFormFile formFile, CancellationToken cancellationToken)
+        {
+            var importResult = await _customerService.ImportExcel(formFile, cancellationToken);
+            if (importResult) return Ok(importResult);
+            return BadRequest(importResult);
         }
     }
 }
