@@ -25,7 +25,7 @@ import { deleteNhanVien } from "services/apartment-manage";
 import { DELETE_ERROR, DELETE_SUCCESS } from "utils/common/messageContants";
 import { PRODUCTS_GRID_ENDPOINT } from "services/Products";
 import { getListManufacturers } from "services/Manufacturers";
-import { getListCatagories } from "services/Categories";
+import { getListCategories } from "services/Categories";
 
 import CreateAndUpdate from "./CreateAndUpdate";
 import { ButtonDelete, PrimaryButton } from "common/components/Buttons";
@@ -68,7 +68,7 @@ const QLNhanVien = (props) => {
   };
   const getCatagories = async () => {
     setIsLoading(true);
-    const response = await getListCatagories();
+    const response = await getListCategories();
     setCategories(response);
     setIsLoading(false);
   };

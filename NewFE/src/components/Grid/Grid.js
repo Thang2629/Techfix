@@ -4,64 +4,89 @@ import * as api from "config/axios";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "redux/global/actions";
 import "./Grid.less";
-
+import isEmpty from "lodash/isEmpty";
 const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
   const dispatch = useDispatch();
   const searchText = useSelector((state) => state.global.searchText);
   const readGrid = useSelector((state) => state.global.refreshGrid);
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState([]);
+
   const [tableParams, setTableParams] = useState({
     pagination: {
-      pageNumber: 1,
+      current: 1,
       pageSize: 10,
+      showSizeChanger: false,
     },
     FilterParams: [],
   });
   const [selectedIds, setSelectedIds] = useState([]);
 
-  useEffect(() => {
-    fetchData(searchText);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchText]);
+  // useEffect(() => {
+  //   !isEmpty(urlEndpoint) && fetchData(searchText);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [searchText]);
+
+  // useEffect(() => {
+  //   if (readGrid) {
+  //     !isEmpty(urlEndpoint) && fetchData();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [readGrid]);
+  const handlePageNumClick = (page) => {
+    fetchData(page);
+  };
 
   useEffect(() => {
-    if (readGrid) {
-      fetchData();
-    }
+    !isEmpty(urlEndpoint) && fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [readGrid]);
+  }, []);
 
   const resetState = () => {
     dispatch(actions.refreshGrid(false));
   };
 
-  const fetchData = (textSearch = "") => {
+  const fetchData = (page = 1) => {
     setLoading(true);
-    const params = {
+    const paramsRequest = {
       FilterParams: tableParams.FilterParams,
       PageSize: tableParams.pagination.pageSize,
-      PageNumber: tableParams.pagination.pageNumber,
+      PageNumber: page,
     };
     api
-      .sendPost(urlEndpoint, params)
+      .sendPost(urlEndpoint, paramsRequest)
       .then((results) => {
         if (results) {
           setRowData(results?.Data); // todo: add params
+          setTableParams({
+            FilterParams: tableParams.FilterParams,
+            pagination: {
+              ...tableParams.pagination,
+              total: results.TotalCount,
+              current: results.CurrentPage,
+              pageSize: results.PageSize,
+            },
+          });
+          // setTableParams({
+          //   ...tableParams,
+          //   pagination: {
+          //     ...tableParams.pagination,
+          //     total: results.TotalCount,
+          //     defaultCurrent: results.CurrentPage,
+          //   },
+          // });
           if (readGrid) {
             resetState();
           }
         } else {
           setRowData([]);
           setTableParams({
-            ...tableParams,
+            FilterParams: tableParams.FilterParams,
             pagination: {
               ...tableParams.pagination,
-              total: 11,
               // 200 is mock data, you should read it from server
               // total: data.totalCount,
             },
-            searchText: searchText,
           });
         }
       })
@@ -73,18 +98,22 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
       });
   };
 
-  useEffect(() => {
-    urlEndpoint && fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(tableParams)]);
+  // useEffect(() => {
+  //   data && setRowData(data);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [JSON.stringify(tableParams)]);
 
   useEffect(() => {
-    data && setRowData(data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(tableParams)]);
-
-  useEffect(() => {
-    data && setRowData(data);
+    if (data) {
+      setRowData(data);
+      setTableParams({
+        FilterParams: tableParams.FilterParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: Math.ceil(data.length / 10),
+        },
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
@@ -120,14 +149,18 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
       <Table
         columns={columns}
         dataSource={rowData}
-        onChange={onChange}
+        // onChange={onChange}
         bordered
-        pagination={isHidePagination ? false : tableParams.pagination}
+        // pagination={isHidePagination ? false : tableParams.pagination}
+        pagination={{
+          onChange: handlePageNumClick,
+          current: tableParams.pagination.current,
+          total: tableParams.pagination.total,
+          pageSize: tableParams.pagination.pageSize,
+          showSizeChanger: false,
+        }}
         loading={loading}
         rowKey="id"
-        rowSelection={{
-          ...rowSelection,
-        }}
         {...rest}
       />
     </div>
