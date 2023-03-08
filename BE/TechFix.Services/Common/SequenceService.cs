@@ -38,7 +38,7 @@ namespace TechFix.Services.Common
 
         public async Task<string> GetFundCode(bool isAdd)
         {
-            int nextValue = await _context.GetNextSequenceValue("FundCodeIncrement");
+            int nextValue = await _context.GetNextSequenceValue("FundCode");
             if (isAdd) return $"TQ{nextValue}";
             return $"CQ{nextValue}";
         }

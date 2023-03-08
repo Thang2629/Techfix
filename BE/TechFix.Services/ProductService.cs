@@ -57,15 +57,6 @@ namespace TechFix.Services
 
                 //Create Headers and format them
                 worksheet.Cells["A1"].Value = "Ten_San_Pham";
-                //using (var r = worksheet.Cells["A1:C1"])
-                //{
-                //    r.Merge = true;
-                //    r.Style.Font.Color.SetColor(Color.White);
-                //    r.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.CenterContinuous;
-                //    r.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                //    r.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(23, 55, 93));
-                //}
-
                 worksheet.Cells["B1"].Value = "Ma_San_Pham";
                 worksheet.Cells["C1"].Value = "So_Luong";
                 worksheet.Cells["D1"].Value = "Don_Vi_Tinh";
@@ -77,9 +68,6 @@ namespace TechFix.Services
                 worksheet.Cells["J1"].Value = "Gia_Web";
                 worksheet.Cells["K1"].Value = "Danh_Muc";
                 worksheet.Cells["L1"].Value = "Nha_San_Xuat";
-                //worksheet.Cells["A4:C4"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                //worksheet.Cells["A4:C4"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(184, 204, 228));
-                //worksheet.Cells["A4:C4"].Style.Font.Bold = true;
 
                 row = 2;
                 foreach (var product in data)
@@ -105,7 +93,6 @@ namespace TechFix.Services
                 xlPackage.Workbook.Properties.Subject = "Product List";
                 // save the new spreadsheet
                 xlPackage.Save();
-                // Response.Clear();
             }
             stream.Position = 0;
             return stream;

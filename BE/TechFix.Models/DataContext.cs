@@ -51,20 +51,6 @@ namespace TechFix.EntityModels
             HandleView(modelBuilder);
             HandleList(modelBuilder);
             HandleRowVersion(modelBuilder);
-
-            //Apply auto increment sequence AS ProductCodeIncrement for Products.Code
-            modelBuilder.HasSequence<int>("ProductCodeIncrement")
-                .StartsAt(1000001)
-                .IncrementsBy(1);
-
-            modelBuilder.Entity<Product>()
-                .Property(o => o.Code)
-                .HasDefaultValueSql("'SP' + CAST( NEXT VALUE FOR ProductCodeIncrement AS nvarchar(50) ) ");
-
-            //Apply auto increment sequence AS FundCodeIncrement for Funds.Code
-            modelBuilder.HasSequence<int>("FundCodeIncrement")
-                .StartsAt(1000001)
-                .IncrementsBy(1);
         }
 
         private void HandleList(ModelBuilder modelBuilder)

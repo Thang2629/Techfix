@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Http;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using TechFix.Services;
+using TechFix.Common.Constants;
+using System.Security.Cryptography.Xml;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,10 +30,19 @@ namespace TechFix.API.Controllers
     {
         private ProductService _productService;
         private IHelperService _helperService;
-        public ProductsController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService, IHelperService helperService, ProductService productService) : base(mapper, appSettings, context, env, commonService)
+        private SequenceService _sequenceService;
+        public ProductsController(IMapper mapper,
+            IOptions<AppSettings> appSettings,
+            DataContext context,
+            IWebHostEnvironment env,
+            CommonService commonService,
+            IHelperService helperService,
+            ProductService productService,
+            SequenceService sequenceService) : base(mapper, appSettings, context, env, commonService)
         {
             _helperService = helperService;
             _productService = productService;
+            _sequenceService = sequenceService;
         }
 
         // GET: api/<ProductsController>
@@ -112,7 +123,9 @@ namespace TechFix.API.Controllers
             if (data.Count > 0)
             {
                 var stream = _productService.GenerateExcel(data);
-                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "export-" + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".xlsx");
+                string time = DateTime.Now.ToString("ddMMyyyy_HHmmss");
+
+                return File(stream, ConstantValue.FILE_TYPE_EXCEL, $"export{ConstantValue.FILE_PRODUCT_EXCEL}" + time + ConstantValue.FILE_EXT_EXCEL);
             }
             return BadRequest();
         }
@@ -137,7 +150,7 @@ namespace TechFix.API.Controllers
                 {
                     Id = Guid.NewGuid(),
                     Name = transport.Name,
-                    Code = transport.Code,
+                    Code = !string.IsNullOrWhiteSpace(transport.Code) ? transport.Code : await _sequenceService.GetNextProductCode(),
                     MinimumNorm = transport.MinimumNorm,
                     MaximumNorm = transport.MaximumNorm,
                     Quantity = transport.Quantity,
@@ -174,7 +187,7 @@ namespace TechFix.API.Controllers
             if (model != null)
             {
                 model.Name = product.Name;
-                model.Code = product.Code;
+                model.Code = product.Code; //được phép trùng Code
                 model.MinimumNorm = product.MinimumNorm;
                 model.MaximumNorm = product.MaximumNorm;
                 model.Quantity = product.Quantity;

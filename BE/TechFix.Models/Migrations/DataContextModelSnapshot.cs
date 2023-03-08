@@ -22,12 +22,6 @@ namespace TechFix.EntityModels.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.HasSequence<int>("FundCodeIncrement")
-                .StartsAt(1000001L);
-
-            modelBuilder.HasSequence<int>("ProductCodeIncrement")
-                .StartsAt(1000001L);
-
             modelBuilder.Entity("TechFix.EntityModels.Bill", b =>
                 {
                     b.Property<Guid?>("Id")
@@ -216,6 +210,10 @@ namespace TechFix.EntityModels.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("AmountOwed")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
+
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime2");
 
@@ -236,10 +234,6 @@ namespace TechFix.EntityModels.Migrations
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("InDebtAmount")
-                        .HasPrecision(38, 16)
-                        .HasColumnType("decimal(38,16)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -875,9 +869,7 @@ namespace TechFix.EntityModels.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValueSql("'SP' + CAST( NEXT VALUE FOR ProductCodeIncrement AS nvarchar(50) ) ");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -1175,9 +1167,6 @@ namespace TechFix.EntityModels.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SearchData")
