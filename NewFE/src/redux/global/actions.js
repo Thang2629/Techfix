@@ -1,33 +1,31 @@
-
-
-import * as types from './constants';
+import * as types from "./constants";
 
 /**
  * Post login process: validate user eula agreements or new revised eula acceptance
  */
 export const validateEula = () => {
   return {
-    type: types.VALIDATE_EULA
+    type: types.VALIDATE_EULA,
   };
-}
+};
 
 /**
  * Post login process: validate critical message for current logged in user
  */
 export const validateCriticalMessage = () => {
   return {
-    type: types.VALIDATE_CRITICAL_MESSAGE
+    type: types.VALIDATE_CRITICAL_MESSAGE,
   };
-}
+};
 
 /**
  * Post login process: validate landing page setup for current logged in user
  */
 export const validateLandingPage = () => {
   return {
-    type: types.VALIDATE_LANDING_PAGE
+    type: types.VALIDATE_LANDING_PAGE,
   };
-}
+};
 
 /**
  * Update ribbon bar action items
@@ -36,8 +34,8 @@ export const validateLandingPage = () => {
 export function changeRibbonActions(option) {
   return {
     type: types.CHANGE_RIBBON_ACTIONS,
-    option: option
-  }
+    option: option,
+  };
 }
 
 /**
@@ -47,8 +45,8 @@ export function changeRibbonActions(option) {
 export function updateSearchCriteria(searchCriteria) {
   return {
     type: types.SEARCH_CRITERIA,
-    searchCriteria: searchCriteria
-  }
+    searchCriteria: searchCriteria,
+  };
 }
 
 /**
@@ -58,8 +56,8 @@ export function updateSearchCriteria(searchCriteria) {
 export function favoriteQueries(queries) {
   return {
     type: types.FAVORITE_QUERIES,
-    queries: queries
-  }
+    queries: queries,
+  };
 }
 
 /**
@@ -69,8 +67,8 @@ export function favoriteQueries(queries) {
 export function favoriteSharedQueries(sharedQueries) {
   return {
     type: types.FAVORITE_SHARED_QUERIES,
-    sharedQueries: sharedQueries
-  }
+    sharedQueries: sharedQueries,
+  };
 }
 
 /**
@@ -80,8 +78,8 @@ export function favoriteSharedQueries(sharedQueries) {
 export function favoriteProducts(products) {
   return {
     type: types.FAVORITE_PRODUCTS,
-    products: products
-  }
+    products: products,
+  };
 }
 
 /**
@@ -91,8 +89,8 @@ export function favoriteProducts(products) {
 export function favoriteAssets(assets) {
   return {
     type: types.FAVORITE_ASSETS,
-    assets: assets
-  }
+    assets: assets,
+  };
 }
 
 /**
@@ -102,8 +100,8 @@ export function favoriteAssets(assets) {
 export function favoriteMembers(members) {
   return {
     type: types.FAVORITE_MEMBERS,
-    members: members
-  }
+    members: members,
+  };
 }
 
 /**
@@ -113,8 +111,8 @@ export function favoriteMembers(members) {
 export function selectedKey(key) {
   return {
     type: types.SELECTED_KEY,
-    key: key
-  }
+    key: key,
+  };
 }
 
 /**
@@ -122,8 +120,8 @@ export function selectedKey(key) {
  */
 export function toggleDetail() {
   return {
-    type: types.TOGGLE_DETAIL
-  }
+    type: types.TOGGLE_DETAIL,
+  };
 }
 
 /**
@@ -131,8 +129,8 @@ export function toggleDetail() {
  */
 export function inContainerDetail() {
   return {
-    type: types.INCONTAINER_DETAIL
-  }
+    type: types.INCONTAINER_DETAIL,
+  };
 }
 
 /**
@@ -140,8 +138,8 @@ export function inContainerDetail() {
  */
 export function toggleQuickView() {
   return {
-    type: types.TOGGLE_QUICKVIEW
-  }
+    type: types.TOGGLE_QUICKVIEW,
+  };
 }
 /**
  * Update logging
@@ -150,8 +148,8 @@ export function toggleQuickView() {
 export function updateLogging(logging) {
   return {
     type: types.UPDATE_LOGGING,
-    logging: logging
-  }
+    logging: logging,
+  };
 }
 
 /**
@@ -162,8 +160,8 @@ export function updateLogging(logging) {
 export function updateSearch(searchText) {
   return {
     type: types.SEARCH,
-    searchText: searchText
-  }
+    searchText: searchText,
+  };
 }
 
 /**
@@ -174,12 +172,20 @@ export function updateSearch(searchText) {
 export function refreshGrid(isRefresh) {
   return {
     type: types.REFRESH_GRID,
-    refreshGrid: isRefresh
-  }
+    refreshGrid: isRefresh,
+  };
 }
 
 export function resetState() {
   return {
     type: types.REFRESH_GRID,
-  }
+  };
+}
+
+export function selectStore(storeId) {
+  debugger;
+  return {
+    type: types.SELECT_STORE,
+    storeId,
+  };
 }
