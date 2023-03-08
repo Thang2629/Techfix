@@ -77,7 +77,7 @@ const ThongTinSanPham = (props) => {
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [form] = Form.useForm();
+  const [submitForm] = Form.useForm();
   const [formTab] = Form.useForm();
   const [formTabCreate] = Form.useForm();
   const [typeCreate, setTypeCreate] = useState("");
@@ -106,7 +106,7 @@ const ThongTinSanPham = (props) => {
 
   const getProductDetail = async () => {
     const data = await getProductDetails(id);
-    form.setFieldsValue(data);
+    submitForm.setFieldsValue({ ...data });
     setProductDetails(data);
   };
 
@@ -131,13 +131,18 @@ const ThongTinSanPham = (props) => {
       message.error(response.Message);
     }
   };
-
+  const onSelectFieldChange = (value, fieldName) => {
+    submitForm.setFieldsValue({ [`${fieldName}`]: value });
+  };
   const onClickAddButton = (type) => {
     setTypeCreate(type);
     // renderBodyByType(type);
     setIsopen(true);
   };
-
+  const onClickUpdate = (state) => {
+    setIsUpdate(state);
+    submitForm.setFieldsValue({ ...productDetails });
+  };
   const btnEdit = useMemo(() => {
     return (
       <div style={{ position: "absolute", right: "0", top: "0" }}>
@@ -146,7 +151,7 @@ const ThongTinSanPham = (props) => {
             style={{ marginRight: "5px" }}
             size="small"
             type={isUpdate ? "default" : "primary"}
-            onClick={() => setIsUpdate(!isUpdate)}
+            onClick={() => onClickUpdate(!isUpdate)}
           >
             {isUpdate ? "Hủy" : "Chỉnh sửa"}
           </Button>
@@ -172,7 +177,7 @@ const ThongTinSanPham = (props) => {
     return (
       <Form
         id="myForm"
-        form={form}
+        form={submitForm}
         labelCol={{ span: 15 }}
         labelAlign={"left"}
         layout="vertical"
@@ -230,13 +235,21 @@ const ThongTinSanPham = (props) => {
               </Row>
               <Row>
                 <Col span={12}>
-                  <Form.Item label="Đơn vị tính" name="ProductUnit">
+                  <Form.Item label="Đơn vị tính" name="ProductUnitId">
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        <Select allowClear>
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "ProductUnitId")
+                          }
+                          allowClear
+                        >
                           {productUnits &&
                             productUnits.map((item) => (
-                              <Select.Option key={item.Id} value={item.Id}>
+                              <Select.Option
+                                key={`item_${item.Id}`}
+                                value={item.Id}
+                              >
                                 {item.Name}
                               </Select.Option>
                             ))}
@@ -250,7 +263,9 @@ const ThongTinSanPham = (props) => {
                         />
                       </div>
                     ) : (
-                      <Text strong>{productDetails?.ProductUnit || ""}</Text>
+                      <Text strong>
+                        {productDetails?.ProductUnitName || ""}
+                      </Text>
                     )}
                   </Form.Item>
                 </Col>
@@ -348,7 +363,12 @@ const ThongTinSanPham = (props) => {
                   <Form.Item label="Danh Mục" name="CategoryId">
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        <Select allowClear>
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "CategoryId")
+                          }
+                          allowClear
+                        >
                           {categories &&
                             categories.map((item) => (
                               <Select.Option key={item.Id} value={item.Id}>
@@ -373,7 +393,12 @@ const ThongTinSanPham = (props) => {
                   <Form.Item label="Nhà Sản Xuất" name="ManufacturerId">
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        <Select allowClear>
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "ManufacturerId")
+                          }
+                          allowClear
+                        >
                           {manufacturers &&
                             manufacturers.map((item) => (
                               <Select.Option key={item.Id} value={item.Id}>
@@ -426,7 +451,12 @@ const ThongTinSanPham = (props) => {
                   <Form.Item label="Nhà Cung Cấp" name="SupplierId">
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        <Select allowClear>
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "SupplierId")
+                          }
+                          allowClear
+                        >
                           {suppliers &&
                             suppliers.map((item) => (
                               <Select.Option key={item.Id} value={item.Id}>
@@ -447,15 +477,12 @@ const ThongTinSanPham = (props) => {
                   >
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        {/* <Select
-                          placeholder="Select a option and change input text above"
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "ProductConditionId")
+                          }
                           allowClear
                         >
-                          <Select.Option value="male">male</Select.Option>
-                          <Select.Option value="female">female</Select.Option>
-                          <Select.Option value="other">other</Select.Option>
-                        </Select> */}
-                        <Select allowClear>
                           {productConditions &&
                             productConditions.map((item) => (
                               <Select.Option key={item.Id} values={item.Id}>
@@ -477,14 +504,13 @@ const ThongTinSanPham = (props) => {
         </Row>
       </Form>
     );
-  }, [form, btnEdit, id, isUpdate, onFinish]);
+  }, [submitForm, btnEdit, id, isUpdate, onFinish]);
   // grid
 
   const [editingKey, setEditingKey] = useState("");
   const isEditing = (record) => record.Id === editingKey;
   const edit = (record) => {
     formTab.setFieldsValue({
-      Name: "",
       ...record,
     });
     setEditingKey(record.Id);
@@ -503,7 +529,7 @@ const ThongTinSanPham = (props) => {
   };
   const save = async (record) => {
     try {
-      const value = inputTable.current.input.value;
+      const value = JSON.stringify(inputTable.current.input.value);
       const response = await updateAction(record.Id, value);
       if (response.Success) {
         message.success(CREATE_SUCCESS);
@@ -696,7 +722,6 @@ const ThongTinSanPham = (props) => {
   });
   // grid
   const renderTabCreate = () => {
-    console.log(typeCreate);
     switch (typeCreate) {
       case CREATE_TYPE.CATEGORY:
         return renderCreateFormByType(createCategory);
@@ -711,7 +736,8 @@ const ThongTinSanPham = (props) => {
     }
   };
   const onCreateByType = async (values, action) => {
-    const response = await action(values.Name);
+    const requestValue = JSON.stringify(values.Name);
+    const response = await action(requestValue);
     if (response.Success) {
       message.success(SAVE_SUCCESS);
     } else {
@@ -726,18 +752,13 @@ const ThongTinSanPham = (props) => {
           id="formTabCreate"
           onFinish={(values) => onCreateByType(values, action)}
         >
-          <Row>
-            <Col
-              span={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
+          <Row gutter={16}>
+            <Col span={18}>
               <Form.Item label="" name="Name">
                 <Input placeholder="Nhập tên" />
               </Form.Item>
+            </Col>
+            <Col span={6}>
               <Button
                 size="medium"
                 type="primary"

@@ -313,17 +313,24 @@ const ProductManagement = (props) => {
     setFilterData(response.Data);
     setIsLoading(false);
   };
-  const onExport = () => {
-    console.log(searchParams);
+  const onExport = async () => {
+    const response = await exportProduct(searchParams);
+    const href = URL.createObjectURL(response);
 
-    exportProduct(searchParams);
+    const link = document.createElement("a");
+    link.href = href;
+    const date = new Date().toLocaleDateString("en-US");
+    link.setAttribute("download", `${date}.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
   };
-  const onImport = ({ fileList }) => {
+  const onImport = async ({ fileList }) => {
     const formData = new FormData();
-    // add one or more of your files in FormData
-    // again, the original file is located at the `originFileObj` key
     formData.append("formFile", fileList[0].originFileObj);
-    importProduct(formData);
+    const response = await importProduct(formData);
   };
   const renderToolbar = () => {
     return (
@@ -342,7 +349,7 @@ const ProductManagement = (props) => {
           name="file"
           showUploadList={false}
           onChange={onImport}
-          multiple="false"
+          multiple={false}
           maxCount={1}
           beforeUpload={() => false}
         >

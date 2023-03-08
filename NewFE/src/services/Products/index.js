@@ -34,7 +34,9 @@ export const restoreProduct = (id) => {
 };
 
 export const exportProduct = (payload) => {
-  return api.sendPost(`${PRODUCTS_ENDPOINT}/export`, payload);
+  return api.sendPost(`${PRODUCTS_ENDPOINT}/export`, payload, {
+    responseType: "blob",
+  });
 };
 
 export const importProduct = (payload) => {

@@ -134,10 +134,11 @@ const ThongTinSanPham = (props) => {
       message.error(response.Message);
     }
   };
-
+  const onSelectFieldChange = (value, fieldName) => {
+    form.setFieldsValue({ [`${fieldName}`]: value });
+  };
   const onClickAddButton = (type) => {
     setTypeCreate(type);
-    // renderBodyByType(type);
     setIsopen(true);
   };
 
@@ -206,9 +207,14 @@ const ThongTinSanPham = (props) => {
               </Row>
               <Row>
                 <Col span={12}>
-                  <Form.Item label="Đơn vị tính" name="ProductUnit">
+                  <Form.Item label="Đơn vị tính" name="ProductUnitId">
                     <div style={{ display: "flex" }}>
-                      <Select allowClear>
+                      <Select
+                        onChange={(value) =>
+                          onSelectFieldChange(value, "ProductUnitId")
+                        }
+                        allowClear
+                      >
                         {productUnits &&
                           productUnits.map((item) => (
                             <Select.Option key={item.Id} values={item.Id}>
@@ -277,7 +283,12 @@ const ThongTinSanPham = (props) => {
                 <Col span={12}>
                   <Form.Item label="Danh Mục" name="CategoryId">
                     <div style={{ display: "flex" }}>
-                      <Select allowClear>
+                      <Select
+                        onChange={(value) =>
+                          onSelectFieldChange(value, "CategoryId")
+                        }
+                        allowClear
+                      >
                         {categories &&
                           categories.map((item) => (
                             <Select.Option key={item.Id} values={item.Id}>
@@ -296,7 +307,12 @@ const ThongTinSanPham = (props) => {
                 <Col span={12}>
                   <Form.Item label="Nhà Sản Xuất" name="ManufacturerId">
                     <div style={{ display: "flex" }}>
-                      <Select allowClear>
+                      <Select
+                        onChange={(value) =>
+                          onSelectFieldChange(value, "ManufacturerId")
+                        }
+                        allowClear
+                      >
                         {manufacturers &&
                           manufacturers.map((item) => (
                             <Select.Option key={item.Id} values={item.Id}>
@@ -331,7 +347,12 @@ const ThongTinSanPham = (props) => {
                 <Col span={12}>
                   <Form.Item label="Nhà Cung Cấp" name="SupplierId">
                     <div style={{ display: "flex" }}>
-                      <Select allowClear>
+                      <Select
+                        onChange={(value) =>
+                          onSelectFieldChange(value, "SupplierId")
+                        }
+                        allowClear
+                      >
                         {suppliers &&
                           suppliers.map((item) => (
                             <Select.Option key={item.Id} values={item.Id}>
@@ -348,7 +369,12 @@ const ThongTinSanPham = (props) => {
                     name="ProductConditionId"
                   >
                     <div style={{ display: "flex" }}>
-                      <Select allowClear>
+                      <Select
+                        onChange={(value) =>
+                          onSelectFieldChange(value, "ProductConditionId")
+                        }
+                        allowClear
+                      >
                         {productConditions &&
                           productConditions.map((item) => (
                             <Select.Option key={item.Id} values={item.Id}>
@@ -592,7 +618,6 @@ const ThongTinSanPham = (props) => {
   });
   // grid
   const renderTabCreate = () => {
-    console.log(typeCreate);
     switch (typeCreate) {
       case CREATE_TYPE.CATEGORY:
         return renderCreateFormByType(createCategory);
