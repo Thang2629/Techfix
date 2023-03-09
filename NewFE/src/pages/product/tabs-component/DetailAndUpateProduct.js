@@ -106,8 +106,8 @@ const ThongTinSanPham = (props) => {
 
   const getProductDetail = async () => {
     const data = await getProductDetails(id);
-    submitForm.setFieldsValue({ ...data });
     setProductDetails(data);
+    submitForm.setFieldsValue(data);
   };
 
   useEffect(() => {
@@ -141,7 +141,7 @@ const ThongTinSanPham = (props) => {
   };
   const onClickUpdate = (state) => {
     setIsUpdate(state);
-    submitForm.setFieldsValue({ ...productDetails });
+    submitForm.setFieldsValue(productDetails);
   };
   const btnEdit = useMemo(() => {
     return (
@@ -184,6 +184,7 @@ const ThongTinSanPham = (props) => {
         labelWrap={true}
         wrapperCol={{ span: 18 }}
         onFinish={onFinish}
+        initialValues={productDetails}
       >
         <Row>
           <Col span={24}>
@@ -248,12 +249,13 @@ const ThongTinSanPham = (props) => {
                             productUnits.map((item) => (
                               <Select.Option
                                 key={`item_${item.Id}`}
-                                value={item.Id}
+                                values={item.Id}
                               >
                                 {item.Name}
                               </Select.Option>
                             ))}
                         </Select>
+
                         <Button
                           type="primary"
                           icon={<PlusSquareOutlined />}
@@ -282,9 +284,9 @@ const ThongTinSanPham = (props) => {
                         ) : (
                           <Text strong>
                             {productDetails?.IsInventoryTracking ? (
-                              <Tag color="red">Không</Tag>
-                            ) : (
                               <Tag color="blue">Có</Tag>
+                            ) : (
+                              <Tag color="red">Không</Tag>
                             )}
                           </Text>
                         )}
@@ -301,9 +303,9 @@ const ThongTinSanPham = (props) => {
                         ) : (
                           <Text strong>
                             {productDetails?.AllowNegativeSell ? (
-                              <Tag color="red">Không</Tag>
-                            ) : (
                               <Tag color="blue">Có</Tag>
+                            ) : (
+                              <Tag color="red">Không</Tag>
                             )}
                           </Text>
                         )}
@@ -371,7 +373,7 @@ const ThongTinSanPham = (props) => {
                         >
                           {categories &&
                             categories.map((item) => (
-                              <Select.Option key={item.Id} value={item.Id}>
+                              <Select.Option key={item.Id} values={item.Id}>
                                 {item.Name}
                               </Select.Option>
                             ))}
@@ -401,7 +403,7 @@ const ThongTinSanPham = (props) => {
                         >
                           {manufacturers &&
                             manufacturers.map((item) => (
-                              <Select.Option key={item.Id} value={item.Id}>
+                              <Select.Option key={item.Id} values={item.Id}>
                                 {item.Name}
                               </Select.Option>
                             ))}
@@ -459,7 +461,7 @@ const ThongTinSanPham = (props) => {
                         >
                           {suppliers &&
                             suppliers.map((item) => (
-                              <Select.Option key={item.Id} value={item.Id}>
+                              <Select.Option key={item.Id} values={item.Id}>
                                 {item.Name}
                               </Select.Option>
                             ))}
