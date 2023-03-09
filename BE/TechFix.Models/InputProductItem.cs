@@ -19,6 +19,6 @@ namespace TechFix.EntityModels
         #endregion
 
         public int Quantity { get; set; }
-        public int OriginalPrice { get; set; }
+        public decimal OriginalPrice { get; set; }
     }
 }

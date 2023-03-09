@@ -183,7 +183,6 @@ namespace TechFix.API
             services.AddScoped<IAutomationServices, AutomationServices>();
             services.AddScoped<IEmailService, SendGridService>();
             services.AddScoped<IHelperService, HelperService>();
-            services.AddScoped<IHistoryServices, HistoryServices>();
             services.AddScoped<SequenceService>();
             services.AddScoped<CommonService>();
 
@@ -191,6 +190,9 @@ namespace TechFix.API
             services.AddScoped<ProductService>();
             services.AddScoped<FundService>();
             services.AddScoped<FixOrderService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IHistoryServices, HistoryServices>();
+
             /** END **/
 
             services.AddScoped<DataContextInitialize>();
