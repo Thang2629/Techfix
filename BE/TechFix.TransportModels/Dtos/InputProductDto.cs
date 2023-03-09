@@ -16,6 +16,7 @@ namespace TechFix.TransportModels
         public string InputUserName { get; set; }
         #endregion
 
+        public Guid? Id { get; set; }
         public DateTime? InputDate { get; set; }
         public string Note { get; set; }
         public decimal TotalAmount { get; set; }

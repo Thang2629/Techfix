@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using TechFix.Services;
 using TechFix.Common.Constants;
 using Microsoft.AspNetCore.Components.Forms;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -71,6 +72,57 @@ namespace TechFix.API.Controllers
             );
             var projectTo = queryable.ProjectTo<InputProductDto>(mapConfig);
             var result = PagedList<InputProductDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("detail/{id}")]
+        public async Task<IActionResult> GetInputProductDetail(Guid id)
+        {
+            //var item = await _context.InputProducts
+            //    .Include(x => x.InputProductItems)
+            //    .Include(x => x.Store)
+            //    .Include(x => x.Supplier)
+            //    .Include(x => x.User)
+            //    .Where(x => x.Id == id)
+            //    .FirstOrDefaultAsync();
+
+            //if (item == null) return BadRequest();
+
+            //var result = new InputProductDto
+            //{
+            //    Id = id,
+            //    AmountOwed = item.AmountOwed,
+            //    AmountPaid = item.AmountPaid,
+            //    Discount = item.Discount,
+            //    InputDate = item.InputDate,
+            //    InputUserName = item.User.FullName,
+            //    Note = item.Note,
+            //    StoreName = item.Store.Name,
+            //    SupplierName = item.Supplier.Name,
+            //    TotalAmount = item.TotalAmount,
+            //    TotalGoodsMoney = item.TotalGoodsMoney,
+            //};
+
+            //List<InputProductItemDto> items = new List<InputProductItemDto>();
+            //foreach(var product in item.InputProductItems)
+            //{
+            //    items.Add(new InputProductItemDto
+            //    {
+            //        ProductId = product.ProductId,
+            //        ImageUrl = product.Product.ImagePath,
+            //        OriginalPrice = product.Product.OriginalPrice,
+            //        ProductCode = product.Product.Code,
+            //        ProductCondition = product.Product.ProductCondition.Name,
+            //        ProductName = product.Product.Name,
+            //        ProductUnit = product.Product.ProductUnit.Name,
+            //        Quantity = product.Quantity,
+            //        Warranty = product.Product.Warranty
+            //    });
+            //}
+
+            //result.Items = items;
+
             return Ok(result);
         }
 
@@ -141,6 +193,26 @@ namespace TechFix.API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("export")]
+        public async Task<IActionResult> Export(PagingParams param)
+        {
+            if (param != null)
+            {
+                param.PageNumber = 1;
+                param.PageSize = int.MaxValue;
+            }
+            //var data = _customerService.GetAllCustomerByFilter(param);
+            //if (data.Count > 0)
+            //{
+            //    var stream = _customerService.GenerateExcel(data);
+            //    string time = DateTime.Now.ToString("ddMMyyyy_HHmmss");
+
+            //    return File(stream, ConstantValue.FILE_TYPE_EXCEL, $"export{ConstantValue.FILE_CUSTOMER_EXCEL}" + time + ConstantValue.FILE_EXT_EXCEL);
+            //}
+            return BadRequest();
+        }
+
 
         // PUT api/<InputProductsController>/5
         [HttpPut("{id}")]
@@ -163,44 +235,47 @@ namespace TechFix.API.Controllers
 
                 await _context.SaveChangesAsync();
 
-                var currentItems = model.InputProductItems;
-                List<InputProductItem> updateItems = new List<InputProductItem>();
-                foreach (var item in transport.Items) 
+                //get the transport items
+                var inputItems = transport.Items;
+                foreach (var item in inputItems)
                 {
-                    var input = _context.InputProductItems.Find(item.ProductId);
-                    if (input != null)
-                    {
-                        input.ProductId = item.ProductId;
-                        input.OriginalPrice = item.OriginalPrice;
-                        input.Quantity = item.Quantity;
-                        input.InputProductId = model.Id;
+                    var exist = model.InputProductItems
+                        .Where(x => x.ProductId == item.ProductId && !x.IsDeleted).FirstOrDefault();
 
-                        updateItems.Add(input);
+                    if(exist != null)
+                    {
+                        //update the existing
+                        exist.ProductId = item.ProductId;
+                        exist.OriginalPrice = item.OriginalPrice;
+                        exist.Quantity = item.Quantity;
+
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        //add new the data
+                        InputProductItem newItem = new InputProductItem 
+                        { 
+                            ProductId = item.ProductId,
+                            OriginalPrice = item.OriginalPrice,
+                            Quantity = item.Quantity,
+                            InputProductId = model.Id,
+                        };
+
+                        await _context.InputProductItems.AddAsync(newItem);
+                        await _context.SaveChangesAsync();
                     }
                 }
 
-                await _context.SaveChangesAsync();
+                var deleteItems = model.InputProductItems
+                    .Where(x => !x.IsDeleted && !inputItems.Select(y => y.ProductId)
+                    .ToList()
+                    .Contains(x.ProductId)).ToList();
 
-                //Filter out the section of each item
-                var newItems = updateItems.Where(x => !currentItems.Contains(x)).ToList();
-                var removedItems = currentItems
-                    .Where(x => !updateItems.Contains(x))
-                    .Where(x => !newItems.Contains(x)).ToList();
-
-                //Handle new items
-                if (newItems.Count > 0)
+                if (deleteItems.Any())
                 {
-                    await _context.InputProductItems.AddRangeAsync(newItems);
-                    await _context.SaveChangesAsync();
-                }
+                    foreach (var item in deleteItems) { item.IsDeleted = true; }
 
-                //Handle removed items
-                if(removedItems.Count > 0)
-                {
-                    foreach(var item in removedItems)
-                    {
-                        item.IsDeleted = true;
-                    }
                     await _context.SaveChangesAsync();
                 }
             }
