@@ -64,7 +64,6 @@ const HeaderProject = (props) => {
       const response = await getProductAssicatedByType(
         PRODUCT_ASSOCIATED.STORE
       );
-      debugger;
       if (!storeId) dispatch(actions.selectStore(response[0].Id));
       setStores(response);
       setIsLoading(false);
@@ -79,17 +78,7 @@ const HeaderProject = (props) => {
           onClick={handleCollapseSidebar}
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         />
-        <Col>
-          <Dropdown overlay={dropdownMenu} trigger={["click"]}>
-            <Button
-              className="header__btn"
-              type="outlined"
-              icon={<UserOutlined />}
-            >
-              Hello! User
-            </Button>
-          </Dropdown>
-        </Col>
+        <Col></Col>
         <Col style={{ display: "flex" }}>
           <Select
             style={{ width: 200 }}
@@ -106,7 +95,7 @@ const HeaderProject = (props) => {
                 );
               })}
           </Select>
-          <Dropdown menu={dropdownMenu} trigger={["click"]}>
+          <Dropdown overlay={dropdownMenu} trigger={["click"]}>
             <Button
               className="header__btn"
               type="outlined"

@@ -21,3 +21,4 @@ export const SEARCH = "SEARCH";
 export const REFRESH_GRID = "REFRESH_GRID";
 export const RESET_STATE = "RESET_STATE";
 export const SELECT_STORE = "SELECT_STORE";
+export const FITLER_TABLE = "FITLER_TABLE";

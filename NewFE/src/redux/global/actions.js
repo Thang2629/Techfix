@@ -183,9 +183,15 @@ export function resetState() {
 }
 
 export function selectStore(storeId) {
-  debugger;
   return {
     type: types.SELECT_STORE,
     storeId,
+  };
+}
+
+export function filterTable(filterParams) {
+  return {
+    type: types.FITLER_TABLE,
+    filterParams,
   };
 }
