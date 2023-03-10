@@ -74,115 +74,125 @@ public class DataContextInitialize
                 SeedPaymentMethods();
             }
 
-            if (!await CheckExistTableInDatabase("RepairProductByCustomerView"))
-            {
-                var RepairProductByCustomer = "CREATE VIEW [RepairProductByCustomerView] AS" +
-                                                " SELECT c.Id," +
-                                                "c.Fullname as CustomerName," +
-                                                "fo.Code as FixOrderCode," +
-                                                "CONCAT_WS(' | ', c.Fullname, c.PhoneNumber, fo.Code, fp.Code) as SearchData," +
-                                                "fp.Id as FixProductId," +
-                                                "fp.Code as FixProductCode," +
-                                                "fp.Name as FixProductName," +
-                                                "fp.ErrorDescription as FixProductErrorDescription," +
-                                                "fp.Condition as FixProductCondition," +
-                                                "fp.ReceiptDate as FixProductReceiptDate," +
-                                                "fp.TotalMoney," +
-                                                "fp.EstimatedReturnDate as FixProductEstimatedReturnDate," +
-                                                "fp.FinishDate as FixProductFinishDate," +
-                                                "fp.ReturnDate as FixProductReturnDate," +
-                                                "fp.Process as FixProductProcess," +
-                                                "u.FullName as FixStaffName," +
-                                                "fp.Cpu," +
-                                                "fp.Hdd," +
-                                                "fp.Ram," +
-                                                "fp.Wifi," +
-                                                "fp.Pin," +
-                                                "fp.Adapter," +
-                                                "fp.Keyboard," +
-                                                "fp.Psu," +
-                                                "fp.Lcd," +
-                                                "fp.Other," +
-                                                "c.IsDeleted" +
-                                                " FROM Users u JOIN FixProducts fp ON u.Id = fp.FixStaffId" +
-                                                " JOIN FixOrders fo ON fo.Id = fp.FixOrderId" +
-                                                " JOIN Customers c ON c.Id = fo.CustomerId";
+            await SeedView();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while seeding the database.");
+            throw;
+        }
+    }
 
-                _context.Database.ExecuteSqlRaw(RepairProductByCustomer);
-            }
+    private async Task SeedView()
+    {
+        if (!await CheckExistTableInDatabase("RepairProductByCustomerView"))
+        {
+            var repairProductByCustomer = "CREATE VIEW [RepairProductByCustomerView] AS" +
+                                          " SELECT c.Id," +
+                                          "c.Fullname as CustomerName," +
+                                          "fo.Code as FixOrderCode," +
+                                          "CONCAT_WS(' | ', c.Fullname, c.PhoneNumber, fo.Code, fp.Code) as SearchData," +
+                                          "fp.Id as FixProductId," +
+                                          "fp.Code as FixProductCode," +
+                                          "fp.Name as FixProductName," +
+                                          "fp.ErrorDescription as FixProductErrorDescription," +
+                                          "fp.Condition as FixProductCondition," +
+                                          "fp.ReceiptDate as FixProductReceiptDate," +
+                                          "fp.TotalMoney," +
+                                          "fp.EstimatedReturnDate as FixProductEstimatedReturnDate," +
+                                          "fp.FinishDate as FixProductFinishDate," +
+                                          "fp.ReturnDate as FixProductReturnDate," +
+                                          "fp.Process as FixProductProcess," +
+                                          "u.FullName as FixStaffName," +
+                                          "fp.Cpu," +
+                                          "fp.Hdd," +
+                                          "fp.Ram," +
+                                          "fp.Wifi," +
+                                          "fp.Pin," +
+                                          "fp.Adapter," +
+                                          "fp.Keyboard," +
+                                          "fp.Psu," +
+                                          "fp.Lcd," +
+                                          "fp.Other," +
+                                          "c.IsDeleted" +
+                                          " FROM Users u JOIN FixProducts fp ON u.Id = fp.FixStaffId" +
+                                          " JOIN FixOrders fo ON fo.Id = fp.FixOrderId" +
+                                          " JOIN Customers c ON c.Id = fo.CustomerId";
 
-            if (!await CheckExistTableInDatabase("RepairProductByFixStaffView"))
-            {
-                var RepairProductByFixStaff = "CREATE VIEW [RepairProductByFixStaffView] AS" +
-                                                " SELECT u.Id," +
-                                                "u.FullName as FixStaffName," +
-                                                "CONCAT_WS(' | ', c.Fullname, c.PhoneNumber, fo.Code, fp.Code) as SearchData," +
-                                                "c.Fullname as CustomerName," +
-                                                "fp.Id as FixProductId," +
-                                                "fo.Code as FixOrderCode," +
-                                                "fp.Code as FixProductCode," +
-                                                "fp.Name as FixProductName," +
-                                                "fp.ErrorDescription as FixProductErrorDescription," +
-                                                "fp.Condition as FixProductCondition," +
-                                                "fp.ReceiptDate as FixProductReceiptDate," +
-                                                "fp.TotalMoney," +
-                                                "fp.EstimatedReturnDate as FixProductEstimatedReturnDate," +
-                                                "fp.FinishDate as FixProductFinishDate," +
-                                                "fp.ReturnDate as FixProductReturnDate," +
-                                                "fp.Process as FixProductProcess," +
-                                                "fp.Cpu," +
-                                                "fp.Hdd," +
-                                                "fp.Ram," +
-                                                "fp.Wifi," +
-                                                "fp.Pin," +
-                                                "fp.Adapter," +
-                                                "fp.Keyboard," +
-                                                "fp.Psu," +
-                                                "fp.Lcd," +
-                                                "fp.Other," +
-                                                "c.IsDeleted" +
-                                                " FROM Users u JOIN FixProducts fp ON u.Id = fp.FixStaffId" +
-                                                " JOIN FixOrders fo ON fo.Id = fp.FixOrderId" +
-                                                " JOIN Customers c ON c.Id = fo.CustomerId";
+            _context.Database.ExecuteSqlRaw(repairProductByCustomer);
+        }
 
-                _context.Database.ExecuteSqlRaw(RepairProductByFixStaff);
+        if (!await CheckExistTableInDatabase("RepairProductByFixStaffView"))
+        {
+            var repairProductByFixStaff = "CREATE VIEW [RepairProductByFixStaffView] AS" +
+                                          " SELECT u.Id," +
+                                          "u.FullName as FixStaffName," +
+                                          "CONCAT_WS(' | ', c.Fullname, c.PhoneNumber, fo.Code, fp.Code) as SearchData," +
+                                          "c.Fullname as CustomerName," +
+                                          "fp.Id as FixProductId," +
+                                          "fo.Code as FixOrderCode," +
+                                          "fp.Code as FixProductCode," +
+                                          "fp.Name as FixProductName," +
+                                          "fp.ErrorDescription as FixProductErrorDescription," +
+                                          "fp.Condition as FixProductCondition," +
+                                          "fp.ReceiptDate as FixProductReceiptDate," +
+                                          "fp.TotalMoney," +
+                                          "fp.EstimatedReturnDate as FixProductEstimatedReturnDate," +
+                                          "fp.FinishDate as FixProductFinishDate," +
+                                          "fp.ReturnDate as FixProductReturnDate," +
+                                          "fp.Process as FixProductProcess," +
+                                          "fp.Cpu," +
+                                          "fp.Hdd," +
+                                          "fp.Ram," +
+                                          "fp.Wifi," +
+                                          "fp.Pin," +
+                                          "fp.Adapter," +
+                                          "fp.Keyboard," +
+                                          "fp.Psu," +
+                                          "fp.Lcd," +
+                                          "fp.Other," +
+                                          "c.IsDeleted" +
+                                          " FROM Users u JOIN FixProducts fp ON u.Id = fp.FixStaffId" +
+                                          " JOIN FixOrders fo ON fo.Id = fp.FixOrderId" +
+                                          " JOIN Customers c ON c.Id = fo.CustomerId";
 
-            }
+            _context.Database.ExecuteSqlRaw(repairProductByFixStaff);
+        }
 
-            if (!await CheckExistTableInDatabase("RepairProductReportView"))
-            {
-                var RepairProductReport = "CREATE VIEW [RepairProductReportView] AS" +
-                                        " SELECT b.Id," +
-                                        "b.Code," +
-                                        "c.Fullname as CustomerName," +
-                                        "s.Name as StoreName," +
-                                        "b.CreatedDate," +
-                                        "u.FullName as FixStaffName," +
-                                        "b.TotalQuantity," +
-                                        "b.TotalAmount," +
-                                        "b.AmountPaid," +
-                                        "b.AmountOwed," +
-                                        "b.IsDeleted," +
-                                        "fp.Id as FixProductId," +
-                                        "fp.Code as FixProductCode," +
-                                        "fp.Name as FixProductName," +
-                                        "fp.ProductSerial," +
-                                        "fp.Condition," +
-                                        "fp.WarrantyPeriod," +
-                                        "fp.TotalMoney" +
-                                        " FROM Bills b" +
-                                        " JOIN Customers c ON b.CustomerId = c.Id" +
-                                        " JOIN Users u ON b.SellerId = u.Id" +
-                                        " JOIN PaymentMethods pm ON b.PaymentMethodId = pm.Id" +
-                                        " JOIN FixProducts fp ON b.Id = fp.BillId" +
-                                        " JOIN Stores s ON s.Id = b.StoreId";
+        if (!await CheckExistTableInDatabase("RepairProductReportView"))
+        {
+            var repairProductReport = "CREATE VIEW [RepairProductReportView] AS" +
+                                      " SELECT b.Id," +
+                                      "b.Code," +
+                                      "c.Fullname as CustomerName," +
+                                      "s.Name as StoreName," +
+                                      "b.CreatedDate," +
+                                      "u.FullName as FixStaffName," +
+                                      "b.TotalQuantity," +
+                                      "b.TotalAmount," +
+                                      "b.AmountPaid," +
+                                      "b.AmountOwed," +
+                                      "b.IsDeleted," +
+                                      "fp.Id as FixProductId," +
+                                      "fp.Code as FixProductCode," +
+                                      "fp.Name as FixProductName," +
+                                      "fp.ProductSerial," +
+                                      "fp.Condition," +
+                                      "fp.WarrantyPeriod," +
+                                      "fp.TotalMoney" +
+                                      " FROM Bills b" +
+                                      " JOIN Customers c ON b.CustomerId = c.Id" +
+                                      " JOIN Users u ON b.SellerId = u.Id" +
+                                      " JOIN PaymentMethods pm ON b.PaymentMethodId = pm.Id" +
+                                      " JOIN FixProducts fp ON b.Id = fp.BillId" +
+                                      " JOIN Stores s ON s.Id = b.StoreId";
 
-                _context.Database.ExecuteSqlRaw(RepairProductReport);
-            }
+            _context.Database.ExecuteSqlRaw(repairProductReport);
+        }
 
-            if (!await CheckExistTableInDatabase("BillView"))
-            {
-                var query = @"IF OBJECT_ID('BillView') IS NULL
+        if (!await CheckExistTableInDatabase("BillView"))
+        {
+            var query = @"IF OBJECT_ID('BillView') IS NULL
                             BEGIN   
                                 EXECUTE('CREATE VIEW BillView AS
                             SELECT b.Id,
@@ -207,13 +217,7 @@ public class DataContextInitialize
                             LEFT JOIN Users u ON b.SellerId = u.Id;')
                             END";
 
-                _context.Database.ExecuteSqlRaw(query);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred while seeding the database.");
-            throw;
+            _context.Database.ExecuteSqlRaw(query);
         }
     }
 
