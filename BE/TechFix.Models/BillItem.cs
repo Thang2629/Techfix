@@ -25,5 +25,6 @@ namespace TechFix.EntityModels
         public decimal Price { get; set; }
         public decimal Amount => Quantity * Price;
         public DateTime? WarrantyPeriod { get; set; }
+        public bool Returned { get; set; } = false;
     }
 }

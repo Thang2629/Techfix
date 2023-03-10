@@ -63,7 +63,7 @@ namespace TechFix.API.Controllers
                 Name = supplier.Name,
                 Note = supplier.Note,
                 Phone = supplier.Phone,
-                Indebt = supplier.InDebt,
+                Indebt = supplier.AmountOwed,
                 UrlImage = supplier.ImagePath
             });
         }
@@ -78,7 +78,7 @@ namespace TechFix.API.Controllers
                 Email = supplier.Email,
                 Phone = supplier.Phone,
                 Address = supplier.Address,
-                InDebt = supplier.Indebt,
+                AmountOwed = supplier.Indebt,
                 Note= supplier.Note,
                 //UrlImage = supplier.UrlImage
         });
@@ -96,7 +96,7 @@ namespace TechFix.API.Controllers
                 model.Email = supplier.Email;
                 model.Phone = supplier.Phone;
                 model.Address = supplier.Address;
-                model.InDebt = supplier.Indebt;
+                model.AmountOwed = supplier.Indebt;
                 model.Note = supplier.Note;
                 //model.UrlImage = supplier.UrlImage;
                 await _context.SaveChangesAsync();

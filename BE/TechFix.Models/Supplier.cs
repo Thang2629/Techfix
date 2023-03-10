@@ -7,7 +7,7 @@ namespace TechFix.EntityModels
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
-        public decimal InDebt { get; set; }
+        public decimal AmountOwed { get; set; }
         public string Note { get; set; }
         public string Code { get; set; }
         public string ImagePath { get; set; }

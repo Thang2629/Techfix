@@ -179,6 +179,36 @@ public class DataContextInitialize
 
                 _context.Database.ExecuteSqlRaw(RepairProductReport);
             }
+
+            if (!await CheckExistTableInDatabase("BillView"))
+            {
+                var query = @"IF OBJECT_ID('BillView') IS NULL
+                            BEGIN   
+                                EXECUTE('CREATE VIEW BillView AS
+                            SELECT b.Id,
+                                   c.PhoneNumber,
+                                   c.Fullname CustomerName,
+                                   b.Code,
+                                   s.Name StoreName,
+                                   b.Note,
+                                   b.SaleDate,
+                                   u.FullName SaleName,
+                                   b.TotalQuantity,
+                                   b.TotalAmount,
+                                   b.AmountOwed,
+	                               b.IsDeleted,
+	                               b.IsReturn,
+	                               u.Id SellerId,
+	                               c.Team,
+	                               CONCAT_WS('' | '', c.PhoneNumber, c.FullName, b.Code) SearchData
+                            FROM Bills b
+                            LEFT JOIN Customers c ON b.CustomerId = c.Id
+                            LEFT JOIN Stores s ON b.StoreId = c.Id
+                            LEFT JOIN Users u ON b.SellerId = u.Id;')
+                            END";
+
+                _context.Database.ExecuteSqlRaw(query);
+            }
         }
         catch (Exception ex)
         {
@@ -293,18 +323,18 @@ public class DataContextInitialize
     {
         _context.Suppliers.AddRange(new List<Supplier>
         {
-            new() {Id = new Guid("196d3520-8ffd-49e5-b0f1-f88d4b5f1b59"), Name = "NWH", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("33e3338c-7921-480a-89fe-c06eb62f0fd8"), Name = "CTY PATECH", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("aabacf68-91af-4ea3-8402-0e7b77dc2d87"), Name = "Chỉnh LK", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("5e4b4217-4c79-4201-98f1-3b4580b6fbec"), Name = "Tấn Phát LTK", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("6935c438-9cdc-421d-9105-073d6d4348b7"), Name = "Chuẩn LTK", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("87b15f2c-2108-4f9a-8814-7e00c98db977"), Name = "Duy Tân", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("69a4a5d2-4ab1-445f-8553-3ed8b6687348"), Name = "Hải Việt", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("9198201d-f59f-45f9-8e49-117a0e94d628"), Name = "LGT", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("71071d3e-2186-4949-9a41-47424c05d9d7"), Name = "Huy Phát Kingmater", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("f9df20ef-50ae-4834-a48a-f0724d9a8f42"), Name = "Tuấn Hiền", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("16bcb4bb-6181-47b3-b29b-ba51d6551a25"), Name = "Văn Hải", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
-            new() {Id = new Guid("25064f1d-53b0-46a9-b1b5-a53d3acc17a4"), Name = "Phát Đạt LTK", Address = "", Email = "", InDebt = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("196d3520-8ffd-49e5-b0f1-f88d4b5f1b59"), Name = "NWH", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("33e3338c-7921-480a-89fe-c06eb62f0fd8"), Name = "CTY PATECH", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("aabacf68-91af-4ea3-8402-0e7b77dc2d87"), Name = "Chỉnh LK", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("5e4b4217-4c79-4201-98f1-3b4580b6fbec"), Name = "Tấn Phát LTK", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("6935c438-9cdc-421d-9105-073d6d4348b7"), Name = "Chuẩn LTK", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("87b15f2c-2108-4f9a-8814-7e00c98db977"), Name = "Duy Tân", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("69a4a5d2-4ab1-445f-8553-3ed8b6687348"), Name = "Hải Việt", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("9198201d-f59f-45f9-8e49-117a0e94d628"), Name = "LGT", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("71071d3e-2186-4949-9a41-47424c05d9d7"), Name = "Huy Phát Kingmater", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("f9df20ef-50ae-4834-a48a-f0724d9a8f42"), Name = "Tuấn Hiền", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("16bcb4bb-6181-47b3-b29b-ba51d6551a25"), Name = "Văn Hải", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
+            new() {Id = new Guid("25064f1d-53b0-46a9-b1b5-a53d3acc17a4"), Name = "Phát Đạt LTK", Address = "", Email = "", AmountOwed = 0, Phone = "", Note = "", IsDeleted = false, CreatedUser = null, ModifiedUser = null },
         });
         _context.SaveChanges();
     }
