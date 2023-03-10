@@ -110,7 +110,7 @@ namespace TechFix.API.Filters
         {
             var details = new ProblemDetails
             {
-                Status = StatusCodes.Status403Forbidden,
+                Status = StatusCodes.Status400BadRequest,
                 Title = context.Exception.Message,
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3",
             };
