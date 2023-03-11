@@ -29,14 +29,17 @@ namespace TechFix.API.Controllers
     public class InputProductsController : CustomController
     {
         private SequenceService _sequenceService;
+        private IInputProductService _inputProductService;
         public InputProductsController(IMapper mapper,
             IOptions<AppSettings> appSettings,
             DataContext context,
             IWebHostEnvironment env,
             CommonService commonService,
-            SequenceService sequenceService) : base(mapper, appSettings, context, env, commonService)
+            SequenceService sequenceService,
+            IInputProductService inputProductService) : base(mapper, appSettings, context, env, commonService)
         {
             _sequenceService = sequenceService;
+            _inputProductService = inputProductService;
         }
 
         // GET: api/<InputProductsController>
@@ -79,51 +82,71 @@ namespace TechFix.API.Controllers
         [Route("detail/{id}")]
         public async Task<IActionResult> GetInputProductDetail(Guid id)
         {
-            //var item = await _context.InputProducts
-            //    .Include(x => x.InputProductItems)
-            //    .Include(x => x.Store)
-            //    .Include(x => x.Supplier)
-            //    .Include(x => x.User)
-            //    .Where(x => x.Id == id)
-            //    .FirstOrDefaultAsync();
+            try
+            {
+                var item = await _context.InputProducts
+                .Include(x => x.InputProductItems)
+                .Include(x => x.Store)
+                .Include(x => x.Supplier)
+                .Include(x => x.User)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
 
-            //if (item == null) return BadRequest();
+                if (item == null) return BadRequest();
 
-            //var result = new InputProductDto
-            //{
-            //    Id = id,
-            //    AmountOwed = item.AmountOwed,
-            //    AmountPaid = item.AmountPaid,
-            //    Discount = item.Discount,
-            //    InputDate = item.InputDate,
-            //    InputUserName = item.User.FullName,
-            //    Note = item.Note,
-            //    StoreName = item.Store.Name,
-            //    SupplierName = item.Supplier.Name,
-            //    TotalAmount = item.TotalAmount,
-            //    TotalGoodsMoney = item.TotalGoodsMoney,
-            //};
+                var result = new InputProductDto
+                {
+                    Id = id,
+                    AmountOwed = item.AmountOwed,
+                    AmountPaid = item.AmountPaid,
+                    Discount = item.Discount,
+                    InputDate = item.InputDate,
+                    InputUserName = item.UserId != null ? item.User.FullName : string.Empty,
+                    Note = item.Note,
+                    StoreName = item.StoreId != null ? item.Store.Name : string.Empty,
+                    SupplierName = item.SupplierId != null ? item.Supplier.Name : string.Empty,
+                    TotalAmount = item.TotalAmount,
+                    TotalGoodsMoney = item.TotalGoodsMoney,
+                };
 
-            //List<InputProductItemDto> items = new List<InputProductItemDto>();
-            //foreach(var product in item.InputProductItems)
-            //{
-            //    items.Add(new InputProductItemDto
-            //    {
-            //        ProductId = product.ProductId,
-            //        ImageUrl = product.Product.ImagePath,
-            //        OriginalPrice = product.Product.OriginalPrice,
-            //        ProductCode = product.Product.Code,
-            //        ProductCondition = product.Product.ProductCondition.Name,
-            //        ProductName = product.Product.Name,
-            //        ProductUnit = product.Product.ProductUnit.Name,
-            //        Quantity = product.Quantity,
-            //        Warranty = product.Product.Warranty
-            //    });
-            //}
+                List<InputProductItemDto> items = new List<InputProductItemDto>();
+                var availableItems = item.InputProductItems.Where(x => !x.IsDeleted).ToList();
+                foreach (var product in availableItems)
+                {
+                    var inputProductInclude = await _context.InputProductItems
+                        .Include(x => x.Product)
+                        .Where(x => x.Id == product.Id)
+                        .FirstOrDefaultAsync();
 
-            //result.Items = items;
+                    var inputItem = new InputProductItemDto();
+                    inputItem.ProductId = inputProductInclude.ProductId;
+                    inputItem.Quantity = inputProductInclude.Quantity;
 
-            return Ok(result);
+                    var inputProductIncludeWithProductDetail = await _context.Products
+                        .Include(p => p.ProductCondition)
+                        .Include(p => p.ProductUnit)
+                        .Where(x => x.Id == inputProductInclude.ProductId)
+                        .FirstOrDefaultAsync();
+
+                    inputItem.ImageUrl = inputProductIncludeWithProductDetail.ImagePath;
+                    inputItem.OriginalPrice = inputProductIncludeWithProductDetail.OriginalPrice;
+                    inputItem.ProductCode = inputProductIncludeWithProductDetail.Code;
+                    inputItem.ProductCondition = inputProductIncludeWithProductDetail.ProductCondition?.Name;
+                    inputItem.ProductName = inputProductIncludeWithProductDetail.Name;
+                    inputItem.ProductUnit = inputProductIncludeWithProductDetail.ProductUnit?.Name;
+                    inputItem.Warranty = inputProductIncludeWithProductDetail.Warranty;
+
+                    items.Add(inputItem);
+                }
+
+                result.Items = items;
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         // POST api/<InputProductsController>
@@ -139,6 +162,7 @@ namespace TechFix.API.Controllers
                     UserId = transport.UserId,
                     StoreId = transport.StoreId,
 
+                    Code = await _sequenceService.GetNextInputProductCode(),
                     InputDate = transport.InputDate ?? DateTime.Now,
                     Note = transport.Note,
                     TotalGoodsMoney = transport.TotalGoodsMoney,
@@ -197,20 +221,27 @@ namespace TechFix.API.Controllers
         [Route("export")]
         public async Task<IActionResult> Export(PagingParams param)
         {
-            if (param != null)
+            try
             {
-                param.PageNumber = 1;
-                param.PageSize = int.MaxValue;
-            }
-            //var data = _customerService.GetAllCustomerByFilter(param);
-            //if (data.Count > 0)
-            //{
-            //    var stream = _customerService.GenerateExcel(data);
-            //    string time = DateTime.Now.ToString("ddMMyyyy_HHmmss");
+                if (param != null)
+                {
+                    param.PageNumber = 1;
+                    param.PageSize = int.MaxValue;
+                }
+                var data = _inputProductService.GetAllInputProductByFilter(param);
+                if (data.Count > 0)
+                {
+                    var stream = _inputProductService.GenerateExcel(data);
+                    string time = DateTime.Now.ToString("ddMMyyyy_HHmmss");
 
-            //    return File(stream, ConstantValue.FILE_TYPE_EXCEL, $"export{ConstantValue.FILE_CUSTOMER_EXCEL}" + time + ConstantValue.FILE_EXT_EXCEL);
-            //}
-            return BadRequest();
+                    return File(stream, ConstantValue.FILE_TYPE_EXCEL, $"export{ConstantValue.FILE_INPUTPRODUCT_EXCEL}" + time + ConstantValue.FILE_EXT_EXCEL);
+                }
+                return BadRequest();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
 
@@ -218,66 +249,73 @@ namespace TechFix.API.Controllers
         [HttpPut("{id}")]
         public async Task Put(Guid id, [FromBody] InputProductTransport transport)
         {
-            var model = await _context.InputProducts.Include(x => x.InputProductItems).FirstOrDefaultAsync(x => x.Id == id);
-            if (model != null)
+            try
             {
-                model.SupplierId = transport.SupplierId;
-                model.PaymentMethodId = transport.PaymentMethodId;
-                model.UserId = transport.UserId;
-                model.StoreId = transport.StoreId;
-                model.InputDate = transport.InputDate ?? DateTime.Now;
-                model.Note = transport.Note;
-                model.TotalGoodsMoney = transport.TotalGoodsMoney;
-                model.Discount = transport.Discount;
-                model.TotalAmount = transport.TotalAmount;
-                model.AmountPaid = transport.AmountPaid;
-                model.AmountOwed = transport.AmountOwed;
-
-                await _context.SaveChangesAsync();
-
-                //get the transport items
-                var inputItems = transport.Items;
-                foreach (var item in inputItems)
+                var model = await _context.InputProducts.Include(x => x.InputProductItems).FirstOrDefaultAsync(x => x.Id == id);
+                if (model != null)
                 {
-                    var exist = model.InputProductItems
-                        .Where(x => x.ProductId == item.ProductId && !x.IsDeleted).FirstOrDefault();
-
-                    if(exist != null)
-                    {
-                        //update the existing
-                        exist.ProductId = item.ProductId;
-                        exist.OriginalPrice = item.OriginalPrice;
-                        exist.Quantity = item.Quantity;
-
-                        await _context.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        //add new the data
-                        InputProductItem newItem = new InputProductItem 
-                        { 
-                            ProductId = item.ProductId,
-                            OriginalPrice = item.OriginalPrice,
-                            Quantity = item.Quantity,
-                            InputProductId = model.Id,
-                        };
-
-                        await _context.InputProductItems.AddAsync(newItem);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-
-                var deleteItems = model.InputProductItems
-                    .Where(x => !x.IsDeleted && !inputItems.Select(y => y.ProductId)
-                    .ToList()
-                    .Contains(x.ProductId)).ToList();
-
-                if (deleteItems.Any())
-                {
-                    foreach (var item in deleteItems) { item.IsDeleted = true; }
+                    model.SupplierId = transport.SupplierId;
+                    model.PaymentMethodId = transport.PaymentMethodId;
+                    model.UserId = transport.UserId;
+                    model.StoreId = transport.StoreId;
+                    model.InputDate = transport.InputDate ?? DateTime.Now;
+                    model.Note = transport.Note;
+                    model.TotalGoodsMoney = transport.TotalGoodsMoney;
+                    model.Discount = transport.Discount;
+                    model.TotalAmount = transport.TotalAmount;
+                    model.AmountPaid = transport.AmountPaid;
+                    model.AmountOwed = transport.AmountOwed;
 
                     await _context.SaveChangesAsync();
+
+                    //get the transport items
+                    var inputItems = transport.Items;
+                    foreach (var item in inputItems)
+                    {
+                        var exist = model.InputProductItems
+                            .Where(x => x.ProductId == item.ProductId && !x.IsDeleted).FirstOrDefault();
+
+                        if (exist != null)
+                        {
+                            //update the existing
+                            exist.ProductId = item.ProductId;
+                            exist.OriginalPrice = item.OriginalPrice;
+                            exist.Quantity = item.Quantity;
+
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            //add new the data
+                            InputProductItem newItem = new InputProductItem
+                            {
+                                ProductId = item.ProductId,
+                                OriginalPrice = item.OriginalPrice,
+                                Quantity = item.Quantity,
+                                InputProductId = model.Id,
+                            };
+
+                            await _context.InputProductItems.AddAsync(newItem);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+
+                    var deleteItems = model.InputProductItems
+                        .Where(x => !x.IsDeleted && !inputItems.Select(y => y.ProductId)
+                        .ToList()
+                        .Contains(x.ProductId)).ToList();
+
+                    if (deleteItems.Any())
+                    {
+                        foreach (var item in deleteItems) { item.IsDeleted = true; }
+
+                        await _context.SaveChangesAsync();
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 
@@ -285,18 +323,25 @@ namespace TechFix.API.Controllers
         [HttpDelete("{id}")]
         public async Task Delete(Guid id)
         {
-            var inputProduct = await _context.InputProducts.Include(x => x.InputProductItems).FirstOrDefaultAsync(x => x.Id == id);
-            if (inputProduct != null)
+            try
             {
-                inputProduct.IsDeleted = true;
-                if(inputProduct.InputProductItems.Count > 0)
+                var inputProduct = await _context.InputProducts.Include(x => x.InputProductItems).FirstOrDefaultAsync(x => x.Id == id);
+                if (inputProduct != null)
                 {
-                    foreach(var item in inputProduct.InputProductItems)
+                    inputProduct.IsDeleted = true;
+                    if (inputProduct.InputProductItems.Count > 0)
                     {
-                        item.IsDeleted = true;
+                        foreach (var item in inputProduct.InputProductItems)
+                        {
+                            item.IsDeleted = true;
+                        }
                     }
+                    await _context.SaveChangesAsync();
                 }
-                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }

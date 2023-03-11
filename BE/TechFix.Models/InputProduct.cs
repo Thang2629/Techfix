@@ -22,7 +22,7 @@ namespace TechFix.EntityModels
         public Guid? StoreId { get; set; }
 
         #endregion
-
+        public string Code { get; set; }
         public DateTime InputDate { get; set; }
         public string Note { get; set; }
 
