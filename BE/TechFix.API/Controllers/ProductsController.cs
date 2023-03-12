@@ -146,7 +146,7 @@ namespace TechFix.API.Controllers
         {
             try
             {
-                _context.Products.Add(new Product()
+                var newProduct = new Product()
                 {
                     Id = Guid.NewGuid(),
                     Name = transport.Name,
@@ -168,8 +168,12 @@ namespace TechFix.API.Controllers
                     IsInventoryTracking = transport.IsInventoryTracking,
                     Discontinue = transport.Discontinue,
                     ImagePath = transport.ImagePath,
-                });
+                };
+
+                _context.Products.Add(newProduct);
                 await _context.SaveChangesAsync();
+
+                //also add current product into the history
             }
             catch (Exception e)
             {

@@ -7,6 +7,7 @@ using TechFix.EntityModels;
 using TechFix.Common.AppSetting;
 using Microsoft.EntityFrameworkCore;
 using Customer = TechFix.EntityModels.Customer;
+using System.Collections.Generic;
 
 namespace TechFix.Services
 {
@@ -16,6 +17,7 @@ namespace TechFix.Services
         Task<Guid> WriteMoneyInHistory(Bill bill, Customer customer, decimal amount, Guid? cashierId, DateTime paymentDate, PaymentMethod paymentMethod);
         Task<Guid> WriteMoneyOutHistory(Guid supplierId, decimal amount, Guid? cashierId, DateTime paymentDate, PaymentMethod paymentMethod);
         Task DeleteMoneyInHistory(Guid? id);
+        List<ProductHistory> GetProductHistoryByCode(string code);
     }
 
     public class HistoryServices : IHistoryServices
@@ -54,6 +56,22 @@ namespace TechFix.Services
             _context.ProductHistories.Add(productHistory);
 
             return id;
+        }
+
+        public List<ProductHistory> GetProductHistoryByCode(string code)
+        {
+            if(!string.IsNullOrEmpty(code))
+            {
+                var item = _context.ProductHistories
+                    .Include(p => p.Store)
+                    .Include(p => p.ProductCondition)
+                    .Include(p => p.User)
+                    .Where(x => x.Code.Equals(code) && !x.IsDeleted)
+                    .ToList();
+
+                return item;
+            }
+            return null;
         }
 
         public async Task<Guid> WriteMoneyInHistory(Bill bill, Customer customer, decimal amount, Guid? cashierId, DateTime paymentDate, PaymentMethod paymentMethod)
