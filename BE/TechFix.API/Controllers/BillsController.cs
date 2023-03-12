@@ -177,27 +177,27 @@ namespace TechFix.API.Controllers
         [Route("get-all")]
         public async Task<IActionResult> GetBills(PagingParams param)
         {
-            //var queryable = _context.Bills
-            //    .Include(b => b.Customer)
-            //    .Include(b => b.Store)
-            //    .Include(b => b.Seller)
-            //    .AsNoTracking();
-            //queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
-            //queryable = queryable.OrderByDescending(b => b.SaleDate);
+            var queryable = _context.BillViews
+                .AsNoTracking();
+            queryable = QueryHelper.ApplyFilter(queryable, param.FilterParams);
+            queryable = queryable.OrderByDescending(b => b.SaleDate);
 
-            //var mapConfig = new MapperConfiguration(
-            //    cfg => cfg.CreateMap<Bill, BillDto>()
-            //        .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Customer.PhoneNumber))
-            //        .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Customer.FullName))
-            //        .ForMember(dest => dest.StoreName, opt => opt.MapFrom(src => src.Store.Name))
-            //        .ForMember(dest => dest.sta, opt => opt.MapFrom(src => src.Seller.FullName))
-            //);
-            //var projectTo = queryable.ProjectTo<BillDto>(mapConfig);
-            //var result = PagedList<BillDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
-            //for (var i = 0; i < result.Data.Count; i++)
-            //{
-            //    result.Data[i].Index = i + 1;
-            //}
+            var projectTo = queryable.ProjectTo<BillDto>(_mapper.ConfigurationProvider);
+            var result = PagedList<BillDto>.ToPagedList(projectTo, param.PageNumber, param.PageSize);
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Trả hàng
+        /// </summary>
+        /// <param name="id">Bill Id</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("{id}/returns")]
+        public async Task<IActionResult> ReturnProduct(Guid id)
+        {
+            //_context.Bills.Include(b=>b.BillItems)
 
             return Ok();
         }

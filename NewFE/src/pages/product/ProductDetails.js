@@ -5,7 +5,7 @@ import PageWrapper from "components/Layout/PageWrapper";
 import HeaderPage from "pages/home/header-page";
 import React from "react";
 import DetailAndUpateProduct from "./tabs-component/DetailAndUpateProduct";
-import CreateAndCopyProduct from "./tabs-component/DetailAndUpateProduct";
+import CreateAndCopyProduct from "./tabs-component/CreateAndCopyProduct";
 import { useParams } from "react-router-dom";
 
 const DetailCustomer = (props) => {

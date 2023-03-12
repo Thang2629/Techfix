@@ -8,14 +8,16 @@ import { USER_KEY, SESSION_KEY } from "static/Constants";
 import { LoginOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { getProductAssicatedByType } from "services/ProductAssociated";
 import { PRODUCT_ASSOCIATED, STORE_ID_KEY } from "static/Constants";
-import { useLocalStorage } from "hooks/localStorage";
 import "./header.less";
+import * as actions from "redux/global/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 const HeaderProject = (props) => {
   const { handleCollapseSidebar, collapsed } = props;
   const [stores, setStores] = useState([]);
+  const dispatch = useDispatch();
+  const storeId = useSelector((state) => state.global.storeId);
   const [isLoading, setIsLoading] = useState(false);
-  const [storeId, setStoreId] = useLocalStorage(STORE_ID_KEY, {});
   const logout = () => {
     cleanUp([USER_KEY, SESSION_KEY]);
     fowardTo("/login");
@@ -33,7 +35,7 @@ const HeaderProject = (props) => {
     }
   };
   const HandleChangeStore = (value) => {
-    setStoreId(value);
+    dispatch(actions.selectStore(value));
   };
   const menuItems = [
     {
@@ -62,14 +64,12 @@ const HeaderProject = (props) => {
       const response = await getProductAssicatedByType(
         PRODUCT_ASSOCIATED.STORE
       );
-
-      const storeId = JSON.parse(localStorage.getItem(STORE_ID_KEY));
-      if (!storeId) setStoreId(response[0].Id);
+      if (!storeId) dispatch(actions.selectStore(response[0].Id));
       setStores(response);
       setIsLoading(false);
     };
     initialize();
-  }, []);
+  }, [storeId]);
 
   return (
     <div className="header">
@@ -78,23 +78,13 @@ const HeaderProject = (props) => {
           onClick={handleCollapseSidebar}
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         />
-        <Col>
-          <Dropdown overlay={dropdownMenu} trigger={["click"]}>
-            <Button
-              className="header__btn"
-              type="outlined"
-              icon={<UserOutlined />}
-            >
-              Hello! User
-            </Button>
-          </Dropdown>
-        </Col>
+        <Col></Col>
         <Col style={{ display: "flex" }}>
           <Select
             style={{ width: 200 }}
             loading={isLoading}
             onChange={HandleChangeStore}
-            defaultValue={storeId}
+            value={storeId}
           >
             {stores &&
               stores.map((item) => {
@@ -105,7 +95,7 @@ const HeaderProject = (props) => {
                 );
               })}
           </Select>
-          <Dropdown menu={dropdownMenu} trigger={["click"]}>
+          <Dropdown overlay={dropdownMenu} trigger={["click"]}>
             <Button
               className="header__btn"
               type="outlined"

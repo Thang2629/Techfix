@@ -1,4 +1,3 @@
-
 // Action Types
 export const SET_GLOBAL_LOADING = "SET_GLOBAL_LOADING";
 export const VALIDATE_EULA = "VALIDATE_EULA";
@@ -18,6 +17,8 @@ export const TOGGLE_QUICKVIEW = "TOGGLE_QUICKVIEW";
 export const UPDATE_SEARCH_CRITERIA = "UPDATE_SEARCH_CRITERIA";
 export const UPDATE_LOGGING = "UPDATE_LOGGING";
 export const LOGOUT = "LOGOUT";
-export const SEARCH = "SEARCH"
-export const REFRESH_GRID = "REFRESH_GRID"
-export const RESET_STATE = "RESET_STATE"
+export const SEARCH = "SEARCH";
+export const REFRESH_GRID = "REFRESH_GRID";
+export const RESET_STATE = "RESET_STATE";
+export const SELECT_STORE = "SELECT_STORE";
+export const FITLER_TABLE = "FITLER_TABLE";

@@ -38,5 +38,6 @@ namespace TechFix.EntityModels
         public string Code { get; set; }
         public DateTime SaleDate { get; set; }
         public bool IsReturn { get; set; }
+        public decimal ReturnAmount { get; set; }
     }
 }

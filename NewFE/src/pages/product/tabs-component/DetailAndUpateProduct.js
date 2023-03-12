@@ -11,42 +11,64 @@ import {
   Typography,
   Checkbox,
   Tag,
+  InputNumber,
 } from "antd";
 import Loading from "components/Loading/Loading";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import {
-  getAllCustomerGroupService,
-  getCustomerByIdService,
-  updateCustomerService,
-} from "services/customer-manager";
+
 import { getProductDetails } from "services/Products";
 import { SaveOutlined } from "@ant-design/icons";
 import "../style.less";
-import { SAVE_ERROR, SAVE_SUCCESS } from "utils/common/messageContants";
-import isEmpty from "lodash/isEmpty";
-import TextArea from "antd/lib/input/TextArea";
+import {
+  DELETE_SUCCESS,
+  SAVE_SUCCESS,
+  CREATE_SUCCESS,
+} from "utils/common/messageContants";
 import { updateProduct } from "services/Products";
-import { getListManufacturers } from "services/Manufacturers";
-import { getListCatagories } from "services/Categories";
-import { getListProductUnits } from "services/ProductUnits";
-import { getListProductConditions } from "services/ProductConditions";
+import {
+  getListManufacturers,
+  createManufacturer,
+  updateManufacturer,
+  deleteManufacturer,
+} from "services/Manufacturers";
+import {
+  getListCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} from "services/Categories";
+import {
+  getListProductUnits,
+  updateProductUnit,
+  createProductUnit,
+  deleteProductUnit,
+} from "services/ProductUnits";
+import {
+  getListProductConditions,
+  createProductCondition,
+  updateProductCondition,
+  deleteProductCondition,
+} from "services/ProductConditions";
 import { getListSuppliers } from "services/Supplier";
 import { PlusSquareOutlined } from "@ant-design/icons";
 import CreateDialog from "./components/CreateDialog";
+import PageWrapper from "components/Layout/PageWrapper";
+import Grid from "components/Grid";
+import { formatNumber } from "utils/formatNumber";
+
 const CREATE_TYPE = {
   PRODUCTS_UNIT: "PRODUCTS_UNIT",
   CATEGORY: "CATEGORY",
   MANUFACTURER: "MANUFACTURER",
   PRODUCTS_CONDITION: "PRODUCTS_CONDITION",
 };
+
 const ThongTinSanPham = (props) => {
   const { id } = useParams();
 
-  const [dataCustomer, setDataCustomer] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [isOpen, setIsopen] = useState(false);
-  const [dataKH, setDataKH] = useState([]);
   const [productDetails, setProductDetails] = useState({});
   const [categories, setCategories] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
@@ -55,7 +77,10 @@ const ThongTinSanPham = (props) => {
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [form] = Form.useForm();
+  const [submitForm] = Form.useForm();
+  const [formTab] = Form.useForm();
+  const [formTabCreate] = Form.useForm();
+  const [typeCreate, setTypeCreate] = useState("");
   const { Text } = Typography;
 
   const getManufacturers = async () => {
@@ -63,7 +88,7 @@ const ThongTinSanPham = (props) => {
     setManufacturers(response);
   };
   const getCatagories = async () => {
-    const response = await getListCatagories();
+    const response = await getListCategories();
     setCategories(response);
   };
   const getProductUnits = async () => {
@@ -79,26 +104,10 @@ const ThongTinSanPham = (props) => {
     setSuppliers(response.Data);
   };
 
-  const getCustomerById = async () => {
-    setLoading(true);
-    const result = await getCustomerByIdService(id);
-    if (result.isSuccess) {
-      setDataCustomer(result.data);
-      form.setFieldsValue(result.data);
-    }
-    setLoading(false);
-  };
-
-  //   const getDataNhomKH = useCallback(async () => {
-  //     const data = await getAllCustomerGroupService();
-  //     if (data.isSuccess) {
-  //       setDataKH(data.data.nhomKhachHangNames);
-  //     }
-  //   }, []);
   const getProductDetail = async () => {
     const data = await getProductDetails(id);
-    form.setFieldsValue(data);
     setProductDetails(data);
+    submitForm.setFieldsValue(data);
   };
 
   useEffect(() => {
@@ -122,11 +131,18 @@ const ThongTinSanPham = (props) => {
       message.error(response.Message);
     }
   };
-
+  const onSelectFieldChange = (value, fieldName) => {
+    submitForm.setFieldsValue({ [`${fieldName}`]: value });
+  };
   const onClickAddButton = (type) => {
+    setTypeCreate(type);
+    // renderBodyByType(type);
     setIsopen(true);
   };
-
+  const onClickUpdate = (state) => {
+    setIsUpdate(state);
+    submitForm.setFieldsValue(productDetails);
+  };
   const btnEdit = useMemo(() => {
     return (
       <div style={{ position: "absolute", right: "0", top: "0" }}>
@@ -135,7 +151,7 @@ const ThongTinSanPham = (props) => {
             style={{ marginRight: "5px" }}
             size="small"
             type={isUpdate ? "default" : "primary"}
-            onClick={() => setIsUpdate(!isUpdate)}
+            onClick={() => onClickUpdate(!isUpdate)}
           >
             {isUpdate ? "Hủy" : "Chỉnh sửa"}
           </Button>
@@ -161,13 +177,14 @@ const ThongTinSanPham = (props) => {
     return (
       <Form
         id="myForm"
-        form={form}
+        form={submitForm}
         labelCol={{ span: 15 }}
         labelAlign={"left"}
         layout="vertical"
         labelWrap={true}
         wrapperCol={{ span: 18 }}
         onFinish={onFinish}
+        initialValues={productDetails}
       >
         <Row>
           <Col span={24}>
@@ -180,7 +197,7 @@ const ThongTinSanPham = (props) => {
                       hidden={true}
                       label="Id"
                       name="Id"
-                      value={productDetails.Id}
+                      value={productDetails?.Id}
                     >
                       <Input />
                     </Form.Item>
@@ -189,11 +206,7 @@ const ThongTinSanPham = (props) => {
                     {isUpdate ? (
                       <Input />
                     ) : (
-                      <Text strong>
-                        {isEmpty(productDetails.Name)
-                          ? "-"
-                          : productDetails.Name}
-                      </Text>
+                      <Text strong>{productDetails?.Name || "-"}</Text>
                     )}
                   </Form.Item>
                 </Col>
@@ -206,9 +219,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.Quantity)
-                          ? "-"
-                          : productDetails.Quantity}
+                        {formatNumber(productDetails?.Quantity) || "-"}
                       </Text>
                     )}
                   </Form.Item>
@@ -218,28 +229,33 @@ const ThongTinSanPham = (props) => {
                     {isUpdate ? (
                       <Input />
                     ) : (
-                      <Text strong>
-                        {isEmpty(productDetails.Code)
-                          ? "-"
-                          : productDetails.Code}
-                      </Text>
+                      <Text strong>{productDetails?.Code || ""}</Text>
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row>
                 <Col span={12}>
-                  <Form.Item label="Đơn vị tính" name="ProductUnit">
+                  <Form.Item label="Đơn vị tính" name="ProductUnitId">
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        <Select allowClear>
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "ProductUnitId")
+                          }
+                          allowClear
+                        >
                           {productUnits &&
                             productUnits.map((item) => (
-                              <Select.Option key={item.Id} values={item.Id}>
+                              <Select.Option
+                                key={`item_${item.Id}`}
+                                values={item.Id}
+                              >
                                 {item.Name}
                               </Select.Option>
                             ))}
                         </Select>
+
                         <Button
                           type="primary"
                           icon={<PlusSquareOutlined />}
@@ -250,9 +266,7 @@ const ThongTinSanPham = (props) => {
                       </div>
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.ProductUnit)
-                          ? "-"
-                          : productDetails.ProductUnit}
+                        {productDetails?.ProductUnitName || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -269,10 +283,10 @@ const ThongTinSanPham = (props) => {
                           <Checkbox />
                         ) : (
                           <Text strong>
-                            {isEmpty(productDetails.IsInventoryTracking) ? (
-                              <Tag color="red">Không</Tag>
-                            ) : (
+                            {productDetails?.IsInventoryTracking ? (
                               <Tag color="blue">Có</Tag>
+                            ) : (
+                              <Tag color="red">Không</Tag>
                             )}
                           </Text>
                         )}
@@ -288,10 +302,10 @@ const ThongTinSanPham = (props) => {
                           <Checkbox />
                         ) : (
                           <Text strong>
-                            {isEmpty(productDetails.AllowNegativeSell) ? (
-                              <Tag color="red">Không</Tag>
-                            ) : (
+                            {productDetails?.AllowNegativeSell ? (
                               <Tag color="blue">Có</Tag>
+                            ) : (
+                              <Tag color="red">Không</Tag>
                             )}
                           </Text>
                         )}
@@ -307,9 +321,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.FakePrice)
-                          ? "-"
-                          : productDetails.FakePrice}
+                        {formatNumber(productDetails?.FakePrice) || "-"}
                       </Text>
                     )}
                   </Form.Item>
@@ -320,9 +332,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.WebPrice)
-                          ? "-"
-                          : productDetails.WebPrice}
+                        {formatNumber(productDetails?.WebPrice) || "-"}
                       </Text>
                     )}
                   </Form.Item>
@@ -334,11 +344,7 @@ const ThongTinSanPham = (props) => {
                     {isUpdate ? (
                       <Input />
                     ) : (
-                      <Text strong>
-                        {isEmpty(productDetails.Warranty)
-                          ? "-"
-                          : productDetails.Warranty}
-                      </Text>
+                      <Text strong>{productDetails?.Warranty || ""}</Text>
                     )}
                   </Form.Item>
                 </Col>
@@ -348,9 +354,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.OriginalPrice)
-                          ? "-"
-                          : productDetails.OriginalPrice}
+                        {formatNumber(productDetails?.OriginalPrice) || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -361,7 +365,12 @@ const ThongTinSanPham = (props) => {
                   <Form.Item label="Danh Mục" name="CategoryId">
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        <Select allowClear>
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "CategoryId")
+                          }
+                          allowClear
+                        >
                           {categories &&
                             categories.map((item) => (
                               <Select.Option key={item.Id} values={item.Id}>
@@ -377,11 +386,7 @@ const ThongTinSanPham = (props) => {
                       </div>
                     ) : (
                       <Text strong>
-                        <Text strong>
-                          {isEmpty(productDetails.CategoryId)
-                            ? "-"
-                            : productDetails.CategoryName}
-                        </Text>
+                        <Text strong>{productDetails?.CategoryName || ""}</Text>
                       </Text>
                     )}
                   </Form.Item>
@@ -390,7 +395,12 @@ const ThongTinSanPham = (props) => {
                   <Form.Item label="Nhà Sản Xuất" name="ManufacturerId">
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        <Select allowClear>
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "ManufacturerId")
+                          }
+                          allowClear
+                        >
                           {manufacturers &&
                             manufacturers.map((item) => (
                               <Select.Option key={item.Id} values={item.Id}>
@@ -408,9 +418,7 @@ const ThongTinSanPham = (props) => {
                       </div>
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.ManufacturerId)
-                          ? "-"
-                          : productDetails.ManufacturerName}
+                        {productDetails?.ManufacturerName || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -423,9 +431,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.MinimumNorm)
-                          ? "-"
-                          : productDetails.MinimumNorm}
+                        {formatNumber(productDetails?.MinimumNorm) || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -436,9 +442,7 @@ const ThongTinSanPham = (props) => {
                       <Input />
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.MaximumNorm)
-                          ? "-"
-                          : productDetails.MaximumNorm}
+                        {formatNumber(productDetails?.MaximumNorm) || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -449,7 +453,12 @@ const ThongTinSanPham = (props) => {
                   <Form.Item label="Nhà Cung Cấp" name="SupplierId">
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        <Select allowClear>
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "SupplierId")
+                          }
+                          allowClear
+                        >
                           {suppliers &&
                             suppliers.map((item) => (
                               <Select.Option key={item.Id} values={item.Id}>
@@ -457,20 +466,9 @@ const ThongTinSanPham = (props) => {
                               </Select.Option>
                             ))}
                         </Select>
-                        <Button
-                          type="primary"
-                          icon={<PlusSquareOutlined />}
-                          onClick={() =>
-                            onClickAddButton(CREATE_TYPE.PRODUCTS_CONDITION)
-                          }
-                        />
                       </div>
                     ) : (
-                      <Text strong>
-                        {isEmpty(productDetails.SupplierId)
-                          ? "-"
-                          : productDetails.SupplierName}
-                      </Text>
+                      <Text strong>{productDetails?.SupplierName || ""}</Text>
                     )}
                   </Form.Item>
                 </Col>
@@ -481,7 +479,12 @@ const ThongTinSanPham = (props) => {
                   >
                     {isUpdate ? (
                       <div style={{ display: "flex" }}>
-                        <Select allowClear>
+                        <Select
+                          onChange={(value) =>
+                            onSelectFieldChange(value, "ProductConditionId")
+                          }
+                          allowClear
+                        >
                           {productConditions &&
                             productConditions.map((item) => (
                               <Select.Option key={item.Id} values={item.Id}>
@@ -489,19 +492,10 @@ const ThongTinSanPham = (props) => {
                               </Select.Option>
                             ))}
                         </Select>
-                        <Button
-                          type="primary"
-                          icon={<PlusSquareOutlined />}
-                          onClick={() =>
-                            onClickAddButton(CREATE_TYPE.PRODUCTS_CONDITION)
-                          }
-                        />
                       </div>
                     ) : (
                       <Text strong>
-                        {isEmpty(productDetails.ProductConditionId)
-                          ? "-"
-                          : productDetails.ProductConditionName}
+                        {productDetails?.ProductConditionName || ""}
                       </Text>
                     )}
                   </Form.Item>
@@ -512,15 +506,287 @@ const ThongTinSanPham = (props) => {
         </Row>
       </Form>
     );
-  }, [dataCustomer, form, btnEdit, id, isUpdate, onFinish, dataKH]);
+  }, [submitForm, btnEdit, id, isUpdate, onFinish]);
+  // grid
 
+  const [editingKey, setEditingKey] = useState("");
+  const isEditing = (record) => record.Id === editingKey;
+  const edit = (record) => {
+    formTab.setFieldsValue({
+      ...record,
+    });
+    setEditingKey(record.Id);
+  };
+  const onDelete = async (record) => {
+    const response = await deleteAction(record.Id);
+    if (response.Success) {
+      message.success(DELETE_SUCCESS);
+    } else {
+      message.error(response.Message);
+    }
+  };
+
+  const cancel = () => {
+    setEditingKey("");
+  };
+  const save = async (record) => {
+    try {
+      const value = JSON.stringify(inputTable.current.input.value);
+      const response = await updateAction(record.Id, value);
+      if (response.Success) {
+        message.success(CREATE_SUCCESS);
+      } else {
+        message.error(response.Message);
+      }
+    } catch (errInfo) {
+      console.log("Validate Failed:", errInfo);
+    }
+  };
+  const updateAction = (itemId, value) => {
+    switch (typeCreate) {
+      case CREATE_TYPE.CATEGORY:
+        return updateCategory(itemId, value);
+      case CREATE_TYPE.MANUFACTURER:
+        return updateManufacturer(itemId, value);
+      case CREATE_TYPE.PRODUCTS_CONDITION:
+        return updateProductCondition(itemId, value);
+      case CREATE_TYPE.PRODUCTS_UNIT:
+        return updateProductUnit(itemId, value);
+      default:
+        return;
+    }
+  };
+  const deleteAction = () => {
+    switch (typeCreate) {
+      case CREATE_TYPE.CATEGORY:
+        return deleteCategory(id);
+      case CREATE_TYPE.MANUFACTURER:
+        return deleteManufacturer(id);
+      case CREATE_TYPE.PRODUCTS_CONDITION:
+        return deleteProductCondition(id);
+      case CREATE_TYPE.PRODUCTS_UNIT:
+        return deleteProductUnit(id);
+      default:
+        return;
+    }
+  };
+
+  const renderTablist = () => {
+    switch (typeCreate) {
+      case CREATE_TYPE.CATEGORY:
+        return renderTabListByType(typeCreate, categories);
+      case CREATE_TYPE.MANUFACTURER:
+        return renderTabListByType(typeCreate, manufacturers);
+      case CREATE_TYPE.PRODUCTS_CONDITION:
+        return renderTabListByType(typeCreate, productConditions);
+      case CREATE_TYPE.PRODUCTS_UNIT:
+        return renderTabListByType(typeCreate, productUnits);
+      default:
+        return;
+    }
+  };
+  const renderTabListByType = (type, listData) => {
+    return (
+      <PageWrapper>
+        <Form form={formTab} component={false}>
+          <Grid
+            data={listData}
+            components={{
+              body: {
+                cell: EditableCell,
+              },
+            }}
+            columns={mergedColumns}
+          />
+        </Form>
+      </PageWrapper>
+    );
+  };
+  const tabColumns = [
+    {
+      title: "STT",
+      dataIndex: "",
+      width: "10%",
+      render: (row, _, index) => {
+        return <div>{index + 1}</div>;
+      },
+    },
+    {
+      title: "Danh Sách",
+      dataIndex: "Name",
+      width: "25%",
+      editable: true,
+    },
+    {
+      title: "",
+      dataIndex: "operation",
+      width: "40%",
+      render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Typography.Link
+              onClick={() => save(record)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Lưu
+            </Typography.Link>
+            <Typography.Link
+              onClick={cancel}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Hủy
+            </Typography.Link>
+          </span>
+        ) : (
+          <span>
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() => edit(record)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Chỉnh Sửa
+            </Typography.Link>
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() => onDelete(record)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Xóa
+            </Typography.Link>
+          </span>
+        );
+      },
+    },
+  ];
+  const inputTable = useRef();
+  const EditableCell = ({
+    editing,
+    dataIndex,
+    title,
+    inputType,
+    record,
+    index,
+    children,
+    ...restProps
+  }) => {
+    const inputNode =
+      inputType === "number" ? (
+        <InputNumber ref={inputTable} />
+      ) : (
+        <Input ref={inputTable} />
+      );
+    return (
+      <td {...restProps}>
+        {editing ? (
+          <Form.Item
+            name={dataIndex}
+            style={{
+              margin: 0,
+            }}
+            rules={[
+              {
+                required: true,
+                message: `Please Input ${title}!`,
+              },
+            ]}
+          >
+            {inputNode}
+          </Form.Item>
+        ) : (
+          children
+        )}
+      </td>
+    );
+  };
+  const mergedColumns = tabColumns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record) => ({
+        record,
+        inputType: col.dataIndex === "age" ? "number" : "text",
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
+  // grid
+  const renderTabCreate = () => {
+    switch (typeCreate) {
+      case CREATE_TYPE.CATEGORY:
+        return renderCreateFormByType(createCategory);
+      case CREATE_TYPE.MANUFACTURER:
+        return renderCreateFormByType(createManufacturer);
+      case CREATE_TYPE.PRODUCTS_CONDITION:
+        return renderCreateFormByType(createProductCondition);
+      case CREATE_TYPE.PRODUCTS_UNIT:
+        return renderCreateFormByType(createProductUnit);
+      default:
+        return;
+    }
+  };
+  const onCreateByType = async (values, action) => {
+    const requestValue = JSON.stringify(values.Name);
+    const response = await action(requestValue);
+    if (response.Success) {
+      message.success(SAVE_SUCCESS);
+    } else {
+      message.error(response.Message);
+    }
+  };
+  const renderCreateFormByType = (action) => {
+    return (
+      <PageWrapper>
+        <Form
+          form={formTabCreate}
+          id="formTabCreate"
+          onFinish={(values) => onCreateByType(values, action)}
+        >
+          <Row gutter={16}>
+            <Col span={18}>
+              <Form.Item label="" name="Name">
+                <Input placeholder="Nhập tên" />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <Button
+                size="medium"
+                type="primary"
+                key="submit"
+                htmlType="submit"
+                form="formTabCreate"
+                icon={<SaveOutlined />}
+                style={{ alignSelf: "flex-start" }}
+              >
+                Lưu
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </PageWrapper>
+    );
+  };
   return (
     <div className="main__application">
       {loading ? <Loading /> : renderForm}
       <CreateDialog
         isOpen={isOpen}
         handleClosed={() => setIsopen(false)}
-        title={"Thông tin"}
+        title={`Thông tin`}
+        bodyDialog={renderTablist}
+        bodyDialog2={renderTabCreate}
       />
     </div>
   );

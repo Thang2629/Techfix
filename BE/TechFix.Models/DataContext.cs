@@ -70,6 +70,10 @@ namespace TechFix.EntityModels
             modelBuilder.Entity<GetRepairProductReportView>(entity => {
                 entity.ToView("GetRepairProductReportView");
             });
+
+            modelBuilder.Entity<BillView>(entity => {
+                entity.ToView("BillView");
+            });
         }
 
         private void HandleRowVersion(ModelBuilder modelBuilder)
@@ -217,6 +221,7 @@ namespace TechFix.EntityModels
         public DbSet<FixOrder> FixOrders { get; set; }
         public DbSet<FixProduct> FixProducts { get; set; }
         public DbSet<MoneyInHistory> MoneyInHistories { get; set; }
+        public DbSet<MoneyOutHistory> MoneyOutHistories { get; set; }
         public DbSet<ImportHistory> ImportHistories { get; set; }
         public DbSet<ProductHistory> ProductHistories { get; set; }
         public DbSet<Template> Templates { get; set; }
@@ -225,5 +230,6 @@ namespace TechFix.EntityModels
         public DbSet<RepairProductByCustomerView> RepairProductByCustomerViews { get; set; }
         public DbSet<RepairProductByFixStaffView> RepairProductByFixStaffViews { get; set; }
         public DbSet<GetRepairProductReportView> GetRepairProductReportViews { get; set; }
+        public DbSet<BillView> BillViews { get; set; }
     }
 }
