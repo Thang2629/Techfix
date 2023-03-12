@@ -1,0 +1,776 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AmountCannotBeLessThanZero" xml:space="preserve">
+    <value>Giá trị không được nhỏ hơn 0.</value>
+  </data>
+  <data name="AmountMustBeGreaterThanZero" xml:space="preserve">
+    <value>Giá trị phải lớn hơn 0.</value>
+  </data>
+  <data name="CannotUpdateInformationBeforeTheSystemIsReviewingKYC" xml:space="preserve">
+    <value>Bạn không thể cập nhật thông tin cá nhân vào lúc này cho đến khi quá trình xác thực KYC kết thúc.</value>
+  </data>
+  <data name="YouCantDeleteOFSExchangeRateX" xml:space="preserve">
+    <value>Không thể xóa OFS Exchange Rate {0}.</value>
+  </data>
+  <data name="CartIsEmpty" xml:space="preserve">
+    <value>Giỏ hàng trống.</value>
+  </data>
+  <data name="CartNotFound" xml:space="preserve">
+    <value>Không tìm thấy giỏ hàng.</value>
+  </data>
+  <data name="CartIsNotValid" xml:space="preserve">
+    <value>Giỏ hàng không hợp lệ.</value>
+  </data>
+  <data name="CommissionsNotFound" xml:space="preserve">
+    <value>Không tìm thấy thông tin.</value>
+  </data>
+  <data name="ConvertVLGPlusToUsdLimitWarning" xml:space="preserve">
+    <value>Tài khoản của bạn đã đạt đến giới hạn chuyển đổi trong tháng.</value>
+  </data>
+  <data name="CustomerNotFound" xml:space="preserve">
+    <value>Khách hàng không tìm thấy.</value>
+  </data>
+  <data name="EmailVerificationCodeIsNotValid" xml:space="preserve">
+    <value>Mã xác thực Email không đúng.</value>
+  </data>
+  <data name="FeatureIsNotSupportYet" xml:space="preserve">
+    <value>Tính năng này hiện không khả dụng.</value>
+  </data>
+  <data name="GoogleVerificationCodeIsNotValid" xml:space="preserve">
+    <value>Mã xác thực Google không đúng.</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Xin chào</value>
+  </data>
+  <data name="InterestRateIsNotFound" xml:space="preserve">
+    <value>Không tìm thấy lãi suất</value>
+  </data>
+  <data name="EmailVerificationCodeIsInvalid" xml:space="preserve">
+    <value>Mã xác thực Email của bạn không đúng.</value>
+  </data>
+  <data name="GoogleVerificationCodeIsInvalid" xml:space="preserve">
+    <value>Mã xác thực Google của bạn không đúng.</value>
+  </data>
+  <data name="InvalidUsernameOrPassWarning" xml:space="preserve">
+    <value>Tên tài khoản hoặc mật khẩu không đúng.</value>
+  </data>
+  <data name="KYCNotFound" xml:space="preserve">
+    <value>KYC không tồn tại.</value>
+  </data>
+  <data name="KYCStatusIsNotValid" xml:space="preserve">
+    <value>Trạng thái KYC không hợp lệ.</value>
+  </data>
+  <data name="MissingBankInfoWarning" xml:space="preserve">
+    <value>Tài khoản này chưa được cập nhật thông tin tài khoản ngân hàng.</value>
+  </data>
+  <data name="NotEnoughVLGPlusToConvert" xml:space="preserve">
+    <value>Tài khoản của bạn không có đủ VTP để chuyển đổi</value>
+  </data>
+  <data name="OFSHasBeenSoldOut" xml:space="preserve">
+    <value>OFS đã được bán hết.</value>
+  </data>
+  <data name="PackageHasBeenDeleted" xml:space="preserve">
+    <value>Gói hàng đã bị xóa.</value>
+  </data>
+  <data name="PackageHasExpired" xml:space="preserve">
+    <value>Gói hàng đã hết hạn sử dụng.</value>
+  </data>
+  <data name="PackageNotFound" xml:space="preserve">
+    <value>Không tìm thấy gói hàng.</value>
+  </data>
+  <data name="PasswordIsIncorrect" xml:space="preserve">
+    <value>Mật khẩu không đúng.</value>
+  </data>
+  <data name="PhoneNumberIsAlreadyTaken" xml:space="preserve">
+    <value>Số điện thoại này đã được sử dụng.</value>
+  </data>
+  <data name="PleaseEnterTheReasonForReject" xml:space="preserve">
+    <value>Vui lòng nhập lý do từ chối.</value>
+  </data>
+  <data name="PleaseEnterUserName" xml:space="preserve">
+    <value>Vui lòng nhập tên tài khoản.</value>
+  </data>
+  <data name="PleaseResetYourPassword" xml:space="preserve">
+    <value>Vui lòng đặt lại mật khẩu.</value>
+  </data>
+  <data name="PleaseTryAgain" xml:space="preserve">
+    <value>Vui lòng thử lại.</value>
+  </data>
+  <data name="YouCannotUpdateYourInformationBecauseYourKYCIsInReview" xml:space="preserve">
+    <value>Không thể chỉnh sửa do thông tin cá nhân của bạn đang trong quá trình xử lý.</value>
+  </data>
+  <data name="RedeemCodeCantBeEmpty" xml:space="preserve">
+    <value>Redeem Code phải có giá trị.</value>
+  </data>
+  <data name="ReferralIsNotfound" xml:space="preserve">
+    <value>Không thể tìm thấy người giới thiệu.</value>
+  </data>
+  <data name="RegisterSuccessfully" xml:space="preserve">
+    <value>Đăng ký thành công.</value>
+  </data>
+  <data name="YourAccountDoesNotHavePermissionToAccess" xml:space="preserve">
+    <value>Tài khoản của bạn không có quyền truy cập.</value>
+  </data>
+  <data name="SavingAccountIsNotFound" xml:space="preserve">
+    <value>Không tìm thấy tài khoản tiết kiệm.</value>
+  </data>
+  <data name="SMSVerificationCodeIsNotValid" xml:space="preserve">
+    <value>Mã xác thực SMS không đúng.</value>
+  </data>
+  <data name="SpammingRequestWarning" xml:space="preserve">
+    <value>Bạn đang gửi yêu cầu quá nhiều lần, vui lòng thử lại sau ít phút.</value>
+  </data>
+  <data name="TheAmountMustBeEqualOrGreaterThan250AndEqualOrFewerThan9999" xml:space="preserve">
+    <value>Số tiền rút ra phải lớn hơn hoặc bằng 250$ và nhỏ hơn hoặc bằng $9,999.</value>
+  </data>
+  <data name="TheBalanceIsNotEnough" xml:space="preserve">
+    <value>Tài khoản không đủ.</value>
+  </data>
+  <data name="TheCodeIsAlreadyUsed" xml:space="preserve">
+    <value>Mã đã được sử dụng.</value>
+  </data>
+  <data name="TheCodeIsNotCorrect" xml:space="preserve">
+    <value>Mã không đúng.</value>
+  </data>
+  <data name="TheLinkHasExpired" xml:space="preserve">
+    <value>Link thiết lập lại mật khẩu đã hết thời gian hiệu lực.</value>
+  </data>
+  <data name="TheLinkIsNotValid" xml:space="preserve">
+    <value>Mã kích hoạt không hợp lệ.</value>
+  </data>
+  <data name="ThePINMustHave6Digits" xml:space="preserve">
+    <value>Mã PIN phải có đủ 6 ký tự</value>
+  </data>
+  <data name="TheUserDoesNotHaveEmailToRecoverPassword" xml:space="preserve">
+    <value>Người dùng không có email để thực hiện khôi phục mật khẩu.</value>
+  </data>
+  <data name="TheUserIsNotConfirmed" xml:space="preserve">
+    <value>Tài khoản chưa được kích hoạt.</value>
+  </data>
+  <data name="TheAmountIsNotEnoughToTransferMoney" xml:space="preserve">
+    <value>Tài khoản của bạn không đủ để chuyển khoản.</value>
+  </data>
+  <data name="TheAmountMustBeGreaterThan0" xml:space="preserve">
+    <value>Giá trị phải lớn hơn 0</value>
+  </data>
+  <data name="TheAmountMustBeGreaterThanX" xml:space="preserve">
+    <value>Giá trị phải lớn hơn {0}</value>
+  </data>
+  <data name="TheBankIsNotFound" xml:space="preserve">
+    <value>Không tìm thấy thông tin ngân hàng.</value>
+  </data>
+  <data name="TheExchangeRateNotFound" xml:space="preserve">
+    <value>Không tìm thấy thông tin.</value>
+  </data>
+  <data name="ThePackageIsNotFound" xml:space="preserve">
+    <value>Không tìm thấy thông tin.</value>
+  </data>
+  <data name="ThisFeatureIsOnlyForBusinessAccount" xml:space="preserve">
+    <value>Tính năng này dành riêng cho tài khoản doanh nghiệp.</value>
+  </data>
+  <data name="ThisLinkIsAlreadyInUse" xml:space="preserve">
+    <value>Link thiết lập lại mật khẩu đã được sử dụng.</value>
+  </data>
+  <data name="ThisPackageIsOnlyForUsersWhoRegisteredSince08152021" xml:space="preserve">
+    <value>Gói hàng này chỉ dành cho những tài khoản được tạo kể từ 15/08/2021.</value>
+  </data>
+  <data name="ThisUserHasNotBeenApprovedKYC" xml:space="preserve">
+    <value>Người dùng này chưa hoàn tất KYC.</value>
+  </data>
+  <data name="ThisFeatureExclusiveToBusinessAccount" xml:space="preserve">
+    <value>Tính năng này chỉ dành riêng cho tài khoản doanh nghiệp.</value>
+  </data>
+  <data name="UpgrateAccountToConvertWarning" xml:space="preserve">
+    <value>Vui lòng nâng cấp tài khoản bằng gói Business bất kỳ trước khi thực hiện chuyển đổi.</value>
+  </data>
+  <data name="UserDoesNotExist" xml:space="preserve">
+    <value>Người dùng không tồn tại.</value>
+  </data>
+  <data name="EmailDoesNotExist" xml:space="preserve">
+    <value>Email không tồn tại, vui lòng đăng ký.</value>
+  </data>
+  <data name="UserIsNotFound" xml:space="preserve">
+    <value>Không thể tìm thấy người dùng.</value>
+  </data>
+  <data name="UsernameOrPasswordIsIncorrect" xml:space="preserve">
+    <value>Tên đăng nhập hoặc mật khẩu không đúng.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Tài khoản không tồn lại.</value>
+  </data>
+  <data name="WalletNotFound" xml:space="preserve">
+    <value>Địa chỉ ví không tồn lại.</value>
+  </data>
+  <data name="VLGCashWalletNotFound" xml:space="preserve">
+    <value>Không tìm thấy ví VLGCash.</value>
+  </data>
+  <data name="VLGCoinWalletNotFound" xml:space="preserve">
+    <value>Không tìm thấy ví VLGCoin.</value>
+  </data>
+  <data name="VLGOFSWalletNotFound" xml:space="preserve">
+    <value>Không tìm thấy ví VLGOFS.</value>
+  </data>
+  <data name="VLGPlusWalletNotFound" xml:space="preserve">
+    <value>Không tìm thấy ví VLGPlus.</value>
+  </data>
+  <data name="VLGShareWalletNotFound" xml:space="preserve">
+    <value>Không tìm thấy ví VLGShare.</value>
+  </data>
+  <data name="YouCanOnlyCheckoutUpTo1000Every24Hours" xml:space="preserve">
+    <value>Bạn chỉ có thể thanh toán tối đa 1000$ mỗi 24 giờ.</value>
+  </data>
+  <data name="YouCannotWithdrawMoreThan9999PerWeek" xml:space="preserve">
+    <value>Bạn không thế rút quá $9,999 một tuần.</value>
+  </data>
+  <data name="YouDoNotHaveEnoughMoneyToPay" xml:space="preserve">
+    <value>Bạn không đủ tiền để thanh toán.</value>
+  </data>
+  <data name="PleaseCreateAPINBeforeTrading" xml:space="preserve">
+    <value>Bạn phải thiết lập mã PIN trước khi tiến hành giao dịch.</value>
+  </data>
+  <data name="YouDontHaveEnoughVLGPlusToConvertOFS" xml:space="preserve">
+    <value>Bạn không đủ VTP để chuyển đổi sang OFS.</value>
+  </data>
+  <data name="YouHaveNotSetThePIN" xml:space="preserve">
+    <value>Bạn chưa thiết lập mã PIN.</value>
+  </data>
+  <data name="YouMustFinishKYCBeforeDoingThisAction" xml:space="preserve">
+    <value>Bạn phải hoàn tất KYC để có thể thực hiện chức năng này.</value>
+  </data>
+  <data name="YouMustSetPINBeforeCheckout" xml:space="preserve">
+    <value>Bạn phải thiết lập mã PIN trước khi tiến hành thanh toán.</value>
+  </data>
+  <data name="YouMustSetPINBeforeConvert" xml:space="preserve">
+    <value>Bạn phải thiết lập mã PIN trước khi tiến hành chuyển đổi.</value>
+  </data>
+  <data name="YouMustSetPINBeforeTransfers" xml:space="preserve">
+    <value>Bạn phải thiết lập mã PIN trước khi chuyển khoản.</value>
+  </data>
+  <data name="YouCanOnlyConvertLessThanOrEqualToXVLGPlus" xml:space="preserve">
+    <value>Bạn chỉ có thể chuyển đổi thấp hơn hoặc bằng {0} VTP.</value>
+  </data>
+  <data name="YouCanOnlySaveLessThanOrEqualToX" xml:space="preserve">
+    <value>Bạn chỉ được phép gửi ít hơn hoặc bằng {0}.</value>
+  </data>
+  <data name="YouMustSaveGreaterThan0" xml:space="preserve">
+    <value>Số ký gửi phải lớn hơn 0.</value>
+  </data>
+  <data name="YourAccountAlreadyEnabledEmailAuthentication" xml:space="preserve">
+    <value>Tài khoản của bạn đã kích hoạt bảo mật qua Email Authentication.</value>
+  </data>
+  <data name="YourAccountAlreadyEnabledGoogleAuthentication" xml:space="preserve">
+    <value>Tài khoản của bạn đã kích hoạt bảo mật qua Google Authentication.</value>
+  </data>
+  <data name="YourAccountAlreadyEnabledSMSAuthentication" xml:space="preserve">
+    <value>Tài khoản của bạn đã kích hoạt bảo mật qua SMS Authentication.</value>
+  </data>
+  <data name="YourAccountCantConvertVLGPlusToCash" xml:space="preserve">
+    <value>Tài khoản của bạn không thể chuyển VTP thành tiền mặt. Để có thể sử dụng chức năng này bạn phải kích hoạch ít nhất một gói doanh nghiệp.</value>
+  </data>
+  <data name="YourAccountCantRedeemThisPackage" xml:space="preserve">
+    <value>Loại tài khoản của bạn không thể kích hoạt mã này.</value>
+  </data>
+  <data name="YourAccountDoesNotHaveEnoughOFSToMakeATransaction" xml:space="preserve">
+    <value>Tài khoản của bạn không đủ OFS để thực hiện giao dịch.</value>
+  </data>
+  <data name="YourAccountHasBeenLockedBecauseYouEnteredTheWrongCodeManyTimes" xml:space="preserve">
+    <value>Tài khoản của bạn đã bị khóa bởi vì bạn đã nhập sai mã PIN quá nhiều lần.</value>
+  </data>
+  <data name="YourAccountHasBeenSetThePIN" xml:space="preserve">
+    <value>Tài khoản của bạn đã được cập nhật mã PIN.</value>
+  </data>
+  <data name="YourAccountIsNotActive" xml:space="preserve">
+    <value>Tài khoản của bạn chưa được kích hoạt.</value>
+  </data>
+  <data name="YourBalanceDoesntHaveEnoughCash" xml:space="preserve">
+    <value>Tài khoản của bạn không đủ tiền.</value>
+  </data>
+  <data name="YourEmailDoesNotMatchAnyUserInTheSystem" xml:space="preserve">
+    <value>Email của bạn chưa được đăng ký.</value>
+  </data>
+  <data name="YourEmailHasBeenVerifiedAlready" xml:space="preserve">
+    <value>Bạn đã hoàn tất xác thực email trước đây.</value>
+  </data>
+  <data name="YourKYCHasBeenSubmitted" xml:space="preserve">
+    <value>KYC của bạn đã được gửi đi và đang được chờ xét duyệt, vui lòng đợi quá trình này hoàn tất.</value>
+  </data>
+  <data name="YourKYCHasBeenVerified" xml:space="preserve">
+    <value>KYC của bạn đã được xác thực.</value>
+  </data>
+  <data name="YourPasswordMustBeMinimum6Characters" xml:space="preserve">
+    <value>Mật khẩu phải có ít nhất 6 ký tự.</value>
+  </data>
+  <data name="YourProfileWasVerifiedAndDisabledForUpdating" xml:space="preserve">
+    <value>Thông tin của bạn đã được xác thực nên bạn không được phép sửa đổi, vui liên hệ bộ phận hỗ trợ qua email support@vlinkgroup.net nếu bạn cần cập nhật nó.</value>
+  </data>
+  <data name="YourEmailIsNotConfirmedYet" xml:space="preserve">
+    <value>Email của bạn chưa được xác nhận.</value>
+  </data>
+  <data name="YourVerificationCodeIsRequired" xml:space="preserve">
+    <value>Mã xác nhận là bắt buộc.</value>
+  </data>
+  <data name="YourAccountIsLocked" xml:space="preserve">
+    <value>
+      &lt;p&gt;Tài khoản của bạn đã bị vô hiệu hoá. &lt;br /&gt;Bạn không thể đăng nhập vào hệ thống VLINK META do tài khoản hoặc hoạt động của bạn có một hoặc nhiều dấu hiệu vi phạm &lt;a href='{0}/terms' class='text-info' target='_blank'&gt;Điều khoản sử dụng và bảo mật dữ liệu &lt;/a&gt;của VLINK META. &lt;br /&gt; Xem thêm tại đây: &lt;a href='{0}/terms' class='text-info' target='_blank'&gt;{0}/terms&lt;/a&gt; &lt;/p&gt;
+    </value>
+  </data>
+  <data name="InvalidEmailFormat" xml:space="preserve">
+    <value>Định dạng email không đúng.</value>
+  </data>
+  <data name="UserTypeIsNotValid" xml:space="preserve">
+    <value>Loại người dùng không đúng.</value>
+  </data>
+  <data name="YourUsernameMustBeMinimumXCharacters" xml:space="preserve">
+    <value>Tên tài khoản phải ít nhất {0} kí tự.</value>
+  </data>
+  <data name="UserPasswordMustBeMinimumXCharacters" xml:space="preserve">
+    <value>Mật khẩu phải ít nhất {0} kí tự.</value>
+  </data>
+  <data name="UsernameXIsAlreadyTaken" xml:space="preserve">
+    <value>Tên tài khoản {0} đã được sử dụng.</value>
+  </data>
+  <data name="EmailXIsAlreadyTaken" xml:space="preserve">
+    <value>Email {0} đã được sử dụng.</value>
+  </data>
+  <data name="PhoneNumberMustBeNumericOnly" xml:space="preserve">
+    <value>Số điện thoại chỉ được ở dạng số.</value>
+  </data>
+  <data name="PleaseEnterYourEmail" xml:space="preserve">
+    <value>Vui lòng nhập email.</value>
+  </data>
+  <data name="PasswordAndPasswordAgainAreNotSame" xml:space="preserve">
+    <value>Mật khẩu và Mật khẩu nhập lại không giống nhau.</value>
+  </data>
+  <data name="PasswordCantBeEmpty" xml:space="preserve">
+    <value>Mật khẩu không thể trống.</value>
+  </data>
+  <data name="AuthenticationTypeIsNotValid" xml:space="preserve">
+    <value>Loại xác thực không đúng.</value>
+  </data>
+  <data name="ItemNotFound" xml:space="preserve">
+    <value>Vật phẩm không tìm thấy.</value>
+  </data>
+  <data name="ThisFeatureIsOnlyForUsersFromPackage100AndAbove" xml:space="preserve">
+    <value>Tính năng này dành riêng cho người dùng ở gói $100 trở lên.</value>
+  </data>
+  <data name="PageNumberMustBeGreaterThan0" xml:space="preserve">
+    <value>Số trang phải lớn hơn 0.</value>
+  </data>
+  <data name="YourAccountHasBeenLocked" xml:space="preserve">
+    <value>Tài khoản của bạn đã bị khoá.</value>
+  </data>
+  <data name="ThePINIsIncorrectAndYourAccountWillBeLockedAfterXWrongEntry" xml:space="preserve">
+    <value>Mã PIN không đúng. Tài khoản của bạn sẽ bị khoá sau {0} lần nhập sai.</value>
+  </data>
+  <data name="YouCanOnlyTransferUpTo100VLGPlusPerDay" xml:space="preserve">
+    <value>Bạn chỉ có thể chuyển khoản tối đa 100 VTP mỗi ngày.</value>
+  </data>
+  <data name="YouCannotTransferToYourself" xml:space="preserve">
+    <value>Bạn không thể tự chuyển cho chính bạn.</value>
+  </data>
+  <data name="SenderMustBeDifferentFromReceiver" xml:space="preserve">
+    <value>Người gửi và người nhận phải khác nhau.</value>
+  </data>
+  <data name="TheAmountIsNotEnoughToTrade" xml:space="preserve">
+    <value>Tài khoản không đủ để giao dịch.</value>
+  </data>
+  <data name="YouCantTransferToRookieBusinessFreeAccount" xml:space="preserve">
+    <value>Bạn không thể chuyển khoản tới tài khoản tân binh doanh nghiệp miễn phí.</value>
+  </data>
+  <data name="TheBusinessAccountCanOnlyReceiveXVLGPlusPerUserDay" xml:space="preserve">
+    <value>Tài khoản doanh nghiệp chỉ có thể nhận {0} VTP mỗi người/ngày.</value>
+  </data>
+  <data name="YouCanOnlyTransferLessThanOrEqualToXVLGPlusForThisBusinessToday" xml:space="preserve">
+    <value>Bạn chỉ có thể chuyển khoản thấp hơn hoặc bằng {0} VTP cho tài khoản doanh nghiệp này trong hôm nay.</value>
+  </data>
+  <data name="ThisUserHasBeenConfirmed" xml:space="preserve">
+    <value>Tài khoản đã được xác thực.</value>
+  </data>
+  <data name="YourAccountWillBeLockedAfterXWrongEntry" xml:space="preserve">
+    <value>Tài khoản của bạn sẽ bị khoá sau {0} lần nhập sai.</value>
+  </data>
+  <data name="YouHaveRedeemedVlinkGratefulPackageBefore" xml:space="preserve">
+    <value>Bạn đã kích hoạt gói "Vlink Grateful" trước đây rồi. Xin hãy lưu ý rằng gói "Vlink Grateful" chỉ được dùng 1 lần.</value>
+  </data>
+  <data name="VlinkGratefulPackageHasBeenSoldOut" xml:space="preserve">
+    <value>Gói "Vlink Grateful" đã bán hết.</value>
+  </data>
+  <data name="TheSystemOnlyHasXPackagesLeft" xml:space="preserve">
+    <value>Hệ thống chỉ còn lại {0} gói {1}.</value>
+  </data>
+  <data name="YouCannotRedeemPackageSmallerThanX" xml:space="preserve">
+    <value>Bạn không thể kích hoạt gói nhỏ hơn gói {0}.</value>
+  </data>
+  <data name="YouMustEnterANumberGreaterThanOrEqualToXOFSY" xml:space="preserve">
+    <value>Bạn phải nhập lớn hơn hoặc bằng {0} OFS ({1}).</value>
+  </data>
+  <data name="YouCanOnlyBuyUpToXOFSYVLGPlus" xml:space="preserve">
+    <value>Bạn chỉ có thể mua tối đa {0} OFS ({1} VTP).</value>
+  </data>
+  <data name="YouCanOnlyBuyUpToX" xml:space="preserve">
+    <value>Bạn chỉ có thể mua tối đa {0}.</value>
+  </data>
+  <data name="YouCanOnlyConvertUpToXOFSYToken" xml:space="preserve">
+    <value>Bạn chỉ có thể chuyển đổi tối đa {0} OFS ({1} Token).</value>
+  </data>
+  <data name="InterestRateNotFound" xml:space="preserve">
+    <value>Không tìm thấy thông tin.</value>
+  </data>
+  <data name="WalletTypeIsRequired" xml:space="preserve">
+    <value>Loại ví phải được gửi lên.</value>
+  </data>
+  <data name="WalletTypeIsNotValid" xml:space="preserve">
+    <value>Loại ví không hợp lệ.</value>
+  </data>
+  <data name="VLGTokenWalletNotFound" xml:space="preserve">
+    <value>Không tìm thấy ví VLG Token.</value>
+  </data>
+  <data name="NotExistAnyOFSExchangeRate" xml:space="preserve">
+    <value>Không có OFS Exchange Rate nào tồn tại.</value>
+  </data>
+  <data name="TheSystemHasNotFoundThisUser" xml:space="preserve">
+    <value>Không tìm thấy người dùng này.</value>
+  </data>
+  <data name="ThankYouForYourInterestInOurService" xml:space="preserve">
+    <value>Cảm ơn vì đã quan tâm đến dịch vụ của chúng tôi.</value>
+  </data>
+  <data name="NewPINHasBeenSentToYourEmailX" xml:space="preserve">
+    <value>Mã PIN mới đã được gửi tới email của bạn ({0}).</value>
+  </data>
+  <data name="YouCantDeleteShareExchangeRateX" xml:space="preserve">
+    <value>Bạn không thể xoá Share Exchange Rate {0}.</value>
+  </data>
+  <data name="IPAccessDenied" xml:space="preserve">
+    <value>Địa chỉ IP bị từ chối.</value>
+  </data>
+  <data name="YourEmailAddressHasNotBeenConfirmed" xml:space="preserve">
+    <value>Địa chỉ email của bạn chưa được xác thực.</value>
+  </data>
+  <data name="CryptocurrencyExchangeError" xml:space="preserve">
+    <value>Sàn giao dịch tiền điện tử đang gặp lỗi, vui lòng thử lại sau ít phút</value>
+  </data>
+  <data name="Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions." xml:space="preserve">
+    <value>Hệ thống đã xảy ra lỗi khi lưu dữ liệu. Xin vui lòng thử lại.</value>
+  </data>
+  <data name="PackageHasStock" xml:space="preserve">
+    <value>{0} chỉ còn {1}.</value>
+  </data>
+  <data name="PackageIsOutOfStock" xml:space="preserve">
+    <value>{0} đã bán hết.</value>
+  </data>
+  <data name="HasVmmPackage" xml:space="preserve">
+    <value>Bạn đã kích hoạt gói "Vlink Meta Package" trước đây rồi. Xin hãy lưu ý rằng gói "Vlink Meta Package" chỉ được dùng 1 lần.</value>
+  </data>
+  <data name="ImageNotFound" xml:space="preserve">
+    <value>Không tìm thấy hình ảnh.</value>
+  </data>
+  <data name="InvalidImageType" xml:space="preserve">
+    <value>Nhóm hình ảnh không hợp lệ.</value>
+  </data>
+  <data name="ChildUserNotFound" xml:space="preserve">
+    <value>User con không tồn tại</value>
+  </data>
+  <data name="ThisUserHasBeenAddCoDirectBonus" xml:space="preserve">
+    <value>User này đã được cài đặt chia sẽ lợi nhận trước đây.</value>
+  </data>
+  <data name="TotalPercentNotEqual100" xml:space="preserve">
+    <value>Tổng phần trăm bắt buộc phải bằng 100</value>
+  </data>
+  <data name="YouAreNotReferralThisUser" xml:space="preserve">
+    <value>Bạn không phải là người bảo trợ cho người dùng này.</value>
+  </data>
+  <data name="TheUserIsDuplicate" xml:space="preserve">
+    <value>Những người dùng bạn chọn bị trùng lặp</value>
+  </data>
+  <data name="MonthlyInterestIsPaid" xml:space="preserve">
+    <value>Khoản vay hàng tháng đã được trả.</value>
+  </data>
+  <data name="MonthlyInterestNotFound" xml:space="preserve">
+    <value>Khoản vay hàng tháng không tìm thấy.</value>
+  </data>
+  <data name="RequestAmountReachMaxAmountCreditLending" xml:space="preserve">
+    <value>Bạn chỉ được vay tối đa {0} VTP.</value>
+  </data>
+  <data name="UserHasBadDebt" xml:space="preserve">
+    <value>Tài khoản đang bị nợ xấu.</value>
+  </data>
+  <data name="UserNotAllowCreditLending" xml:space="preserve">
+    <value>Chương trình chỉ áp dụng cho những user đã kích hoạt gói &gt;= 10k và có VLG Token Staking.</value>
+  </data>
+  <data name="UserReachMaxAmountCreditLending" xml:space="preserve">
+    <value>Khoản nợ vượt quá quy định.</value>
+  </data>
+  <data name="PaymentCodeNotFound" xml:space="preserve">
+    <value>Không tìm thấy mã thanh toán.</value>
+  </data>
+  <data name="Ranking2ChildrenTitleCondition" xml:space="preserve">
+    <value>Danh hiệu 2 {0} từ bất kỳ tầng nào thuộc 2 nhánh riêng biệt.</value>
+  </data>
+  <data name="RankingDirectAgentCondition" xml:space="preserve">
+    <value>5 AGENT trực tiếp F1.</value>
+  </data>
+  <data name="RankingMinChildrenTitleCondition" xml:space="preserve">
+    <value>{0} {1} từ bất kì tầng nào thuộc 2 nhánh riêng biệt.</value>
+  </data>
+  <data name="RankingMinTotalAp" xml:space="preserve">
+    <value>Tổng doanh số AP trong hệ thống trực tiếp và gián tiếp {0} AP.</value>
+  </data>
+  <data name="RankingPersonalSaleCondition" xml:space="preserve">
+    <value>Doanh số trực tiếp F1 {0} AP Trong 1 quý.</value>
+  </data>
+  <data name="RedeemPackage500" xml:space="preserve">
+    <value>Redeem package &gt;= $500</value>
+  </data>
+  <data name="RankingDirectAgentConditionBeforeX" xml:space="preserve">
+    <value>5 AGENT trực tiếp F1 trước {0}.</value>
+  </data>
+  <data name="PackageHasBeenDiscontinued" xml:space="preserve">
+    <value>Gói {0} đã ngừng kinh doanh. Vui lòng xóa khỏi giỏ hàng và thanh toán lại.</value>
+  </data>
+  <data name="InvalidPackageAllowCreditLending" xml:space="preserve">
+    <value>Tài khoản không được hỗ trợ vay.</value>
+  </data>
+  <data name="ReceiverIsInvalid" xml:space="preserve">
+    <value>Tài khoản của bạn chỉ có thể chuyển VLG tới những user đã kích hoạt gói Business. Để có thể chuyển VLG tới mọi user, xin vui lòng kích hoạt một gói bất kì.</value>
+  </data>
+  <data name="MaxPreOrderItem" xml:space="preserve">
+    <value>Mỗi người dùng chỉ được đặt cọc {0} sản phẩm.</value>
+  </data>
+  <data name="DirectApMonthly" xml:space="preserve">
+    <value>Doanh số F1 trực tiếp {0} AP mỗi tháng</value>
+  </data>
+  <data name="CanNotPayPreOrderProduct" xml:space="preserve">
+    <value>Không thể thanh toán sản phẩm này.</value>
+  </data>
+  <data name="PreOrderPaymentExpired" xml:space="preserve">
+    <value>Đã quá thời hạn thanh toán.</value>
+  </data>
+  <data name="YouMustSetPINBeforePreOrder" xml:space="preserve">
+    <value>Bạn phải thiết lập mã PIN trước khi đặt hàng.</value>
+  </data>
+  <data name="YouMustSetPINBeforeBorrow" xml:space="preserve">
+    <value>Bạn phải thiết lập mã PIN trước khi tiến hành vay.</value>
+  </data>
+  <data name="PendingCheckoutByVlg" xml:space="preserve">
+    <value>Phương thức thanh toán này tạm thời bị đóng để bảo trì. Vui lòng chọn phương thức thanh toán khác.</value>
+  </data>
+  <data name="PleaseSetupPINBeforeDoingThisAction" xml:space="preserve">
+    <value>Vui lòng thiết lập mã PIN trước khi thực hiện hành động này.</value>
+  </data>
+  <data name="PackageHasBeenSoldOut" xml:space="preserve">
+    <value>Gói "{0}" đã được bán hết.</value>
+  </data>
+  <data name="EventTicketCodeNotValid" xml:space="preserve">
+    <value>Mã của bạn không hợp lệ.</value>
+  </data>
+  <data name="EventTicketIsNotValid" xml:space="preserve">
+    <value>Vé không hợp lệ.</value>
+  </data>
+  <data name="EventTicketIsUsed" xml:space="preserve">
+    <value>Vé đã được sử dụng.</value>
+  </data>
+  <data name="UpdateTicketInfoSuccess" xml:space="preserve">
+    <value>Cập nhật thông tin vé thành công.</value>
+  </data>
+  <data name="AssignTicketSuccess" xml:space="preserve">
+    <value>Tặng vé thành công.</value>
+  </data>
+  <data name="ShoppingCartPaymentMethodIsInvalid" xml:space="preserve">
+    <value>Giỏ hàng không hỗ trợ phương thức thanh toán này.</value>
+  </data>
+  <data name="CreditCardInvalid" xml:space="preserve">
+    <value>Credit Card không hợp lệ.</value>
+  </data>
+  <data name="PackageQuantityMustLagerThan0" xml:space="preserve">
+    <value>Số lượng phải lớn hơn 0.</value>
+  </data>
+  <data name="PreOrderProductNotFound" xml:space="preserve">
+    <value>Không tìm thấy Pre-order.</value>
+  </data>
+  <data name="PostIsNotFound" xml:space="preserve">
+    <value>Không tìm thấy bài viết.</value>
+  </data>
+  <data name="ReceiverNotFound" xml:space="preserve">
+    <value>Người nhận không tồn tại trong hệ thống</value>
+  </data>
+  <data name="usernameMustBeLessThanXCharacters" xml:space="preserve">
+    <value>Tên đăng nhập phải ít hơn {0} kí tự</value>
+  </data>
+  <data name="OnlyForUserNotActiveYet" xml:space="preserve">
+    <value>Gói này chỉ dành cho những người dùng chưa kích hoạt gói nào</value>
+  </data>
+  <data name="CantRedeemForMmfUser" xml:space="preserve">
+    <value>Bạn không thể kích hoạt gói này vì bạn đã từng kích hoạt gói Vlinkmeta Mall Founders</value>
+  </data>
+  <data name="FromWalletMatchToWallet" xml:space="preserve">
+    <value>Không thể chuyển token cùng ví.</value>
+  </data>
+  <data name="ConvertVlgToVtpInvalidPackage" xml:space="preserve">
+    <value>Redeem ít nhất 1 gói thuộc VMM, VMF, Business Pro, Platinum, Bronze để mở khóa tính năng này.</value>
+  </data>
+  <data name="ReachWeeklyMaximumSwap" xml:space="preserve">
+    <value>Vượt quá giới hạn chuyển đổi tuần này.</value>
+  </data>
+  <data name="MinSwapAmountIsOne" xml:space="preserve">
+    <value>Số tiền chuyển đổi tối thiểu là 1.</value>
+  </data>
+  <data name="CantRedeemBecauseYouAreVmf" xml:space="preserve">
+    <value>Bạn không thể kích hoạt gói này bởi vì bạn đã từng kích hoạt gói Vlinkmeta Mall Founders</value>
+  </data>
+  <data name="TransferToVioNotAllowCustomerType" xml:space="preserve">
+    <value>Không thể thực hiện giao dịch.</value>
+  </data>
+  <data name="RequiredKYCWhenUserSwap" xml:space="preserve">
+    <value>Bạn phải hoàn thành KYC trước khi sử dụng tính năng này</value>
+  </data>
+  <data name="UserTypeApproveLinkKYCInvalid" xml:space="preserve">
+    <value>Tài khoản phải là Merchant hoặc Affiliate để thực hiện chức năng này.</value>
+  </data>
+  <data name="OutOfLinkKYCQuantity" xml:space="preserve">
+    <value>Tài khoản đã hết lượt liên kết KYC.</value>
+  </data>
+  <data name="LinkingKycCannotDoThisAction" xml:space="preserve">
+    <value>Tài khoản đã link kyc không thể thực hiện thao tác này.</value>
+  </data>
+  <data name="SponsorNotHasKycPackage" xml:space="preserve">
+    <value>Tài khoản chỉ định chưa kích hoạt gói KYC.</value>
+  </data>
+  <data name="LinkKycHasBeenSubmitted" xml:space="preserve">
+    <value>Yêu cầu Link KYC của bạn đã được gửi đi và đang được chờ xét duyệt, vui lòng đợi quá trình này hoàn tất.</value>
+  </data>
+  <data name="LinkingUserCanNotRedeemKycPackage" xml:space="preserve">
+    <value>Bạn không thể kích hoạt gói này vì bạn đã Link KYC</value>
+  </data>
+  <data name="CustomerUserCanNotRedeemKycPackage" xml:space="preserve">
+    <value>Tài khoản customer không thể kích hoạt gói này</value>
+  </data>
+  <data name="InvalidSponsor" xml:space="preserve">
+    <value>Người bảo trợ không hợp lệ.</value>
+  </data>
+  <data name="SponsorKycIsNotApproved" xml:space="preserve">
+    <value>Người bảo trợ chưa được chấp thuận KYC.</value>
+  </data>
+  <data name="OverFreeTransactionLimit" xml:space="preserve">
+    <value>Vượt quá hạn mức chuyển.</value>
+  </data>
+  <data name="FeatureTemporarilyClosedUntilX" xml:space="preserve">
+    <value>Tính năng này tạm thời ngưng hỗ trợ tới {0}</value>
+  </data>
+</root>
