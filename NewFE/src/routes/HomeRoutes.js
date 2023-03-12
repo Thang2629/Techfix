@@ -30,6 +30,8 @@ const CreatePhieu = lazy(() =>
 );
 const CreateProduct = lazy(() => import("pages/product/ProductDetails"));
 const ProductManagement = lazy(() => import("pages/product"));
+const CashbookManagement = lazy(() => import("pages/cashbook"));
+const CreateCashbook = lazy(() => import("pages/cashbook/CashbookDetails"));
 
 const HoatChat = lazy(() => import("pages/hoat-chat"));
 
@@ -68,6 +70,8 @@ function HomeRoutes(props) {
       <Route path="/san-pham" exact component={ProductManagement} />
       <Route path="/tao-san-pham" exact component={CreateProduct} />
       <Route path="/san-pham/:id" exact component={CreateProduct} />
+      <Route path="/cashbook" exact component={CashbookManagement} />
+      <Route path="/add-new-cashbook" exact component={CreateCashbook} />
     </Switch>
   );
   return (
