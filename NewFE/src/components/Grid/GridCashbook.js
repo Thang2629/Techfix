@@ -11,7 +11,6 @@ const GridCashbook = ({
   urlEndpoint,
   tabActive,
   columns,
-  data,
   dataFilter,
   isHidePagination,
   ...rest
@@ -104,16 +103,6 @@ const GridCashbook = ({
     urlEndpoint && fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(tableParams)]);
-
-  useEffect(() => {
-    data && setRowData(data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(tableParams)]);
-
-  useEffect(() => {
-    data && setRowData(data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
 
   const onChange = (pagination, filters, sorter, extra) => {
     setTableParams({

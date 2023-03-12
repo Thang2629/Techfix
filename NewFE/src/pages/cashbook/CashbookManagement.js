@@ -1,5 +1,16 @@
-import React, { useState } from "react";
-import { Button, Row, Form, Spin, Space, Tabs, DatePicker } from "antd";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Row,
+  Form,
+  Spin,
+  Space,
+  Tabs,
+  DatePicker,
+  Col,
+  Card,
+  Typography,
+} from "antd";
 import {
   PlusCircleOutlined,
   UserOutlined,
@@ -9,8 +20,13 @@ import {
 import HeaderPage from "pages/home/header-page";
 import { GridCashbook } from "components/Grid";
 import PageWrapper from "components/Layout/PageWrapper";
-import { CASHBOOK_GRID_ENDPOINT, getCashbooks } from "services/cashbook";
+import {
+  CASHBOOK_GRID_ENDPOINT,
+  CASHBOOK_INFO_ENDPOINT,
+} from "services/cashbook";
 import { fowardTo } from "utils/common/route";
+import * as api from "config/axios";
+const { Title, Text } = Typography;
 
 const { RangePicker } = DatePicker;
 
@@ -95,6 +111,27 @@ export default function CashbookManagement() {
       ),
     },
   ];
+
+  useEffect(() => {
+    const fetchData = () => {
+      setIsLoading(true);
+      api
+        .sendGet(CASHBOOK_INFO_ENDPOINT)
+        .then((results) => {
+          if (results) {
+            setData(results)
+          }
+        })
+        .catch((err) => {
+          console.log("err ne >>> ", err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    };
+    fetchData();
+  }, []);
+
   const onTabChange = (key) => {
     setTabActive(key);
   };
@@ -162,13 +199,35 @@ export default function CashbookManagement() {
         <HeaderPage title="SỔ QUỸ">{renderToolbar()}</HeaderPage>
         <div className="main__application">
           <PageWrapper>
-            <GridCashbook
-              columns={columns}
-              urlEndpoint={CASHBOOK_GRID_ENDPOINT}
-              tabActive={tabActive}
-              dataFilter={dataFilter}
-              data={data}
-            />
+            <Space direction="vertical" style={{ width: "100%" }}>
+              <Row gutter={16}>
+                <Col span={8}>
+                  <Card>
+                    <Title type="success">{data?.PositiveFund}</Title>
+                    <Text>Thu quỹ</Text>
+                  </Card>
+                </Col>
+                <Col span={8}>
+                  <Card>
+                    <Title type="warning">{data?.NegativeFund}</Title>
+                    <Text>Chi quỹ</Text>
+                  </Card>
+                </Col>
+                <Col span={8}>
+                  <Card>
+                    <Title type="danger">{data?.TotalFund}</Title>
+                    <Text>Tổng số quỹ</Text>
+                  </Card>
+                </Col>
+              </Row>
+              <GridCashbook
+                columns={columns}
+                urlEndpoint={CASHBOOK_GRID_ENDPOINT}
+                tabActive={tabActive}
+                dataFilter={dataFilter}
+                data={data}
+              />
+            </Space>
           </PageWrapper>
         </div>
       </Spin>
