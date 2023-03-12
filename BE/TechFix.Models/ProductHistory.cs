@@ -16,6 +16,7 @@ namespace TechFix.EntityModels
 
         #endregion
         public Guid? UserId { get; set; }
+        public User User { get; set; }
         public DateTime DateTime { get; set; }
         public string ActionName { get; set; }
         public string Code { get; set; }

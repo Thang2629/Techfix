@@ -193,6 +193,7 @@ namespace TechFix.API
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IHistoryServices, HistoryServices>();
             services.AddScoped<IInputProductService, InputProductService>();
+            services.AddScoped<IInventoryService, InventoryService>();
 
             /** END **/
 
