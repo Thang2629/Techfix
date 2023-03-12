@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "antd";
 import * as api from "config/axios";
-import { useSelector, useDispatch } from "react-redux";
-import * as actions from "redux/global/actions";
+import { useSelector } from "react-redux";
 import _ from "lodash";
 import pickBy from "lodash/pickBy";
 import identity from "lodash/identity";
-import { STORE_ID_KEY, PRODUCT_ASSOCIATED } from "static/Constants";
-import { getProductAssicatedByType } from "services/ProductAssociated";
 import "./Grid.less";
 
 const GridCashbook = ({
@@ -19,9 +16,6 @@ const GridCashbook = ({
   isHidePagination,
   ...rest
 }) => {
-  const dispatch = useDispatch();
-  const searchText = useSelector((state) => state.global.searchText);
-  const readGrid = useSelector((state) => state.global.refreshGrid);
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [tableParams, setTableParams] = useState({
@@ -31,22 +25,9 @@ const GridCashbook = ({
     },
     FilterParams: [],
   });
+  const [totalPage, setTotalPage] = useState(0)
   const [selectedIds, setSelectedIds] = useState([]);
-  const [storeId, setStoreId] = useState(null)
-
-  useEffect(() => {
-    fetchData(searchText);
-  }, [searchText]);
-
-  useEffect(() => {
-    if (readGrid) {
-      fetchData();
-    }
-  }, [readGrid]);
-
-  const resetState = () => {
-    dispatch(actions.refreshGrid(false));
-  };
+  const storeId = useSelector((state) => state.global.storeId);
 
   const fetchData = () => {
     setLoading(true);
@@ -61,21 +42,9 @@ const GridCashbook = ({
       .then((results) => {
         if (results) {
           setRowData(results?.Data); // todo: add params
-          if (readGrid) {
-            resetState();
-          }
+          setTotalPage(results?.TotalCount)     
         } else {
           setRowData([]);
-          setTableParams({
-            ...tableParams,
-            pagination: {
-              ...tableParams.pagination,
-              total: 11,
-              // 200 is mock data, you should read it from server
-              // total: data.totalCount,
-            },
-            searchText: searchText,
-          });
         }
       })
       .catch((err) => {
@@ -89,14 +58,6 @@ const GridCashbook = ({
   useEffect(() => {
     const filterParams = [];
     const formatFilter = pickBy(dataFilter, identity);
-    const fetchStore = async () => {
-      const response = await getProductAssicatedByType(
-        PRODUCT_ASSOCIATED.STORE
-      );
-      const storeId = JSON.parse(localStorage.getItem(STORE_ID_KEY))? JSON.parse(localStorage.getItem(STORE_ID_KEY)): response[0].Id;
-      setStoreId(storeId)
-    }
-    fetchStore()
     if (formatFilter.hasOwnProperty("dateFilter") && !_.isEmpty(dataFilter?.dateFilter[0])) {
       filterParams.push({
         PropertyName: "PaymentDate",
@@ -137,7 +98,7 @@ const GridCashbook = ({
       },
       FilterParams: filterParams,
     });
-  }, [tabActive, dataFilter]);
+  }, [tabActive, dataFilter, storeId]);
 
   useEffect(() => {
     urlEndpoint && fetchData();
@@ -162,17 +123,21 @@ const GridCashbook = ({
         pageIndex: pagination.current,
       },
       sorter: { ...sorter },
-      searchText: searchText,
+    });
+  };
+
+  const handlePageNumClick = (page) => {
+    setTableParams({
+      ...tableParams,
+      pagination: {
+        ...tableParams.pagination,
+        pageIndex: page,
+      },
     });
   };
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
       setSelectedIds(selectedRowKeys);
     },
     getCheckboxProps: (record) => ({
@@ -180,7 +145,6 @@ const GridCashbook = ({
       name: record.name,
     }),
   };
-
   return (
     <div className="grid">
       <Table
@@ -188,7 +152,13 @@ const GridCashbook = ({
         dataSource={rowData}
         onChange={onChange}
         bordered
-        pagination={isHidePagination ? false : tableParams.pagination}
+        pagination={{
+          onChange: handlePageNumClick,
+          current: tableParams.pagination.current,
+          total: totalPage,
+          pageSize: tableParams.pagination.pageSize,
+          showSizeChanger: false,
+        }}
         loading={loading}
         rowKey="id"
         rowSelection={{

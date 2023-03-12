@@ -10,6 +10,7 @@ import HeaderPage from "pages/home/header-page";
 import { GridCashbook } from "components/Grid";
 import PageWrapper from "components/Layout/PageWrapper";
 import { CASHBOOK_GRID_ENDPOINT, getCashbooks } from "services/cashbook";
+import { fowardTo } from "utils/common/route";
 
 const { RangePicker } = DatePicker;
 
@@ -103,6 +104,9 @@ export default function CashbookManagement() {
   const onSave = async () => {
     setDataFilter({ dateFilter: dateFilter });
   };
+  const onClickAddNew = () => {
+    fowardTo("/add-new-cashbook");
+  };
   const renderToolbar = () => {
     return (
       <Row
@@ -143,7 +147,7 @@ export default function CashbookManagement() {
 
           <Button
             type="primary"
-            // onClick={() => onClickAddProduct()}
+            onClick={() => onClickAddNew()}
             icon={<PlusCircleOutlined />}
           >
             Tạo Mới
