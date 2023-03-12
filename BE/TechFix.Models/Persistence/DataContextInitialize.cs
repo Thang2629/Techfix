@@ -383,6 +383,7 @@ public class DataContextInitialize
         CreateSequence("FixOrderCode", 1000000);
         CreateSequence("FixProductCode", 1000000);
         CreateSequence("CustomerCode", 1000000);
+        CreateSequence("InputProductCode", 1000000);
     }
 
     private void CreateSequence(string sequenceName, int startNumber)

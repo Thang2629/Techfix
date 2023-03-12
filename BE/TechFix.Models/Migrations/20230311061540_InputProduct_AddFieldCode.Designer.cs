@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechFix.EntityModels;
 
@@ -11,9 +12,10 @@ using TechFix.EntityModels;
 namespace TechFix.EntityModels.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230311061540_InputProduct_AddFieldCode")]
+    partial class InputProduct_AddFieldCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,10 +75,6 @@ namespace TechFix.EntityModels.Migrations
 
                     b.Property<Guid?>("PaymentMethodId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("ReturnAmount")
-                        .HasPrecision(38, 16)
-                        .HasColumnType("decimal(38,16)");
 
                     b.Property<DateTime>("SaleDate")
                         .HasColumnType("datetime2");
@@ -154,9 +152,6 @@ namespace TechFix.EntityModels.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Returned")
-                        .HasColumnType("bit");
 
                     b.Property<string>("SearchData")
                         .HasColumnType("nvarchar(max)");
@@ -840,62 +835,6 @@ namespace TechFix.EntityModels.Migrations
                     b.ToTable("MoneyInHistories");
                 });
 
-            modelBuilder.Entity("TechFix.EntityModels.MoneyOutHistory", b =>
-                {
-                    b.Property<Guid?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasPrecision(38, 16)
-                        .HasColumnType("decimal(38,16)");
-
-                    b.Property<Guid?>("CashierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("InputProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("ModifiedUser")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("PaymentMethodId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SearchData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("SupplierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CashierId");
-
-                    b.HasIndex("InputProductId");
-
-                    b.HasIndex("PaymentMethodId");
-
-                    b.HasIndex("SupplierId");
-
-                    b.ToTable("MoneyOutHistories");
-                });
-
             modelBuilder.Entity("TechFix.EntityModels.PaymentMethod", b =>
                 {
                     b.Property<Guid?>("Id")
@@ -1204,10 +1143,6 @@ namespace TechFix.EntityModels.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("AmountOwed")
-                        .HasPrecision(38, 16)
-                        .HasColumnType("decimal(38,16)");
-
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
@@ -1222,6 +1157,10 @@ namespace TechFix.EntityModels.Migrations
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("InDebt")
+                        .HasPrecision(38, 16)
+                        .HasColumnType("decimal(38,16)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1392,58 +1331,6 @@ namespace TechFix.EntityModels.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserTokens");
-                });
-
-            modelBuilder.Entity("TechFix.EntityModels.Views.BillView", b =>
-                {
-                    b.Property<Guid?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("AmountOwed")
-                        .HasPrecision(38, 16)
-                        .HasColumnType("decimal(38,16)");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CustomerName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsReturn")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SaleDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SaleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("SellerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("StoreName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasPrecision(38, 16)
-                        .HasColumnType("decimal(38,16)");
-
-                    b.Property<int>("TotalQuantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToView("BillView");
                 });
 
             modelBuilder.Entity("TechFix.EntityModels.Views.GetRepairProductReportView", b =>
@@ -1911,33 +1798,6 @@ namespace TechFix.EntityModels.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("PaymentMethod");
-                });
-
-            modelBuilder.Entity("TechFix.EntityModels.MoneyOutHistory", b =>
-                {
-                    b.HasOne("TechFix.EntityModels.User", "Cashier")
-                        .WithMany()
-                        .HasForeignKey("CashierId");
-
-                    b.HasOne("TechFix.EntityModels.InputProduct", "InputProduct")
-                        .WithMany()
-                        .HasForeignKey("InputProductId");
-
-                    b.HasOne("TechFix.EntityModels.PaymentMethod", "PaymentMethod")
-                        .WithMany()
-                        .HasForeignKey("PaymentMethodId");
-
-                    b.HasOne("TechFix.EntityModels.Supplier", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierId");
-
-                    b.Navigation("Cashier");
-
-                    b.Navigation("InputProduct");
-
-                    b.Navigation("PaymentMethod");
-
-                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("TechFix.EntityModels.Product", b =>

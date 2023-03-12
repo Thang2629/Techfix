@@ -61,6 +61,12 @@ namespace TechFix.Services.Common
             int nextValue = await _context.GetNextSequenceValue("CustomerCode");
             return $"KH{nextValue}";
         }
+
+        public async Task<string> GetNextInputProductCode()
+        {
+            int nextValue = await _context.GetNextSequenceValue("InputProductCode");
+            return $"PN{nextValue}";
+        }
     }
 	
 }

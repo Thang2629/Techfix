@@ -20,6 +20,6 @@ namespace TechFix.TransportModels
         [Url]
         public string UrlImage { get; set; }
         public string Note { get; set; }
-        public decimal Indebt { get; set; }
+        public decimal AmountOwed { get; set; }
     }
 }

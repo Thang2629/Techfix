@@ -18,8 +18,11 @@ namespace TechFix.EntityModels
         public User User { get; set; }
         public Guid? UserId { get; set; }
 
-        #endregion
+        public Store Store { get; set; }
+        public Guid? StoreId { get; set; }
 
+        #endregion
+        public string Code { get; set; }
         public DateTime InputDate { get; set; }
         public string Note { get; set; }
 

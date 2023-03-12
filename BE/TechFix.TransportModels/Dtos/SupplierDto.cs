@@ -18,6 +18,6 @@ namespace TechFix.TransportModels.Dtos
         public string Email { get; set; }
         public string UrlImage { get; set; }
         public string Note { get; set; }
-        public decimal Indebt { get; set; }
+        public decimal AmountOwed { get; set; }
     }
 }
