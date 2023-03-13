@@ -79,18 +79,7 @@ const HeaderProject = (props) => {
           onClick={handleCollapseSidebar}
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         />
-        <Col>
-          <Dropdown overlay={dropdownMenu} trigger={["click"]}>
-            <Button
-              className="header__btn"
-              type="outlined"
-              icon={<UserOutlined />}
-            >
-              Hello! User
-            </Button>
-          </Dropdown>
-        </Col>
-        <Col style={{ display: "flex" }}>
+        <Col style={{ display: "flex", alignItems: "center" }}>
           <Select
             style={{ width: 200 }}
             loading={isLoading}
@@ -106,7 +95,7 @@ const HeaderProject = (props) => {
                 );
               })}
           </Select>
-          <Dropdown menu={dropdownMenu} trigger={["click"]}>
+          <Dropdown overlay={dropdownMenu} trigger={["click"]}>
             <Button
               className="header__btn"
               type="outlined"

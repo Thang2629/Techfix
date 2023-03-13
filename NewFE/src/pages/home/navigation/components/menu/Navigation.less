@@ -1,6 +1,6 @@
 @import "~antd/lib/style/themes/default.less";
 @blue: #105fab;
-@darkblue: #084a89;
+@darkblue: hsla(0,0%,100%,.65);
 @lowerblue: #22588b;
 @white: #fff;
 @gray: #eee;
@@ -9,8 +9,9 @@
 @red1: red;
 
 .menu-navigation {
-	height: calc(100% - 250px);
+	height: 100vh;
 	overflow: auto;
+	background-color: #001529 ;
 	overflow-x: hidden;
 	.menu__item-group-custom {
 		.ant-menu-item-only-child {
@@ -47,21 +48,25 @@
 	.ant-menu-dark {
 		.ant-menu-inline {
 			&.ant-menu-sub {
-				background-color: @layout-sider-background;
+				background-color: #001529 !important;
 			}
 		}
 	}
 
 	.menu-navigation__item {
 		padding-left: 12px !important;
+		color: @darkblue;
 		&:hover {
-			color: @red;
+			color: white;
 		}
 	}
 	.ant-menu-submenu-title {
 		padding-left: 12px !important;
+		color: @darkblue;
 	}
 	.ant-menu-sub.ant-menu-inline {
+		background-color: #000c17;
+		box-shadow: inset 0 2px 8px rgb(0 0 0 / 45%);
 		.menu-navigation__item {
 			padding-left: 40px !important;
 		}
@@ -70,23 +75,29 @@
 		&:hover {
 			.ant-menu-submenu-arrow,
 			.ant-menu-submenu-title {
-				color: @red;
+				color: white;
 			}
 		}
 		.ant-menu-submenu-arrow,
 		.ant-menu-submenu-title {
 			&:hover,
 			&:active {
-				color: @red;
+				color: white;
 			}
 		}
 	}
+	.menu-navigation__sub-menu {
+		.ant-menu-submenu-arrow{
+			color: @darkblue;
+			}
+	}
 	.ant-menu-item-selected.menu-navigation__item {
-		background-color: @red2;
-		color: #fff;
+		background-color: #ff6337;
+		color: @darkblue !important;
+		border-radius: 8px;
 	}
 	.ant-menu-submenu-selected {
-		color: @red;
+		color: @darkblue !important;
 	}
 
 	.ant-menu-item-selected a,
@@ -95,13 +106,13 @@
 	}
 
 	.ant-menu-item-selected::after {
-		border-right: 3px solid @red;
+		border-right: 3px solid #ff6337;
 	}
 
 	a {
-		color: rgb(0 0 0);
+		color: @darkblue;
 		&:hover {
-			color: @red;
+			color: white;
 		}
 	}
 }
@@ -116,19 +127,19 @@
 }
 
 .sider__navigation {
-	background: white;
-	color: @red !important;
+	background: #001529;
+	color: @darkblue !important;
 	border-right: 0 !important;
 	/** Css item dashboard*/
 	.ant-menu-item-selected {
-		background: @gray !important;
+		background: #ff6337;
 		span {
-			color: @darkblue!important;
+			color: @darkblue !important;
 			font-style: italic;
 			text-decoration: underline;
 		}
 		a {
-			color: white !important;
+			color: @darkblue !important;
 			font-style: italic;
 			text-decoration: underline;
 			font-weight: 700;
@@ -141,7 +152,8 @@
 		margin-bottom: 0;
 		transition: 0.1s linear;
 		.ant-menu-item-selected {
-			background: @gray !important;
+			background: #ff6337;
+			border-radius: 8px;
 			i {
 				color: @darkblue!important;
 				font-style: italic;
@@ -157,10 +169,10 @@
 		li {
 			// background: @red !important;
 			i {
-				color: @gray !important;
+				color: @darkblue !important;
 			}
 			a {
-				color: @gray !important;
+				color: @darkblue !important;
 			}
 		}
 		&:last-of-type {

@@ -33,7 +33,7 @@ const HomePage = (props) => {
         <Content className="main__content">
           <HomeRoutes />
         </Content>
-        <Footer>
+        {/* <Footer>
           <div className="col-sm-6">
             <strong className="float-left">
               Copyright © 2020-2022
@@ -50,7 +50,7 @@ const HomePage = (props) => {
               <i className="fa fa-envelope"></i>- len_nn@thienphucsci.com.vn
             </a>
           </div>
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   );
