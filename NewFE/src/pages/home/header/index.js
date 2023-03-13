@@ -64,7 +64,6 @@ const HeaderProject = (props) => {
       const response = await getProductAssicatedByType(
         PRODUCT_ASSOCIATED.STORE
       );
-      debugger;
       if (!storeId) dispatch(actions.selectStore(response[0].Id));
       setStores(response);
       setIsLoading(false);
@@ -79,6 +78,7 @@ const HeaderProject = (props) => {
           onClick={handleCollapseSidebar}
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         />
+
         <Col style={{ display: "flex", alignItems: "center" }}>
           <Select
             style={{ width: 200 }}

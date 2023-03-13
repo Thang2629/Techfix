@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   ExclamationCircleOutlined,
   CopyOutlined,
@@ -23,7 +23,6 @@ import {
 } from "antd";
 import PageWrapper from "components/Layout/PageWrapper";
 import HeaderPage from "pages/home/header-page";
-import { useHistory } from "react-router-dom";
 import Grid from "components/Grid";
 
 import * as actions from "redux/global/actions";
@@ -54,6 +53,7 @@ const { Search } = Input;
 
 const ProductManagement = (props) => {
   const dispatch = useDispatch();
+  const filterParams = useSelector((state) => state.global.filterParams);
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
@@ -307,6 +307,7 @@ const ProductManagement = (props) => {
     });
 
     const temp = { FilterParams: filterParams, PageNumber: 1, PageSize: 10 };
+    dispatch(actions.filterTable(temp));
     setSearchParams(temp);
     setIsLoading(true);
     const response = await getProducts(temp);
@@ -314,7 +315,7 @@ const ProductManagement = (props) => {
     setIsLoading(false);
   };
   const onExport = async () => {
-    const response = await exportProduct(searchParams);
+    const response = await exportProduct(filterParams);
     const href = URL.createObjectURL(response);
 
     const link = document.createElement("a");
@@ -452,14 +453,6 @@ const ProductManagement = (props) => {
             />
           </PageWrapper>
         </div>
-        {/* <DetailAndUpdate
-          isOpen={isOpen}
-          ID={nhanVien}
-          reloadTable={() => readGrid(true)}
-          form={form}
-          onClose={() => setIsopen(false)}
-          title={nhanVien ? "Cập nhật dữ liệu" : "Thêm mới dữ liệu"}
-        /> */}
       </Spin>
     </>
   );

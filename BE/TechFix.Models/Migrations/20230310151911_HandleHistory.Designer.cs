@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechFix.EntityModels;
 
@@ -11,9 +12,10 @@ using TechFix.EntityModels;
 namespace TechFix.EntityModels.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230310151911_HandleHistory")]
+    partial class HandleHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -642,9 +644,6 @@ namespace TechFix.EntityModels.Migrations
                         .HasPrecision(38, 16)
                         .HasColumnType("decimal(38,16)");
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -676,9 +675,6 @@ namespace TechFix.EntityModels.Migrations
                     b.Property<string>("SearchData")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("StoreId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("SupplierId")
                         .HasColumnType("uniqueidentifier");
 
@@ -696,8 +692,6 @@ namespace TechFix.EntityModels.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PaymentMethodId");
-
-                    b.HasIndex("StoreId");
 
                     b.HasIndex("SupplierId");
 
@@ -730,9 +724,8 @@ namespace TechFix.EntityModels.Migrations
                     b.Property<Guid?>("ModifiedUser")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("OriginalPrice")
-                        .HasPrecision(38, 16)
-                        .HasColumnType("decimal(38,16)");
+                    b.Property<int>("OriginalPrice")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -1121,8 +1114,6 @@ namespace TechFix.EntityModels.Migrations
                     b.HasIndex("ProductId");
 
                     b.HasIndex("StoreId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ProductHistories");
                 });
@@ -1852,10 +1843,6 @@ namespace TechFix.EntityModels.Migrations
                         .WithMany()
                         .HasForeignKey("PaymentMethodId");
 
-                    b.HasOne("TechFix.EntityModels.Store", "Store")
-                        .WithMany()
-                        .HasForeignKey("StoreId");
-
                     b.HasOne("TechFix.EntityModels.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId");
@@ -1865,8 +1852,6 @@ namespace TechFix.EntityModels.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("PaymentMethod");
-
-                    b.Navigation("Store");
 
                     b.Navigation("Supplier");
 
@@ -1989,17 +1974,11 @@ namespace TechFix.EntityModels.Migrations
                         .WithMany()
                         .HasForeignKey("StoreId");
 
-                    b.HasOne("TechFix.EntityModels.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Product");
 
                     b.Navigation("ProductCondition");
 
                     b.Navigation("Store");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TechFix.EntityModels.Bill", b =>

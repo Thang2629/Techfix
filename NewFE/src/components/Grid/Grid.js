@@ -9,6 +9,7 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
   const dispatch = useDispatch();
   const searchText = useSelector((state) => state.global.searchText);
   const readGrid = useSelector((state) => state.global.refreshGrid);
+  const filterParams = useSelector((state) => state.global.filterParams);
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState([]);
 
@@ -18,7 +19,6 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
       pageSize: 10,
       showSizeChanger: false,
     },
-    FilterParams: [],
   });
   const [selectedIds, setSelectedIds] = useState([]);
 
@@ -49,7 +49,7 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
   const fetchData = (page = 1) => {
     setLoading(true);
     const paramsRequest = {
-      FilterParams: tableParams.FilterParams,
+      FilterParams: filterParams ? filterParams.FilterParams : [],
       PageSize: tableParams.pagination.pageSize,
       PageNumber: page,
     };
@@ -59,7 +59,7 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
         if (results) {
           setRowData(results?.Data); // todo: add params
           setTableParams({
-            FilterParams: tableParams.FilterParams,
+            FilterParams: filterParams.FilterParams,
             pagination: {
               ...tableParams.pagination,
               total: results.TotalCount,
@@ -81,7 +81,7 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
         } else {
           setRowData([]);
           setTableParams({
-            FilterParams: tableParams.FilterParams,
+            FilterParams: filterParams.FilterParams,
             pagination: {
               ...tableParams.pagination,
               // 200 is mock data, you should read it from server
@@ -156,7 +156,7 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
           onChange: handlePageNumClick,
           current: tableParams.pagination.current,
           total: tableParams.pagination.total,
-          pageSize: tableParams.pagination.pageSize,
+          pageSize: 10,
           showSizeChanger: false,
         }}
         loading={loading}

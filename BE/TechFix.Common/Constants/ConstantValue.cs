@@ -10,6 +10,8 @@ namespace TechFix.Common.Constants
     {
         public const string FILE_TYPE_EXCEL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         public const string FILE_EXT_EXCEL = ".xlsx";
+        public const string FILE_INVENTORY_EXCEL = "inventory-";
+        public const string FILE_INPUTPRODUCT_EXCEL = "inputproduct-";
         public const string FILE_CUSTOMER_EXCEL = "customer-";
         public const string FILE_PRODUCT_EXCEL = "product-";
         public const string FILE_SUPPLIER_EXCEL = "supplier-";

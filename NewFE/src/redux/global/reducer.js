@@ -30,6 +30,7 @@ export const initialState = {
   inContainerDetail: false,
   quickView: false,
   storeId: null,
+  filterParams: null,
 
   logging: getData("logging") || [],
 };
@@ -107,8 +108,10 @@ const globalReducer = (state = initialState, action) =>
         draft.refreshGrid = false;
         break;
       case types.SELECT_STORE:
-        debugger;
         draft.storeId = action.storeId;
+        break;
+      case types.FITLER_TABLE:
+        draft.filterParams = action.filterParams;
         break;
     }
   });
