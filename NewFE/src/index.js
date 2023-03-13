@@ -32,7 +32,7 @@ export default store;
 // set default timeout
 applyApiDefaults(
   {
-    baseURL: API_ENDPOINT,
+    baseURL: `https://techfix.online/`,
     timeout: DEFAULT_TIMEOUT,
   },
   store

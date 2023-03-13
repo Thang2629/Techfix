@@ -78,8 +78,8 @@ const HeaderProject = (props) => {
           onClick={handleCollapseSidebar}
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         />
-        <Col></Col>
-        <Col style={{ display: "flex" }}>
+
+        <Col style={{ display: "flex", alignItems: "center" }}>
           <Select
             style={{ width: 200 }}
             loading={isLoading}

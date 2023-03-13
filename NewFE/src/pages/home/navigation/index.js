@@ -32,7 +32,7 @@ const LeftNavigation = (props) => {
   };
 
   return (
-    <Sider className={"sider " + usercls} {...rest}>
+    <Sider className={"sider " + usercls} {...rest} trigger={null}>
       <div className="logo">
         <img src={imageLogo} alt="logo" />
       </div>
