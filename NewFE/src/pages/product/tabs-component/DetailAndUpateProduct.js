@@ -56,6 +56,8 @@ import CreateDialog from "./components/CreateDialog";
 import PageWrapper from "components/Layout/PageWrapper";
 import Grid from "components/Grid";
 import { formatNumber } from "utils/formatNumber";
+import { useDispatch } from "react-redux";
+import * as actions from "redux/global/actions";
 
 const CREATE_TYPE = {
   PRODUCTS_UNIT: "PRODUCTS_UNIT",
@@ -81,6 +83,8 @@ const ThongTinSanPham = (props) => {
   const [formTab] = Form.useForm();
   const [formTabCreate] = Form.useForm();
   const [typeCreate, setTypeCreate] = useState("");
+  const dispatch = useDispatch();
+
   const { Text } = Typography;
 
   const getManufacturers = async () => {
@@ -123,13 +127,19 @@ const ThongTinSanPham = (props) => {
   }, []);
 
   const onFinish = async (values) => {
+    dispatch(actions.isLoadingGlobal(true));
+    // setLoading(true);
     const response = await updateProduct(id, values);
 
     if (response.Success) {
       message.success(SAVE_SUCCESS);
+      getProductDetail();
+      setIsUpdate(false);
     } else {
       message.error(response.Message);
     }
+    // setLoading(false);
+    dispatch(actions.isLoadingGlobal(false));
   };
   const onSelectFieldChange = (value, fieldName) => {
     submitForm.setFieldsValue({ [`${fieldName}`]: value });
@@ -141,7 +151,6 @@ const ThongTinSanPham = (props) => {
   };
   const onClickUpdate = (state) => {
     setIsUpdate(state);
-    submitForm.setFieldsValue(productDetails);
   };
   const btnEdit = useMemo(() => {
     return (
@@ -780,7 +789,7 @@ const ThongTinSanPham = (props) => {
   };
   return (
     <div className="main__application">
-      {loading ? <Loading /> : renderForm}
+      {renderForm}
       <CreateDialog
         isOpen={isOpen}
         handleClosed={() => setIsopen(false)}

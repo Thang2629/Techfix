@@ -195,3 +195,10 @@ export function filterTable(filterParams) {
     filterParams,
   };
 }
+
+export function isLoadingGlobal(isLoading) {
+  return {
+    type: types.SET_GLOBAL_LOADING,
+    isLoading,
+  };
+}
