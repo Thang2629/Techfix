@@ -46,11 +46,12 @@ namespace TechFix.API.Controllers
         public async Task<IActionResult> GetSupplierDetail(Guid id)
         {
             var supplier = await _context.Suppliers.FindAsync(id);
-            if (supplier == null) return BadRequest();
+            if (supplier == null)
+            {
+                throw new Exception("Không tìm thấy nhà cung cấp trong hệ thống");
+            }
 
-            SupplierDto result = new SupplierDto();
-            _mapper.Map(supplier, result);
-
+            var result = _mapper.Map<Supplier, SupplierDto>(supplier);
             return Ok(result);
         }
 
@@ -65,9 +66,10 @@ namespace TechFix.API.Controllers
                 Phone = supplier.Phone,
                 Address = supplier.Address,
                 AmountOwed = supplier.AmountOwed,
-                Note= supplier.Note,
-                //UrlImage = supplier.UrlImage
-        });
+                Note = supplier.Note,
+                ImagePath = supplier.ImagePath,
+                //todo Thanh - generate code
+            });
             await _context.SaveChangesAsync();
         }
 
@@ -84,7 +86,7 @@ namespace TechFix.API.Controllers
                 model.Address = supplier.Address;
                 model.AmountOwed = supplier.AmountOwed;
                 model.Note = supplier.Note;
-                //model.UrlImage = supplier.UrlImage;
+                model.ImagePath = supplier.ImagePath;
                 await _context.SaveChangesAsync();
             }
         }

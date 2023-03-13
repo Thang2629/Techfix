@@ -17,8 +17,7 @@ namespace TechFix.TransportModels
         public string Address { get; set; }
         [MaxLength(255)]
         public string Email { get; set; }
-        [Url]
-        public string UrlImage { get; set; }
+        public string ImagePath { get; set; }
         public string Note { get; set; }
         public decimal AmountOwed { get; set; }
     }
