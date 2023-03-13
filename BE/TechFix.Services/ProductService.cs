@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TechFix.Common;
 using TechFix.Common.AppSetting;
+using TechFix.Common.Constants;
 using TechFix.Common.Helper;
 using TechFix.Common.Paging;
 using TechFix.EntityModels;
@@ -181,6 +182,33 @@ namespace TechFix.Services
                 }
                 return true;
             }
+        }
+
+        public async Task<bool> UpdateHistory(Product product, string ActionName)
+        {
+            if(product != null)
+            {
+                //also update the history
+                var history = new ProductHistory()
+                {
+                    Id = Guid.NewGuid(),
+                    ActionName = ActionName,
+                    Code = product.Code,
+                    DateTime = product.CreatedDate ?? DateTime.Now,
+                    OriginalPrice = product.OriginalPrice,
+                    Quantity = product.Quantity,
+                    ProductId = product.Id,
+                    ProductConditionId = product.ProductConditionId,
+                    Warranty = product.Warranty,
+                    UserId = _context.UserInfo.CurrentUserId,
+                    //StoreId = product.StoreId,
+                };
+                await _context.ProductHistories.AddAsync(history);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            return false;
         }
     }
 }

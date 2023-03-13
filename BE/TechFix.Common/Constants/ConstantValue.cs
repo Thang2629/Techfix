@@ -24,5 +24,16 @@ namespace TechFix.Common.Constants
 
         public const string CUSTOMER_WHOLESALE = "Khách sỉ";
         public const string CUSTOMER_FLT = "Khách lẻ";
+
+        //ACTION NAME
+        public const string ACTION_PRODUCT_CREATED = "Tạo mới sản phẩm";
+        public const string ACTION_PRODUCT_UPDATED = "Chỉnh sửa sản phẩm";
+        public const string ACTION_PRODUCT_REMOVED = "Xóa sản phẩm";
+        public const string ACTION_PRODUCT_RESTORED = "Khôi phục sản phẩm";
+        public const string ACTION_PRODUCT_STATUSCHANGED = "Thay đổi trạng thái sản phẩm";
+        public const string ACTION_INVENTORY_IMPORT = "Nhập kho";
+        public const string ACTION_INVENTORY_EXPORT = "Chuyển kho";
+        public const string ACTION_PRODUCT_SOLD = "Bán hàng";
+
     }
 }

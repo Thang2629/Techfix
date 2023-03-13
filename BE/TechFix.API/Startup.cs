@@ -38,6 +38,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using TechFix.API.Filters;
 using TechFix.EntityModels.Persistence;
+using TechFix.TransportModels.Common;
 
 namespace TechFix.API
 {
@@ -63,6 +64,7 @@ namespace TechFix.API
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AutoMapperProfile());
+                mc.AddProfile<MapperProfile>();
             });
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);

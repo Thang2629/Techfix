@@ -22,19 +22,11 @@ namespace TechFix.API.Controllers
     [ApiController]
     public class SuppliersController : CustomController
     {
+        private readonly IMapper _mapper;
         public SuppliersController(IMapper mapper, IOptions<AppSettings> appSettings, DataContext context, IWebHostEnvironment env, CommonService commonService) : base(mapper, appSettings, context, env, commonService)
         {
+            _mapper = mapper;
         }
-
-        // GET: api/<SuppliersController>
-        //[HttpGet]
-        //public IEnumerable<Supplier> Get()
-        //{
-        //    var result = _context.Suppliers
-        //        .Where(m => !m.IsDeleted)
-        //        .ToList();
-        //    return result;
-        //}
 
         // GET: api/<SuppliersController>
         [HttpPost]
@@ -55,17 +47,11 @@ namespace TechFix.API.Controllers
         {
             var supplier = await _context.Suppliers.FindAsync(id);
             if (supplier == null) return BadRequest();
-            return Ok(new SupplierDto
-            {
-                Id = id,
-                Address = supplier.Address,
-                Email = supplier.Email,
-                Name = supplier.Name,
-                Note = supplier.Note,
-                Phone = supplier.Phone,
-                AmountOwed = supplier.AmountOwed,
-                UrlImage = supplier.ImagePath
-            });
+
+            SupplierDto result = new SupplierDto();
+            _mapper.Map(supplier, result);
+
+            return Ok(result);
         }
 
         // POST api/<SuppliersController>

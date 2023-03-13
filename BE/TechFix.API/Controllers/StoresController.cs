@@ -31,16 +31,6 @@ namespace TechFix.API.Controllers
         }
 
         // GET: api/<StoresController>
-        //[HttpGet]
-        //public IEnumerable<Manufacturer> Get()
-        //{
-        //    var result = _context.Manufacturers
-        //        .Where(m => !m.IsDeleted)
-        //        .ToList();
-        //    return result;
-        //}
-
-        // GET: api/<StoresController>
         [HttpPost]
         [Route("get-all")]
         public IActionResult GetAllStores(PagingParams param)

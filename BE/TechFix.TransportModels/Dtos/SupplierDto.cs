@@ -16,7 +16,7 @@ namespace TechFix.TransportModels.Dtos
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
-        public string UrlImage { get; set; }
+        public string ImagePath { get; set; }
         public string Note { get; set; }
         public decimal AmountOwed { get; set; }
     }
