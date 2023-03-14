@@ -59,7 +59,7 @@ const Grid = ({ urlEndpoint, columns, data, isHidePagination, ...rest }) => {
         if (results) {
           setRowData(results?.Data); // todo: add params
           setTableParams({
-            FilterParams: filterParams.FilterParams,
+            FilterParams: filterParams?.FilterParams || [],
             pagination: {
               ...tableParams.pagination,
               total: results.TotalCount,
