@@ -35,19 +35,18 @@ namespace TechFix.TransportModels
 
         public bool AllowNegativeSell { get; set; }
 
-        public bool IsDeleted { get; set; } 
-
         public Guid? ManufacturerId { get; set; }
 
         public Guid? SupplierId { get; set; }
-        public Guid? StoreId { get; set; }
 
         public Guid? CategoryId { get; set; }
 
         public Guid? ProductConditionId { get; set; }
 
         public Guid? ProductUnitId { get; set; }
+
         public bool Discontinue { get; set; }
+
         public string ImagePath { get; set; }
     }
 }
