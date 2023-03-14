@@ -647,18 +647,13 @@ const ThongTinSanPham = (props) => {
           id="formTabCreate"
           onFinish={(values) => onCreateByType(values, typeCreate)}
         >
-          <Row>
-            <Col
-              span={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
+          <Row gutter={16}>
+            <Col span={18}>
               <Form.Item label="" name="Name">
                 <Input placeholder="Nhập tên" />
               </Form.Item>
+            </Col>
+            <Col span={6}>
               <Button
                 size="medium"
                 type="primary"

@@ -2,6 +2,8 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { SIZE_LARGE } from "static/Constants";
 import DelayedFallback from "common/components/indicator/SuspendIndicator";
+import { Spin } from "antd";
+import { useSelector } from "react-redux";
 
 const { lazy, Suspense } = React;
 const Dashboard = lazy(() => import("pages/dashboard"));
@@ -74,12 +76,16 @@ function HomeRoutes(props) {
       <Route path="/add-new-cashbook" exact component={CreateCashbook} />
     </Switch>
   );
+
+  const isLoadingGlobal = useSelector((state) => state.global.isLoading);
   return (
     <div className={props.cls} style={props.style}>
       <Suspense
         fallback={<DelayedFallback size={SIZE_LARGE} tip={"Loading"} />}
       >
-        {containers}
+        <Spin spinning={isLoadingGlobal} tip="Loading...">
+          {containers}
+        </Spin>
       </Suspense>
     </div>
   );

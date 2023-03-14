@@ -128,7 +128,6 @@ const ThongTinSanPham = (props) => {
 
   const onFinish = async (values) => {
     dispatch(actions.isLoadingGlobal(true));
-    // setLoading(true);
     const response = await updateProduct(id, values);
 
     if (response.Success) {
@@ -138,7 +137,6 @@ const ThongTinSanPham = (props) => {
     } else {
       message.error(response.Message);
     }
-    // setLoading(false);
     dispatch(actions.isLoadingGlobal(false));
   };
   const onSelectFieldChange = (value, fieldName) => {

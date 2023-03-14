@@ -10,7 +10,7 @@ export const DEFAULT_CONTROL = [
 
 // initial state
 export const initialState = {
-  loading: false,
+  isLoading: false,
   eula: false,
   criticalMessage: false,
   landingPage: false,
@@ -40,7 +40,7 @@ const globalReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case types.SET_GLOBAL_LOADING:
-        draft.loading = action.loading;
+        draft.isLoading = action.isLoading;
         break;
       case types.VALIDATE_EULA:
         draft.eula = true;

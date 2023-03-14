@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Spin, Row } from "antd";
-import { useSelector } from "react-redux";
 /**
  * delay showing indicator after milliseconds
  * @author
@@ -16,10 +15,9 @@ const DelayedFallback = (props) => {
     };
   }, [show, delay]);
 
-  const isLoading = useSelector((state) => state.global.isLoading);
   return (
     <>
-      {isLoading && (
+      {show && (
         <Row style={{ height: "100vh" }} justify="center" align="middle">
           <Spin size={size} tip={tip} />
         </Row>

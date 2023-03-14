@@ -57,7 +57,6 @@ const ProductManagement = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
-  const [searchParams, setSearchParams] = useState({});
   const [filterData, setFilterData] = useState([]);
   const [form] = Form.useForm();
   const refBtn = useRef();
@@ -308,7 +307,6 @@ const ProductManagement = (props) => {
 
     const temp = { FilterParams: filterParams, PageNumber: 1, PageSize: 10 };
     dispatch(actions.filterTable(temp));
-    setSearchParams(temp);
     setIsLoading(true);
     const response = await getProducts(temp);
     setFilterData(response.Data);
@@ -442,18 +440,16 @@ const ProductManagement = (props) => {
   };
   return (
     <>
-      <Spin spinning={isLoading} tip="Loading...">
-        <HeaderPage title="DANH SÁCH SẢN PHẨM">{renderToolbar()}</HeaderPage>
-        <div className="main__application">
-          <PageWrapper>
-            <Grid
-              columns={columns}
-              urlEndpoint={PRODUCTS_GRID_ENDPOINT}
-              data={filterData}
-            />
-          </PageWrapper>
-        </div>
-      </Spin>
+      <HeaderPage title="DANH SÁCH SẢN PHẨM">{renderToolbar()}</HeaderPage>
+      <div className="main__application">
+        <PageWrapper>
+          <Grid
+            columns={columns}
+            urlEndpoint={PRODUCTS_GRID_ENDPOINT}
+            data={filterData}
+          />
+        </PageWrapper>
+      </div>
     </>
   );
 };
