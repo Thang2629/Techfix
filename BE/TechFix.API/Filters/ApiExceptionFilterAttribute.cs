@@ -117,7 +117,7 @@ namespace TechFix.API.Filters
 
             context.Result = new ObjectResult(details)
             {
-                StatusCode = StatusCodes.Status403Forbidden
+                StatusCode = StatusCodes.Status400BadRequest
             };
 
             context.ExceptionHandled = true;
